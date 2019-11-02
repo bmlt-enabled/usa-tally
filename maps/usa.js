@@ -668,6 +668,7 @@ for (var i = 0; i < paths.length; i++) {
 	var path = paths[i];
 
 	path['url'] = "meetings.html?province=" + path['abbreviation'] + "&province_name=" + path['name']
+	path['color'] = "#59798e";
 }
 
 
