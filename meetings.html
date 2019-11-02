@@ -1,8 +1,8 @@
 <h3>Meetings in <span id="province-title"></span></h3>
 <link href='https://fonts.googleapis.com/css?family=Droid+Sans' rel='stylesheet' type='text/css'>
-<link rel="stylesheet" type="text/css" href="/croutonjs/crouton.min.css" />
+<link rel="stylesheet" type="text/css" href="croutonjs/crouton.min.css" />
 <script src="https://code.jquery.com/jquery-3.2.1.min.js" type="text/javascript"></script>
-<script src="/croutonjs/crouton.nojquery.min.js"></script>
+<script src="croutonjs/crouton.nojquery.min.js"></script>
 <script type="text/javascript">
     function getUrlParameter(name) {
         name = name.replace(/[\[]/, '\\[').replace(/[\]]/, '\\]');
@@ -13,8 +13,8 @@
     var crouton = new Crouton({
         "root_server": "https://tomato.bmltenabled.org/main_server/",
         "show_map": true,
-        "google_api_key": "",
-        "template_path": "/croutonjs/templates",
+        "google_api_key": "AIzaSyBZLdfzGAie2IjuZl5laYZMjaEtuFnmd-o",
+        "template_path": "croutonjs/templates",
         "has_areas": true,
         "custom_query": "&meeting_key=location_province&meeting_key_value=" + getUrlParameter('province'),
         "language": getUrlParameter('language') === "" ? "en-US" : getUrlParameter('language'),
