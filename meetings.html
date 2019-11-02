@@ -10,6 +10,9 @@
     <div style="display: block">
         <span id="meeting-count"></span>, <span id="group-count"></span>
     </div>
+    <div style="display: block">
+        <button id="paper_schedule">Paper Schedule</button>
+    </div>
     <div style="display: inline-block">            
         <div class="lds-css ng-scope"><div class="lds-ellipsis"><div><div></div></div><div><div></div></div><div><div></div></div><div><div></div></div><div><div></div></div></div></div>
     </div>  
@@ -24,6 +27,7 @@
         var results = regex.exec(location.search);
         return results === null ? '' : decodeURIComponent(results[1].replace(/\+/g, ' '));
     }
+
     var crouton = new Crouton({
         "root_server": "https://tomato.bmltenabled.org/main_server/",
         "show_map": true,
@@ -44,6 +48,9 @@
     });
     crouton.groupCount(function(res) {
         document.getElementById("group-count").innerHTML = "Groups: " + res;
+    });
+    jQuery("#paper_schedule").click(function() {
+        location.href='https://archsearch.org/?current-meeting-list=1&querystring_custom_1=' + getUrlParameter('province_name').toUpperCase() + '&custom_query=%26meeting_key%3Dlocation_province%26meeting_key_value%3D' + getUrlParameter('province');
     });
 </script>
 </html>
