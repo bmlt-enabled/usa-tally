@@ -18,6 +18,7 @@
         "has_areas": true,
         "custom_query": "&meeting_key=location_province&meeting_key_value=" + getUrlParameter('province'),
         "language": getUrlParameter('language') === "" ? "en-US" : getUrlParameter('language'),
+        "theme": "lucy"
     });
     document.getElementById("province-title").innerText = getUrlParameter('province_name');
     crouton.render();
