@@ -1,6 +1,23 @@
-<h3>Meetings in <span id="province-title"></span></h3>
+<html>
+<body>
 <link href='https://fonts.googleapis.com/css?family=Droid+Sans' rel='stylesheet' type='text/css'>
 <link rel="stylesheet" type="text/css" href="croutonjs/crouton.min.css" />
+<link href="map.css" rel="stylesheet" type="text/css" />
+<div style="text-align: center">
+    <div style="display: block">
+        <h1>Meetings in <span id="province-title"></span></h1>
+    </div>
+    <div style="display: block">
+        <span id="meeting-count"></span>, <span id="group-count"></span>
+    </div>
+    <div style="display: inline-block">
+        <div id="bmlt-tabs">
+            <div class="lds-css ng-scope"><div class="lds-ellipsis"><div><div></div></div><div><div></div></div><div><div></div></div><div><div></div></div><div><div></div></div></div>
+            </div>
+        </div>
+    </div>  
+</div>
+</body>
 <script src="croutonjs/crouton.min.js"></script>
 <script type="text/javascript">
     function getUrlParameter(name) {
@@ -17,7 +34,10 @@
         "has_areas": true,
         "custom_query": "&meeting_key=location_province&meeting_key_value=" + getUrlParameter('province'),
         "language": getUrlParameter('language') === "" ? "en-US" : getUrlParameter('language'),
-        "theme": "lucy"
+        "theme": "lucy",
+        "on_complete": function() {
+            jQuery(".lds-css").hide();
+        }
     });
     document.getElementById("province-title").innerText = getUrlParameter('province_name');
     crouton.render();
@@ -28,5 +48,4 @@
         document.getElementById("group-count").innerHTML = "Groups: " + res;
     });
 </script>
-<span id="meeting-count"></span>, <span id="group-count"></span>
-<div id="bmlt-tabs"></div>
+</html>
