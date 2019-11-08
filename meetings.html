@@ -34,7 +34,7 @@
         "google_api_key": "AIzaSyBZLdfzGAie2IjuZl5laYZMjaEtuFnmd-o",
         "template_path": "croutonjs/templates",
         "has_areas": true,
-        "custom_query": "&meeting_key=location_province&meeting_key_value=" + getUrlParameter('province'),
+        "custom_query": "&services=-490&recursive=1&meeting_key=location_province&meeting_key_value=" + getUrlParameter('province'),  // filtering out Western Australia by excluding all of that region.
         "language": getUrlParameter('language') === "" ? "en-US" : getUrlParameter('language'),
         "theme": "lucy",
         "on_complete": function() {
