@@ -1,0 +1,136 @@
+<html>
+<head>
+    <link href='https://fonts.googleapis.com/css?family=Droid+Sans' rel='stylesheet' type='text/css'>
+    <style>
+        body {
+            font-family: "Droid Sans";
+        }
+    </style>
+</head>
+<body>
+<div align="center" style="margin-top: 20px;">
+    <h1>USA National Tally</h1>
+    <div style="display: block">
+        <span id="current-count"></span> currently of <span id="truth-count"></span> counted in 2018, across <span id="regions-count"></span> regions, which is ~<span id="pct-total"></span>%.
+        <div id="tally"></div>
+    </div>
+</div>
+</body>
+<script src="croutonjs/crouton.min.js"></script>
+<script type="text/javascript">
+    var truth = [
+        {"name":"ABCD Region","count":198},
+        {"name":"Alabama North West Florida Region","count":398},
+        {"name":"Alaska Region","count":112},
+        {"name":"Arizona Regional Service Committee","count":420},
+        {"name":"Arkansas Region","count":298},
+        {"name":"Best Little Region","count":87},
+        {"name":"Bluegrass Appalachian Region","count":164},
+        {"name":"Buckeye Region","count":225},
+        {"name":"California Inland Region","count":255},
+        {"name":"California Mid-State Region","count":440},
+        {"name":"Carolina Region","count":1056},
+        {"name":"Central Atlantic Region","count":693},
+        {"name":"Central California Region","count":338},
+        {"name":"C&amp;amp;amp;P Region","count":332},
+        {"name":"Chicagoland Region","count":411},
+        {"name":"Colorado Region","count":284},
+        {"name":"Connecticut Region","count":281},
+        {"name":"Eastern New York Region","count":269},
+        {"name":"Eastern PA Region","count":132},
+        {"name":"Florida Region","count":1400},
+        {"name":"Freestate Region","count":797},
+        {"name":"Georgia Region","count":504},
+        {"name":"Greater Illinois Region","count":175},
+        {"name":"Greater New York Region","count":657},
+        {"name":"Greater Philadelphia Region","count":435},
+        {"name":"Hawaii Region","count":120},
+        {"name":"Indiana Region","count":420},
+        {"name":"Iowa Region","count":282},
+        {"name":"Kentuckiana Region","count":238},
+        {"name":"Lone Star Region","count":500},
+        {"name":"Louisiana Region","count":317},
+        {"name":"Metro Detroit Region","count":412},
+        {"name":"Michigan Region","count":470},
+        {"name":"Mid-America Region","count":280},
+        {"name":"Mid-Atlantic Region","count":435},
+        {"name":"Minnesota Region","count":324},
+        {"name":"Mississippi Region","count":260},
+        {"name":"Montana Region","count":149},
+        {"name":"Mountaineer Region","count":162},
+        {"name":"Nebraska Region","count":147},
+        {"name":"New England Region","count":630},
+        {"name":"New Jersey Region","count":490},
+        {"name":"North Carolina Region","count":333},
+        {"name":"Northern California Region","count":1565},
+        {"name":"Northern New England Region","count":200},
+        {"name":"Northern New Jersey Region","count":273},
+        {"name":"Northern New York Region","count":150},
+        {"name":"Ohio Region","count":545},
+        {"name":"OK Region","count":348},
+        {"name":"Pacific Cascade Region","count":575},
+        {"name":"Red River Region","count":67},
+        {"name":"Region 51 Region","count":271},
+        {"name":"Rio Grande Region","count":160},
+        {"name":"San Diego/Imperial Region","count":400},
+        {"name":"Show-Me Region","count":725},
+        {"name":"Sierra Sage Region","count":141},
+        {"name":"South Dakota Region","count":61},
+        {"name":"South Florida Region","count":844},
+        {"name":"Southern California Region","count":1450},
+        {"name":"Southern Idaho Region","count":136},
+        {"name":"Tejas Bluebonnet Region","count":591},
+        {"name":"Tri-State Region","count":617},
+        {"name":"Upper Midwest Region","count":77},
+        {"name":"Upper Rocky Mountain Region","count":109},
+        {"name":"Utah Region","count":102},
+        {"name":"Volunteer Region","count":471},
+        {"name":"Washington/Northern Idaho Region","count":871},
+        {"name":"Western New York Region","count":220},
+        {"name":"Wisconsin Region","count":378},
+    ];
+
+    var truthTotal = 0;
+    for (var i = 0; i < truth.length; i++) {
+        truthTotal += truth[i]['count'];
+    }
+
+    function getServiceBodyByName(name) {
+        for (var i = 0; i < truth.length; i++) {
+            var service_body = truth[i];
+            if (truth[i]['name'] === name) {
+                service_body['id'] = i + 1;
+                return service_body;
+            }
+        }
+
+        return null;
+    }
+
+    $.getJSON("https://tomato.bmltenabled.org/rest/v1/servicebodies", function(data) {
+        var results = data['results'];
+        var tallyHtml = "<table border='1'><tr><th>Id</th><th>Service Body</th><th>2018 Count</th><th>Present Count</th><th>%</th>";
+        var current_total = 0;
+        var counter = 0;
+
+        for (var j = 0; j < results.length; j++) {
+            var result = results[j];
+            var truthServiceBody = getServiceBodyByName(result['name']);
+            if (truthServiceBody !== null) {
+                var truthServiceBodyCount = truthServiceBody['count'];
+                var currentServiceBodyCount = result['num_meetings'];
+                tallyHtml += "<tr><td>" + truthServiceBody['id'] + "</td><td>" + result['name'] + "</td><td>" + truthServiceBodyCount.toString() + "</td><td>" + currentServiceBodyCount.toString() + "</td><td>" + Math.floor((currentServiceBodyCount / truthServiceBodyCount) * 100).toString() + "</td></tr>";
+                current_total += currentServiceBodyCount;
+            }
+        }
+
+        var pctTotal = Math.floor((current_total / truthTotal) * 100).toString();
+        tallyHtml += "<tr><td colspan='2'>Totals</td><td>" + truthTotal + "</td><td>" + current_total + "</td><td>" + pctTotal.toString() + "</td></tr></table>";
+        document.getElementById("tally").innerHTML = tallyHtml;
+        document.getElementById("current-count").innerText = current_total;
+        document.getElementById("truth-count").innerText = truthTotal;
+        document.getElementById("regions-count").innerText = truth.length.toString();
+        document.getElementById("pct-total").innerText = pctTotal;
+    });
+</script>
+</html>
