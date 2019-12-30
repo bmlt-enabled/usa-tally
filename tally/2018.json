@@ -357,7 +357,8 @@
         "count": 200,
         "name": "Northern New England",
         "tomatoIds": [
-            "https://tomato.bmltenabled.org/rest/v1/servicebodies/1350/"
+            "https://tomato.bmltenabled.org/rest/v1/servicebodies/1350/",
+            "https://tomato.bmltenabled.org/rest/v1/servicebodies/375/"
         ],
         "complete": true
     },
@@ -437,7 +438,10 @@
         "count": 725,
         "name": "Show-Me",
         "tomatoIds": [
-            ""
+            "https://tomato.bmltenabled.org/rest/v1/servicebodies/682/",
+            "https://tomato.bmltenabled.org/rest/v1/servicebodies/683/",
+            "https://tomato.bmltenabled.org/rest/v1/servicebodies/684/",
+            "https://tomato.bmltenabled.org/rest/v1/servicebodies/685/"
         ],
         "complete": false
     },
