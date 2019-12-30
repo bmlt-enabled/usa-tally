@@ -18,6 +18,7 @@
 </body>
 <script src="croutonjs/crouton.min.js"></script>
 <script type="text/javascript">
+    var tomatoResults;
     var truth = [
         {"name":"ABCD Region","count":198},
         {"name":"Alabama North West Florida Region","count":398},
@@ -96,10 +97,9 @@
     }
 
     function getServiceBodyByName(name) {
-        for (var i = 0; i < truth.length; i++) {
-            var service_body = truth[i];
-            if (truth[i]['name'] === name) {
-                service_body['id'] = i + 1;
+        for (var i = 0; i < tomatoResults.length; i++) {
+            var service_body = tomatoResults[i];
+            if (service_body['name'] === name) {
                 return service_body;
             }
         }
@@ -108,20 +108,17 @@
     }
 
     $.getJSON("https://tomato.bmltenabled.org/rest/v1/servicebodies", function(data) {
-        var results = data['results'];
+        tomatoResults = data['results'];
         var tallyHtml = "<table border='1'><tr><th>Id</th><th>Service Body</th><th>2018 Count</th><th>Present Count</th><th>%</th>";
         var current_total = 0;
-        var counter = 0;
 
-        for (var j = 0; j < results.length; j++) {
-            var result = results[j];
-            var truthServiceBody = getServiceBodyByName(result['name']);
-            if (truthServiceBody !== null) {
-                var truthServiceBodyCount = truthServiceBody['count'];
-                var currentServiceBodyCount = result['num_meetings'];
-                tallyHtml += "<tr><td>" + truthServiceBody['id'] + "</td><td>" + result['name'] + "</td><td>" + truthServiceBodyCount.toString() + "</td><td>" + currentServiceBodyCount.toString() + "</td><td>" + Math.floor((currentServiceBodyCount / truthServiceBodyCount) * 100).toString() + "</td></tr>";
-                current_total += currentServiceBodyCount;
-            }
+        for (var j = 0; j < truth.length; j++) {
+            var truthItem = truth[j];
+            var tomatoServiceBody = getServiceBodyByName(truthItem['name']);
+            var truthServiceBodyCount = truthItem['count'];
+            var currentServiceBodyCount = tomatoServiceBody !== null ? tomatoServiceBody['num_meetings'] : 0;
+            tallyHtml += "<tr><td>" + (j + 1).toString() + "</td><td>" + truthItem['name'] + "</td><td>" + truthServiceBodyCount.toString() + "</td><td>" + currentServiceBodyCount.toString() + "</td><td>" + Math.floor((currentServiceBodyCount / truthServiceBodyCount) * 100).toString() + "</td></tr>";
+            current_total += currentServiceBodyCount;
         }
 
         var pctTotal = Math.floor((current_total / truthTotal) * 100).toString();
