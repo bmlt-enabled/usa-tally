@@ -11,8 +11,7 @@
 <div align="center" style="margin-top: 20px;">
     <h1>Nationwide Phone Number</h1>
     <div style="display: block">
-        <span id="current-count"></span> currently of <span id="truth-count"></span> counted in <span class="last-count-year"></span>, across <span id="regions-count"></span> regions, which is ~<span id="pct-total"></span>% of the meetings in the USA.
-        <h5><a href="map.html">Map Search Demo</a></h5>
+        <span id="current-count"></span> currently of <span id="truth-count"></span> (~<span id="pct-total"></span>%) possible service body volunteer targets in the USA are available.
         <div id="tally" style="margin-top: 20px"></div>
     </div>
 </div>
@@ -24,6 +23,8 @@
     var serviceBodiesDetails;
     var truth;
     var useTomatoStub = false;
+    var activePhoneNumbersCount = 0;
+    var totalServiceBodyTargets = 0;
     var tallyHtml = "";
 
     function getServiceBodyById(id) {
@@ -59,11 +60,14 @@
         return children;
     }
 
-    function appendServiceBodyInfoHtml(tomatoIdInt, serviceBodyParentName, serviceBodyName, phoneNumber) {
+    function appendServiceBodyInfo(tomatoIdInt, serviceBodyParentName, serviceBodyName, phoneNumber) {
         tallyHtml += "<tr><td>" + tomatoIdInt + "</td>";
         tallyHtml += "<td>" + serviceBodyParentName + "</td>";
         tallyHtml += "<td>" + serviceBodyName + "</td>";
         tallyHtml += "<td>" + phoneNumber + "</td></tr>";
+
+        if (phoneNumber !== "") activePhoneNumbersCount++;
+        totalServiceBodyTargets++;
     }
 
     function appendChildren(tomatoIdInt, serviceBodyParentName) {
@@ -71,7 +75,7 @@
         for (var c = 0; c < children.length; c++) {
             var child = children[c];
             if (child['type'] === "AS") {
-                appendServiceBodyInfoHtml(
+                appendServiceBodyInfo(
                     child['id'],
                     serviceBodyParentName,
                     child['name'],
@@ -104,7 +108,7 @@
                                 var serviceBodyParentName = serviceBodyDetail['name'];
                                 appendChildren(tomatoIdInt, serviceBodyParentName);
                             } else if (serviceBodyDetail['type'] === "AS") {
-                                appendServiceBodyInfoHtml(
+                                appendServiceBodyInfo(
                                     tomatoIdInt,
                                     "",
                                     tomatoServiceBody['name'],
@@ -117,6 +121,9 @@
 
                 tallyHtml += "</table>";
                 document.getElementById("tally").innerHTML = tallyHtml;
+                document.getElementById("current-count").innerText = activePhoneNumbersCount.toString();
+                document.getElementById("truth-count").innerText = totalServiceBodyTargets.toString();
+                document.getElementById("pct-total").innerText = Math.ceil((activePhoneNumbersCount / totalServiceBodyTargets) * 100).toString()
             });
         });
     }
