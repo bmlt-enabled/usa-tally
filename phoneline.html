@@ -14,6 +14,9 @@
         <span id="current-count"></span> currently of <span id="truth-count"></span> (~<span id="pct-total"></span>%) possible service body volunteer targets in the USA are available.
         <div id="tally" style="margin-top: 20px"></div>
     </div>
+    <h5>
+        <div style="margin-top: 20px;">Areas with found with 0 meetings: <br><span id="areas-with-no-meetings"></span></div>
+    </h5>
 </div>
 </body>
 <script src="croutonjs/crouton.min.js"></script>
@@ -26,6 +29,7 @@
     var activePhoneNumbersCount = 0;
     var totalServiceBodyTargets = 0;
     var tallyHtml = "";
+    var areasWithNoMeetings = "";
 
     function getServiceBodyById(id) {
         for (var i = 0; i < tomatoResults.length; i++) {
@@ -60,14 +64,19 @@
         return children;
     }
 
-    function appendServiceBodyInfo(tomatoIdInt, serviceBodyParentName, serviceBodyName, phoneNumber) {
-        tallyHtml += "<tr><td>" + tomatoIdInt + "</td>";
-        tallyHtml += "<td>" + serviceBodyParentName + "</td>";
-        tallyHtml += "<td>" + serviceBodyName + "</td>";
-        tallyHtml += "<td>" + phoneNumber + "</td></tr>";
+    function appendServiceBodyInfo(tomatoIdInt, serviceBodyParentName, serviceBodyName, phoneNumber, num_meetings) {
+        if (num_meetings > 0) {
+            tallyHtml += "<tr><td>" + tomatoIdInt + "</td>";
+            tallyHtml += "<td>" + serviceBodyParentName + "</td>";
+            tallyHtml += "<td>" + serviceBodyName + "</td>";
+            tallyHtml += "<td>" + phoneNumber + "</td>";
+            tallyHtml += "<td>" + num_meetings + "</td></tr>";
 
-        if (phoneNumber !== "") activePhoneNumbersCount++;
-        totalServiceBodyTargets++;
+            if (phoneNumber !== "") activePhoneNumbersCount++;
+            totalServiceBodyTargets++;
+        } else {
+            areasWithNoMeetings += serviceBodyName + " (" + serviceBodyParentName + ")<br>";
+        }
     }
 
     function appendChildren(tomatoIdInt, serviceBodyParentName) {
@@ -79,7 +88,8 @@
                     child['id'],
                     serviceBodyParentName,
                     child['name'],
-                    child['helpline']
+                    child['helpline'],
+                    getServiceBodyById("https://tomato.bmltenabled.org/rest/v1/servicebodies/" + child['id'] + "/")['num_meetings']
                 );
             } else {
                 appendChildren(child['id'], serviceBodyParentName);
@@ -93,7 +103,7 @@
             tomatoResults = data['results'];
             $.getJSON(useTomatoStub ? "tally/serviceBodiesDetailsStub.json" : "https://tomato.bmltenabled.org/main_server/client_interface/json/?switcher=GetServiceBodies", function(data) {
                 serviceBodiesDetails = data;
-                tallyHtml = "<table border='1'><tr><th>TomatoId</th><th>Parent</th><th>Service Body</th><th>Phone Number</th></tr>";
+                tallyHtml = "<table border='1'><tr><th>TomatoId</th><th>Parent</th><th>Service Body</th><th>Phone Number</th><th>Meetings</th></tr>";
 
                 for (var j = 0; j < truth.length; j++) {
                     var truthItem = truth[j];
@@ -112,7 +122,8 @@
                                     tomatoIdInt,
                                     "",
                                     tomatoServiceBody['name'],
-                                    serviceBodyDetail['helpline']
+                                    serviceBodyDetail['helpline'],
+                                    tomatoServiceBody['num_meetings']
                                 );
                             }
                         }
@@ -124,6 +135,7 @@
                 document.getElementById("current-count").innerText = activePhoneNumbersCount.toString();
                 document.getElementById("truth-count").innerText = totalServiceBodyTargets.toString();
                 document.getElementById("pct-total").innerText = Math.ceil((activePhoneNumbersCount / totalServiceBodyTargets) * 100).toString()
+                document.getElementById("areas-with-no-meetings").innerHTML = areasWithNoMeetings;
             });
         });
     }
