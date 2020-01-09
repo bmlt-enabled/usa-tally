@@ -1,0 +1,82 @@
+<html>
+<head>
+    <link href='https://fonts.googleapis.com/css?family=Droid+Sans' rel='stylesheet' type='text/css'>
+    <style>
+        body {
+            font-family: "Droid Sans";
+        }
+    </style>
+</head>
+<body>
+<div align="center" style="margin-top: 20px;">
+    <h1>USA National Tally</h1>
+    <div style="display: block">
+        <span id="current-count"></span> currently of <span id="truth-count"></span> counted in <span class="last-count-year"></span>, across <span id="regions-count"></span> regions, which is ~<span id="pct-total"></span>% of the meetings in the USA.
+        <h5><a href="map.html">Map Search Demo</a></h5>
+        <div id="tally" style="margin-top: 20px"></div>
+    </div>
+</div>
+</body>
+<script src="croutonjs/crouton.min.js"></script>
+<script type="text/javascript">
+    var lastYearOfTruth = 2018;
+    var tomatoResults;
+    var serviceBodiesDetails;
+    var truth;
+    var useTomatoStub = true;
+
+    function getServiceBodyById(id) {
+        for (var i = 0; i < tomatoResults.length; i++) {
+            var service_body = tomatoResults[i];
+            if (service_body['url'] === id) {
+                return service_body;
+            }
+        }
+
+        return null;
+    }
+
+    function getServiceBodyDetailsByIdInt(id) {
+        for (var i = 0; i < serviceBodiesDetails.length; i++) {
+            var service_body = serviceBodiesDetails[i];
+            if (service_body['id'] === id) {
+                return service_body;
+            }
+        }
+    }
+
+    function getTomatoData() {
+        $.ajaxSetup({timeout:30000});
+        $.getJSON(useTomatoStub ? "tally/tomatoStub.json" : "https://tomato.bmltenabled.org/rest/v1/servicebodies", function (data) {
+            tomatoResults = data['results'];
+            $.getJSON(useTomatoStub ? "tally/serviceBodiesDetailsStub.json" : "https://tomato.bmltenabled.org/main_server/client_interface/json/?switcher=GetServiceBodies", function(data) {
+                serviceBodiesDetails = data;
+                var tallyHtml = "<table border='1'><tr><th>TomatoId</th><th>Service Body</th><th>Phone Number</th></tr>";
+
+                for (var j = 0; j < truth.length; j++) {
+                    var truthItem = truth[j];
+                    for (var t = 0; t < truthItem['tomatoIds'].length; t++) {
+                        var tomatoId = truthItem['tomatoIds'][t];
+                        var tomatoServiceBody = getServiceBodyById(tomatoId);
+
+                        if (tomatoServiceBody != null) {
+                            var tomatoIdInt = tomatoId.match(".*\/servicebodies\/([0-9]*)\/")[1];
+                            tallyHtml += "<tr><td>" + tomatoIdInt + "</td>";
+                            tallyHtml += "<td>" + tomatoServiceBody['name'] + "</td>";
+                            tallyHtml += "<td>" + getServiceBodyDetailsByIdInt(tomatoIdInt)["helpline"] + "</td></tr>";
+                        }
+                    }
+                }
+
+                tallyHtml += "</table>";
+                document.getElementById("tally").innerHTML = tallyHtml;
+            });
+        });
+    }
+
+    $.getJSON("tally/" + lastYearOfTruth + ".json", function(data) {
+        truth = data;
+        getTomatoData()
+    });
+</script>
+</html>
