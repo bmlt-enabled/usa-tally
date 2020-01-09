@@ -352,7 +352,8 @@
         "tomatoIds": [
             "https://tomato.bmltenabled.org/rest/v1/servicebodies/373/",
             "https://tomato.bmltenabled.org/rest/v1/servicebodies/374/",
-            "https://tomato.bmltenabled.org/rest/v1/servicebodies/1384/"
+            "https://tomato.bmltenabled.org/rest/v1/servicebodies/1384/",
+            "https://tomato.bmltenabled.org/rest/v1/servicebodies/1580/"
         ],
         "complete": false
     },
