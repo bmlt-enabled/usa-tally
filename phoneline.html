@@ -24,6 +24,7 @@
     var serviceBodiesDetails;
     var truth;
     var useTomatoStub = false;
+    var tallyHtml = "";
 
     function getServiceBodyById(id) {
         for (var i = 0; i < tomatoResults.length; i++) {
@@ -45,13 +46,50 @@
         }
     }
 
+    function getChildrenForParent(id) {
+        var children = [];
+
+        for (var i = 0; i < serviceBodiesDetails.length; i++) {
+            var service_body = serviceBodiesDetails[i];
+            if (service_body['parent_id'] === id) {
+                children.push(service_body);
+            }
+        }
+
+        return children;
+    }
+
+    function appendServiceBodyInfoHtml(tomatoIdInt, serviceBodyParentName, serviceBodyName, phoneNumber) {
+        tallyHtml += "<tr><td>" + tomatoIdInt + "</td>";
+        tallyHtml += "<td>" + serviceBodyParentName + "</td>";
+        tallyHtml += "<td>" + serviceBodyName + "</td>";
+        tallyHtml += "<td>" + phoneNumber + "</td></tr>";
+    }
+
+    function appendChildren(tomatoIdInt, serviceBodyParentName) {
+        var children = getChildrenForParent(tomatoIdInt);
+        for (var c = 0; c < children.length; c++) {
+            var child = children[c];
+            if (child['type'] === "AS") {
+                appendServiceBodyInfoHtml(
+                    child['id'],
+                    serviceBodyParentName,
+                    child['name'],
+                    child['helpline']
+                );
+            } else {
+                appendChildren(child['id'], serviceBodyParentName);
+            }
+        }
+    }
+
     function getTomatoData() {
         $.ajaxSetup({timeout:30000});
         $.getJSON(useTomatoStub ? "tally/tomatoStub.json" : "https://tomato.bmltenabled.org/rest/v1/servicebodies", function (data) {
             tomatoResults = data['results'];
             $.getJSON(useTomatoStub ? "tally/serviceBodiesDetailsStub.json" : "https://tomato.bmltenabled.org/main_server/client_interface/json/?switcher=GetServiceBodies", function(data) {
                 serviceBodiesDetails = data;
-                var tallyHtml = "<table border='1'><tr><th>TomatoId</th><th>Service Body</th><th>Phone Number</th></tr>";
+                tallyHtml = "<table border='1'><tr><th>TomatoId</th><th>Parent</th><th>Service Body</th><th>Phone Number</th></tr>";
 
                 for (var j = 0; j < truth.length; j++) {
                     var truthItem = truth[j];
@@ -60,10 +98,19 @@
                         var tomatoServiceBody = getServiceBodyById(tomatoId);
 
                         if (tomatoServiceBody != null) {
-                            var tomatoIdInt = tomatoId.match(".*\/servicebodies\/([0-9]*)\/")[1];
-                            tallyHtml += "<tr><td>" + tomatoIdInt + "</td>";
-                            tallyHtml += "<td>" + tomatoServiceBody['name'] + "</td>";
-                            tallyHtml += "<td>" + getServiceBodyDetailsByIdInt(tomatoIdInt)["helpline"] + "</td></tr>";
+                            var tomatoIdInt = tomatoServiceBody['url'].match(".*\/servicebodies\/([0-9]*)\/")[1];
+                            var serviceBodyDetail = getServiceBodyDetailsByIdInt(tomatoIdInt);
+                            if (serviceBodyDetail['type'] === "RS") {
+                                var serviceBodyParentName = serviceBodyDetail['name'];
+                                appendChildren(tomatoIdInt, serviceBodyParentName);
+                            } else if (serviceBodyDetail['type'] === "AS") {
+                                appendServiceBodyInfoHtml(
+                                    tomatoIdInt,
+                                    "",
+                                    tomatoServiceBody['name'],
+                                    serviceBodyDetail['helpline']
+                                );
+                            }
                         }
                     }
                 }
