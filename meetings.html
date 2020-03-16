@@ -38,6 +38,7 @@
         "custom_query": "&services=-490&recursive=1&meeting_key=location_province&meeting_key_value=" + getUrlParameter('province'),  // filtering out Western Australia by excluding all of that region.
         "language": getUrlParameter('language') === "" ? "en-US" : getUrlParameter('language'),
         "theme": "lucy",
+        "filter_tabs": true,
         "on_complete": function() {
             jQuery(".lds-css").hide();
         }

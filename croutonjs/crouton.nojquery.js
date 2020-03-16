@@ -2092,7 +2092,7 @@ b.id!=f.id&&d.push(f.id)}c.$element.val(d.join(c._valueSeparator)),c.$element.tr
 /**!
 
  @license
- handlebars v4.0.12
+ handlebars v4.5.3
 
 Copyright (C) 2011-2017 by Yehuda Katz
 
@@ -2183,23 +2183,23 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	// Compiler imports
 
-	var _handlebarsCompilerAst = __webpack_require__(35);
+	var _handlebarsCompilerAst = __webpack_require__(40);
 
 	var _handlebarsCompilerAst2 = _interopRequireDefault(_handlebarsCompilerAst);
 
-	var _handlebarsCompilerBase = __webpack_require__(36);
+	var _handlebarsCompilerBase = __webpack_require__(41);
 
-	var _handlebarsCompilerCompiler = __webpack_require__(41);
+	var _handlebarsCompilerCompiler = __webpack_require__(46);
 
-	var _handlebarsCompilerJavascriptCompiler = __webpack_require__(42);
+	var _handlebarsCompilerJavascriptCompiler = __webpack_require__(49);
 
 	var _handlebarsCompilerJavascriptCompiler2 = _interopRequireDefault(_handlebarsCompilerJavascriptCompiler);
 
-	var _handlebarsCompilerVisitor = __webpack_require__(39);
+	var _handlebarsCompilerVisitor = __webpack_require__(44);
 
 	var _handlebarsCompilerVisitor2 = _interopRequireDefault(_handlebarsCompilerVisitor);
 
-	var _handlebarsNoConflict = __webpack_require__(34);
+	var _handlebarsNoConflict = __webpack_require__(39);
 
 	var _handlebarsNoConflict2 = _interopRequireDefault(_handlebarsNoConflict);
 
@@ -2219,6 +2219,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	  hb.JavaScriptCompiler = _handlebarsCompilerJavascriptCompiler2['default'];
 	  hb.Parser = _handlebarsCompilerBase.parser;
 	  hb.parse = _handlebarsCompilerBase.parse;
+	  hb.parseWithoutProcessing = _handlebarsCompilerBase.parseWithoutProcessing;
 
 	  return hb;
 	}
@@ -2268,7 +2269,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	// Each of these augment the Handlebars object. No need to setup here.
 	// (This is done to easily share code between commonjs and browse envs)
 
-	var _handlebarsSafeString = __webpack_require__(21);
+	var _handlebarsSafeString = __webpack_require__(33);
 
 	var _handlebarsSafeString2 = _interopRequireDefault(_handlebarsSafeString);
 
@@ -2280,11 +2281,11 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	var Utils = _interopRequireWildcard(_handlebarsUtils);
 
-	var _handlebarsRuntime = __webpack_require__(22);
+	var _handlebarsRuntime = __webpack_require__(34);
 
 	var runtime = _interopRequireWildcard(_handlebarsRuntime);
 
-	var _handlebarsNoConflict = __webpack_require__(34);
+	var _handlebarsNoConflict = __webpack_require__(39);
 
 	var _handlebarsNoConflict2 = _interopRequireDefault(_handlebarsNoConflict);
 
@@ -2360,17 +2361,19 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	var _helpers = __webpack_require__(10);
 
-	var _decorators = __webpack_require__(18);
+	var _decorators = __webpack_require__(30);
 
-	var _logger = __webpack_require__(20);
+	var _logger = __webpack_require__(32);
 
 	var _logger2 = _interopRequireDefault(_logger);
 
-	var VERSION = '4.0.12';
+	var VERSION = '4.5.3';
 	exports.VERSION = VERSION;
-	var COMPILER_REVISION = 7;
-
+	var COMPILER_REVISION = 8;
 	exports.COMPILER_REVISION = COMPILER_REVISION;
+	var LAST_COMPATIBLE_COMPILER_REVISION = 7;
+
+	exports.LAST_COMPATIBLE_COMPILER_REVISION = LAST_COMPATIBLE_COMPILER_REVISION;
 	var REVISION_CHANGES = {
 	  1: '<= 1.0.rc.2', // 1.0.rc.2 is actually rev2 but doesn't report it
 	  2: '== 1.0.0-rc.3',
@@ -2378,7 +2381,8 @@ return /******/ (function(modules) { // webpackBootstrap
 	  4: '== 1.x.x',
 	  5: '== 2.0.0-alpha.x',
 	  6: '>= 2.0.0-beta.1',
-	  7: '>= 4.0.0'
+	  7: '>= 4.0.0 <4.3.0',
+	  8: '>= 4.3.0'
 	};
 
 	exports.REVISION_CHANGES = REVISION_CHANGES;
@@ -2462,6 +2466,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	exports.createFrame = createFrame;
 	exports.blockParams = blockParams;
 	exports.appendContextPath = appendContextPath;
+
 	var escape = {
 	  '&': '&amp;',
 	  '<': '&lt;',
@@ -2586,15 +2591,20 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	exports.__esModule = true;
 
-	var errorProps = ['description', 'fileName', 'lineNumber', 'message', 'name', 'number', 'stack'];
+	var errorProps = ['description', 'fileName', 'lineNumber', 'endLineNumber', 'message', 'name', 'number', 'stack'];
 
 	function Exception(message, node) {
 	  var loc = node && node.loc,
 	      line = undefined,
-	      column = undefined;
+	      endLineNumber = undefined,
+	      column = undefined,
+	      endColumn = undefined;
+
 	  if (loc) {
 	    line = loc.start.line;
+	    endLineNumber = loc.end.line;
 	    column = loc.start.column;
+	    endColumn = loc.end.column;
 
 	    message += ' - ' + line + ':' + column;
 	  }
@@ -2614,6 +2624,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	  try {
 	    if (loc) {
 	      this.lineNumber = line;
+	      this.endLineNumber = endLineNumber;
 
 	      // Work around issue under safari where we can't directly set the column value
 	      /* istanbul ignore next */
@@ -2622,8 +2633,13 @@ return /******/ (function(modules) { // webpackBootstrap
 	          value: column,
 	          enumerable: true
 	        });
+	        Object.defineProperty(this, 'endColumn', {
+	          value: endColumn,
+	          enumerable: true
+	        });
 	      } else {
 	        this.column = column;
+	        this.endColumn = endColumn;
 	      }
 	    }
 	  } catch (nop) {
@@ -2679,6 +2695,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	exports.__esModule = true;
 	exports.registerDefaultHelpers = registerDefaultHelpers;
+	exports.moveHelperToHooks = moveHelperToHooks;
 
 	var _helpersBlockHelperMissing = __webpack_require__(11);
 
@@ -2688,23 +2705,23 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	var _helpersEach2 = _interopRequireDefault(_helpersEach);
 
-	var _helpersHelperMissing = __webpack_require__(13);
+	var _helpersHelperMissing = __webpack_require__(25);
 
 	var _helpersHelperMissing2 = _interopRequireDefault(_helpersHelperMissing);
 
-	var _helpersIf = __webpack_require__(14);
+	var _helpersIf = __webpack_require__(26);
 
 	var _helpersIf2 = _interopRequireDefault(_helpersIf);
 
-	var _helpersLog = __webpack_require__(15);
+	var _helpersLog = __webpack_require__(27);
 
 	var _helpersLog2 = _interopRequireDefault(_helpersLog);
 
-	var _helpersLookup = __webpack_require__(16);
+	var _helpersLookup = __webpack_require__(28);
 
 	var _helpersLookup2 = _interopRequireDefault(_helpersLookup);
 
-	var _helpersWith = __webpack_require__(17);
+	var _helpersWith = __webpack_require__(29);
 
 	var _helpersWith2 = _interopRequireDefault(_helpersWith);
 
@@ -2716,6 +2733,15 @@ return /******/ (function(modules) { // webpackBootstrap
 	  _helpersLog2['default'](instance);
 	  _helpersLookup2['default'](instance);
 	  _helpersWith2['default'](instance);
+	}
+
+	function moveHelperToHooks(instance, helperName, keepHelper) {
+	  if (instance.helpers[helperName]) {
+	    instance.hooks[helperName] = instance.helpers[helperName];
+	    if (!keepHelper) {
+	      delete instance.helpers[helperName];
+	    }
+	  }
 	}
 
 /***/ }),
@@ -2765,7 +2791,9 @@ return /******/ (function(modules) { // webpackBootstrap
 /* 12 */
 /***/ (function(module, exports, __webpack_require__) {
 
-	'use strict';
+	/* WEBPACK VAR INJECTION */(function(global) {'use strict';
+
+	var _Object$keys = __webpack_require__(13)['default'];
 
 	var _interopRequireDefault = __webpack_require__(1)['default'];
 
@@ -2827,11 +2855,21 @@ return /******/ (function(modules) { // webpackBootstrap
 	            execIteration(i, i, i === context.length - 1);
 	          }
 	        }
+	      } else if (global.Symbol && context[global.Symbol.iterator]) {
+	        var newContext = [];
+	        var iterator = context[global.Symbol.iterator]();
+	        for (var it = iterator.next(); !it.done; it = iterator.next()) {
+	          newContext.push(it.value);
+	        }
+	        context = newContext;
+	        for (var j = context.length; i < j; i++) {
+	          execIteration(i, i, i === context.length - 1);
+	        }
 	      } else {
-	        var priorKey = undefined;
+	        (function () {
+	          var priorKey = undefined;
 
-	        for (var key in context) {
-	          if (context.hasOwnProperty(key)) {
+	          _Object$keys(context).forEach(function (key) {
 	            // We're running the iterations one step out of sync so we can detect
 	            // the last iteration without have to scan the object twice and create
 	            // an itermediate keys array.
@@ -2840,11 +2878,11 @@ return /******/ (function(modules) { // webpackBootstrap
 	            }
 	            priorKey = key;
 	            i++;
+	          });
+	          if (priorKey !== undefined) {
+	            execIteration(priorKey, i - 1, true);
 	          }
-	        }
-	        if (priorKey !== undefined) {
-	          execIteration(priorKey, i - 1, true);
-	        }
+	        })();
 	      }
 	    }
 
@@ -2857,9 +2895,184 @@ return /******/ (function(modules) { // webpackBootstrap
 	};
 
 	module.exports = exports['default'];
+	/* WEBPACK VAR INJECTION */}.call(exports, (function() { return this; }())))
 
 /***/ }),
 /* 13 */
+/***/ (function(module, exports, __webpack_require__) {
+
+	module.exports = { "default": __webpack_require__(14), __esModule: true };
+
+/***/ }),
+/* 14 */
+/***/ (function(module, exports, __webpack_require__) {
+
+	__webpack_require__(15);
+	module.exports = __webpack_require__(21).Object.keys;
+
+/***/ }),
+/* 15 */
+/***/ (function(module, exports, __webpack_require__) {
+
+	// 19.1.2.14 Object.keys(O)
+	var toObject = __webpack_require__(16);
+
+	__webpack_require__(18)('keys', function($keys){
+	  return function keys(it){
+	    return $keys(toObject(it));
+	  };
+	});
+
+/***/ }),
+/* 16 */
+/***/ (function(module, exports, __webpack_require__) {
+
+	// 7.1.13 ToObject(argument)
+	var defined = __webpack_require__(17);
+	module.exports = function(it){
+	  return Object(defined(it));
+	};
+
+/***/ }),
+/* 17 */
+/***/ (function(module, exports) {
+
+	// 7.2.1 RequireObjectCoercible(argument)
+	module.exports = function(it){
+	  if(it == undefined)throw TypeError("Can't call method on  " + it);
+	  return it;
+	};
+
+/***/ }),
+/* 18 */
+/***/ (function(module, exports, __webpack_require__) {
+
+	// most Object methods by ES6 should accept primitives
+	var $export = __webpack_require__(19)
+	  , core    = __webpack_require__(21)
+	  , fails   = __webpack_require__(24);
+	module.exports = function(KEY, exec){
+	  var fn  = (core.Object || {})[KEY] || Object[KEY]
+	    , exp = {};
+	  exp[KEY] = exec(fn);
+	  $export($export.S + $export.F * fails(function(){ fn(1); }), 'Object', exp);
+	};
+
+/***/ }),
+/* 19 */
+/***/ (function(module, exports, __webpack_require__) {
+
+	var global    = __webpack_require__(20)
+	  , core      = __webpack_require__(21)
+	  , ctx       = __webpack_require__(22)
+	  , PROTOTYPE = 'prototype';
+
+	var $export = function(type, name, source){
+	  var IS_FORCED = type & $export.F
+	    , IS_GLOBAL = type & $export.G
+	    , IS_STATIC = type & $export.S
+	    , IS_PROTO  = type & $export.P
+	    , IS_BIND   = type & $export.B
+	    , IS_WRAP   = type & $export.W
+	    , exports   = IS_GLOBAL ? core : core[name] || (core[name] = {})
+	    , target    = IS_GLOBAL ? global : IS_STATIC ? global[name] : (global[name] || {})[PROTOTYPE]
+	    , key, own, out;
+	  if(IS_GLOBAL)source = name;
+	  for(key in source){
+	    // contains in native
+	    own = !IS_FORCED && target && key in target;
+	    if(own && key in exports)continue;
+	    // export native or passed
+	    out = own ? target[key] : source[key];
+	    // prevent global pollution for namespaces
+	    exports[key] = IS_GLOBAL && typeof target[key] != 'function' ? source[key]
+	    // bind timers to global for call from export context
+	    : IS_BIND && own ? ctx(out, global)
+	    // wrap global constructors for prevent change them in library
+	    : IS_WRAP && target[key] == out ? (function(C){
+	      var F = function(param){
+	        return this instanceof C ? new C(param) : C(param);
+	      };
+	      F[PROTOTYPE] = C[PROTOTYPE];
+	      return F;
+	    // make static versions for prototype methods
+	    })(out) : IS_PROTO && typeof out == 'function' ? ctx(Function.call, out) : out;
+	    if(IS_PROTO)(exports[PROTOTYPE] || (exports[PROTOTYPE] = {}))[key] = out;
+	  }
+	};
+	// type bitmap
+	$export.F = 1;  // forced
+	$export.G = 2;  // global
+	$export.S = 4;  // static
+	$export.P = 8;  // proto
+	$export.B = 16; // bind
+	$export.W = 32; // wrap
+	module.exports = $export;
+
+/***/ }),
+/* 20 */
+/***/ (function(module, exports) {
+
+	// https://github.com/zloirock/core-js/issues/86#issuecomment-115759028
+	var global = module.exports = typeof window != 'undefined' && window.Math == Math
+	  ? window : typeof self != 'undefined' && self.Math == Math ? self : Function('return this')();
+	if(typeof __g == 'number')__g = global; // eslint-disable-line no-undef
+
+/***/ }),
+/* 21 */
+/***/ (function(module, exports) {
+
+	var core = module.exports = {version: '1.2.6'};
+	if(typeof __e == 'number')__e = core; // eslint-disable-line no-undef
+
+/***/ }),
+/* 22 */
+/***/ (function(module, exports, __webpack_require__) {
+
+	// optional / simple context binding
+	var aFunction = __webpack_require__(23);
+	module.exports = function(fn, that, length){
+	  aFunction(fn);
+	  if(that === undefined)return fn;
+	  switch(length){
+	    case 1: return function(a){
+	      return fn.call(that, a);
+	    };
+	    case 2: return function(a, b){
+	      return fn.call(that, a, b);
+	    };
+	    case 3: return function(a, b, c){
+	      return fn.call(that, a, b, c);
+	    };
+	  }
+	  return function(/* ...args */){
+	    return fn.apply(that, arguments);
+	  };
+	};
+
+/***/ }),
+/* 23 */
+/***/ (function(module, exports) {
+
+	module.exports = function(it){
+	  if(typeof it != 'function')throw TypeError(it + ' is not a function!');
+	  return it;
+	};
+
+/***/ }),
+/* 24 */
+/***/ (function(module, exports) {
+
+	module.exports = function(exec){
+	  try {
+	    return !!exec();
+	  } catch(e){
+	    return true;
+	  }
+	};
+
+/***/ }),
+/* 25 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -2887,17 +3100,26 @@ return /******/ (function(modules) { // webpackBootstrap
 	module.exports = exports['default'];
 
 /***/ }),
-/* 14 */
+/* 26 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
+
+	var _interopRequireDefault = __webpack_require__(1)['default'];
 
 	exports.__esModule = true;
 
 	var _utils = __webpack_require__(5);
 
+	var _exception = __webpack_require__(6);
+
+	var _exception2 = _interopRequireDefault(_exception);
+
 	exports['default'] = function (instance) {
 	  instance.registerHelper('if', function (conditional, options) {
+	    if (arguments.length != 2) {
+	      throw new _exception2['default']('#if requires exactly one argument');
+	    }
 	    if (_utils.isFunction(conditional)) {
 	      conditional = conditional.call(this);
 	    }
@@ -2913,6 +3135,9 @@ return /******/ (function(modules) { // webpackBootstrap
 	  });
 
 	  instance.registerHelper('unless', function (conditional, options) {
+	    if (arguments.length != 2) {
+	      throw new _exception2['default']('#unless requires exactly one argument');
+	    }
 	    return instance.helpers['if'].call(this, conditional, { fn: options.inverse, inverse: options.fn, hash: options.hash });
 	  });
 	};
@@ -2920,7 +3145,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	module.exports = exports['default'];
 
 /***/ }),
-/* 15 */
+/* 27 */
 /***/ (function(module, exports) {
 
 	'use strict';
@@ -2950,33 +3175,49 @@ return /******/ (function(modules) { // webpackBootstrap
 	module.exports = exports['default'];
 
 /***/ }),
-/* 16 */
+/* 28 */
 /***/ (function(module, exports) {
 
 	'use strict';
 
 	exports.__esModule = true;
+	var dangerousPropertyRegex = /^(constructor|__defineGetter__|__defineSetter__|__lookupGetter__|__proto__)$/;
+
+	exports.dangerousPropertyRegex = dangerousPropertyRegex;
 
 	exports['default'] = function (instance) {
 	  instance.registerHelper('lookup', function (obj, field) {
-	    return obj && obj[field];
+	    if (!obj) {
+	      return obj;
+	    }
+	    if (dangerousPropertyRegex.test(String(field)) && !Object.prototype.propertyIsEnumerable.call(obj, field)) {
+	      return undefined;
+	    }
+	    return obj[field];
 	  });
 	};
 
-	module.exports = exports['default'];
-
 /***/ }),
-/* 17 */
+/* 29 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
+
+	var _interopRequireDefault = __webpack_require__(1)['default'];
 
 	exports.__esModule = true;
 
 	var _utils = __webpack_require__(5);
 
+	var _exception = __webpack_require__(6);
+
+	var _exception2 = _interopRequireDefault(_exception);
+
 	exports['default'] = function (instance) {
 	  instance.registerHelper('with', function (context, options) {
+	    if (arguments.length != 2) {
+	      throw new _exception2['default']('#with requires exactly one argument');
+	    }
 	    if (_utils.isFunction(context)) {
 	      context = context.call(this);
 	    }
@@ -3003,7 +3244,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	module.exports = exports['default'];
 
 /***/ }),
-/* 18 */
+/* 30 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -3013,7 +3254,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	exports.__esModule = true;
 	exports.registerDefaultDecorators = registerDefaultDecorators;
 
-	var _decoratorsInline = __webpack_require__(19);
+	var _decoratorsInline = __webpack_require__(31);
 
 	var _decoratorsInline2 = _interopRequireDefault(_decoratorsInline);
 
@@ -3022,7 +3263,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	}
 
 /***/ }),
-/* 19 */
+/* 31 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -3055,7 +3296,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	module.exports = exports['default'];
 
 /***/ }),
-/* 20 */
+/* 32 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -3106,7 +3347,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	module.exports = exports['default'];
 
 /***/ }),
-/* 21 */
+/* 33 */
 /***/ (function(module, exports) {
 
 	// Build out our basic SafeString type
@@ -3125,12 +3366,12 @@ return /******/ (function(modules) { // webpackBootstrap
 	module.exports = exports['default'];
 
 /***/ }),
-/* 22 */
+/* 34 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
 
-	var _Object$seal = __webpack_require__(23)['default'];
+	var _Object$seal = __webpack_require__(35)['default'];
 
 	var _interopRequireWildcard = __webpack_require__(3)['default'];
 
@@ -3154,23 +3395,28 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	var _base = __webpack_require__(4);
 
+	var _helpers = __webpack_require__(10);
+
 	function checkRevision(compilerInfo) {
 	  var compilerRevision = compilerInfo && compilerInfo[0] || 1,
 	      currentRevision = _base.COMPILER_REVISION;
 
-	  if (compilerRevision !== currentRevision) {
-	    if (compilerRevision < currentRevision) {
-	      var runtimeVersions = _base.REVISION_CHANGES[currentRevision],
-	          compilerVersions = _base.REVISION_CHANGES[compilerRevision];
-	      throw new _exception2['default']('Template was precompiled with an older version of Handlebars than the current runtime. ' + 'Please update your precompiler to a newer version (' + runtimeVersions + ') or downgrade your runtime to an older version (' + compilerVersions + ').');
-	    } else {
-	      // Use the embedded version info since the runtime doesn't know about this revision yet
-	      throw new _exception2['default']('Template was precompiled with a newer version of Handlebars than the current runtime. ' + 'Please update your runtime to a newer version (' + compilerInfo[1] + ').');
-	    }
+	  if (compilerRevision >= _base.LAST_COMPATIBLE_COMPILER_REVISION && compilerRevision <= _base.COMPILER_REVISION) {
+	    return;
+	  }
+
+	  if (compilerRevision < _base.LAST_COMPATIBLE_COMPILER_REVISION) {
+	    var runtimeVersions = _base.REVISION_CHANGES[currentRevision],
+	        compilerVersions = _base.REVISION_CHANGES[compilerRevision];
+	    throw new _exception2['default']('Template was precompiled with an older version of Handlebars than the current runtime. ' + 'Please update your precompiler to a newer version (' + runtimeVersions + ') or downgrade your runtime to an older version (' + compilerVersions + ').');
+	  } else {
+	    // Use the embedded version info since the runtime doesn't know about this revision yet
+	    throw new _exception2['default']('Template was precompiled with a newer version of Handlebars than the current runtime. ' + 'Please update your runtime to a newer version (' + compilerInfo[1] + ').');
 	  }
 	}
 
 	function template(templateSpec, env) {
+
 	  /* istanbul ignore next */
 	  if (!env) {
 	    throw new _exception2['default']('No environment passed to template');
@@ -3182,8 +3428,11 @@ return /******/ (function(modules) { // webpackBootstrap
 	  templateSpec.main.decorator = templateSpec.main_d;
 
 	  // Note: Using env.VM references rather than local var references throughout this section to allow
-	  // for external users to override these as psuedo-supported APIs.
+	  // for external users to override these as pseudo-supported APIs.
 	  env.VM.checkRevision(templateSpec.compiler);
+
+	  // backwards compatibility for precompiled templates with compiler-version 7 (<4.3.0)
+	  var templateWasPrecompiledWithCompilerV7 = templateSpec.compiler && templateSpec.compiler[0] === 7;
 
 	  function invokePartialWrapper(partial, context, options) {
 	    if (options.hash) {
@@ -3192,13 +3441,15 @@ return /******/ (function(modules) { // webpackBootstrap
 	        options.ids[0] = true;
 	      }
 	    }
-
 	    partial = env.VM.resolvePartial.call(this, partial, context, options);
-	    var result = env.VM.invokePartial.call(this, partial, context, options);
+
+	    var optionsWithHooks = Utils.extend({}, options, { hooks: this.hooks });
+
+	    var result = env.VM.invokePartial.call(this, partial, context, optionsWithHooks);
 
 	    if (result == null && env.compile) {
 	      options.partials[options.name] = env.compile(partial, templateSpec.compilerOptions, env);
-	      result = options.partials[options.name](context, options);
+	      result = options.partials[options.name](context, optionsWithHooks);
 	    }
 	    if (result != null) {
 	      if (options.indent) {
@@ -3220,9 +3471,9 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	  // Just add water
 	  var container = {
-	    strict: function strict(obj, name) {
-	      if (!(name in obj)) {
-	        throw new _exception2['default']('"' + name + '" not defined in ' + obj);
+	    strict: function strict(obj, name, loc) {
+	      if (!obj || !(name in obj)) {
+	        throw new _exception2['default']('"' + name + '" not defined in ' + obj, { loc: loc });
 	      }
 	      return obj[name];
 	    },
@@ -3265,15 +3516,6 @@ return /******/ (function(modules) { // webpackBootstrap
 	      }
 	      return value;
 	    },
-	    merge: function merge(param, common) {
-	      var obj = param || common;
-
-	      if (param && common && param !== common) {
-	        obj = Utils.extend({}, common, param);
-	      }
-
-	      return obj;
-	    },
 	    // An empty object to use as replacement for null-contexts
 	    nullContext: _Object$seal({}),
 
@@ -3310,18 +3552,25 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	  ret._setup = function (options) {
 	    if (!options.partial) {
-	      container.helpers = container.merge(options.helpers, env.helpers);
+	      container.helpers = Utils.extend({}, env.helpers, options.helpers);
 
 	      if (templateSpec.usePartial) {
-	        container.partials = container.merge(options.partials, env.partials);
+	        container.partials = Utils.extend({}, env.partials, options.partials);
 	      }
 	      if (templateSpec.usePartial || templateSpec.useDecorators) {
-	        container.decorators = container.merge(options.decorators, env.decorators);
+	        container.decorators = Utils.extend({}, env.decorators, options.decorators);
 	      }
+
+	      container.hooks = {};
+
+	      var keepHelperInHelpers = options.allowCallsToHelperMissing || templateWasPrecompiledWithCompilerV7;
+	      _helpers.moveHelperToHooks(container, 'helperMissing', keepHelperInHelpers);
+	      _helpers.moveHelperToHooks(container, 'blockHelperMissing', keepHelperInHelpers);
 	    } else {
 	      container.helpers = options.helpers;
 	      container.partials = options.partials;
 	      container.decorators = options.decorators;
+	      container.hooks = options.hooks;
 	    }
 	  };
 
@@ -3357,6 +3606,10 @@ return /******/ (function(modules) { // webpackBootstrap
 	  prog.blockParams = declaredBlockParams || 0;
 	  return prog;
 	}
+
+	/**
+	 * This is currently part of the official API, therefore implementation details should not be changed.
+	 */
 
 	function resolvePartial(partial, context, options) {
 	  if (!partial) {
@@ -3435,33 +3688,33 @@ return /******/ (function(modules) { // webpackBootstrap
 	}
 
 /***/ }),
-/* 23 */
+/* 35 */
 /***/ (function(module, exports, __webpack_require__) {
 
-	module.exports = { "default": __webpack_require__(24), __esModule: true };
+	module.exports = { "default": __webpack_require__(36), __esModule: true };
 
 /***/ }),
-/* 24 */
+/* 36 */
 /***/ (function(module, exports, __webpack_require__) {
 
-	__webpack_require__(25);
-	module.exports = __webpack_require__(30).Object.seal;
+	__webpack_require__(37);
+	module.exports = __webpack_require__(21).Object.seal;
 
 /***/ }),
-/* 25 */
+/* 37 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	// 19.1.2.17 Object.seal(O)
-	var isObject = __webpack_require__(26);
+	var isObject = __webpack_require__(38);
 
-	__webpack_require__(27)('seal', function($seal){
+	__webpack_require__(18)('seal', function($seal){
 	  return function seal(it){
 	    return $seal && isObject(it) ? $seal(it) : it;
 	  };
 	});
 
 /***/ }),
-/* 26 */
+/* 38 */
 /***/ (function(module, exports) {
 
 	module.exports = function(it){
@@ -3469,135 +3722,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	};
 
 /***/ }),
-/* 27 */
-/***/ (function(module, exports, __webpack_require__) {
-
-	// most Object methods by ES6 should accept primitives
-	var $export = __webpack_require__(28)
-	  , core    = __webpack_require__(30)
-	  , fails   = __webpack_require__(33);
-	module.exports = function(KEY, exec){
-	  var fn  = (core.Object || {})[KEY] || Object[KEY]
-	    , exp = {};
-	  exp[KEY] = exec(fn);
-	  $export($export.S + $export.F * fails(function(){ fn(1); }), 'Object', exp);
-	};
-
-/***/ }),
-/* 28 */
-/***/ (function(module, exports, __webpack_require__) {
-
-	var global    = __webpack_require__(29)
-	  , core      = __webpack_require__(30)
-	  , ctx       = __webpack_require__(31)
-	  , PROTOTYPE = 'prototype';
-
-	var $export = function(type, name, source){
-	  var IS_FORCED = type & $export.F
-	    , IS_GLOBAL = type & $export.G
-	    , IS_STATIC = type & $export.S
-	    , IS_PROTO  = type & $export.P
-	    , IS_BIND   = type & $export.B
-	    , IS_WRAP   = type & $export.W
-	    , exports   = IS_GLOBAL ? core : core[name] || (core[name] = {})
-	    , target    = IS_GLOBAL ? global : IS_STATIC ? global[name] : (global[name] || {})[PROTOTYPE]
-	    , key, own, out;
-	  if(IS_GLOBAL)source = name;
-	  for(key in source){
-	    // contains in native
-	    own = !IS_FORCED && target && key in target;
-	    if(own && key in exports)continue;
-	    // export native or passed
-	    out = own ? target[key] : source[key];
-	    // prevent global pollution for namespaces
-	    exports[key] = IS_GLOBAL && typeof target[key] != 'function' ? source[key]
-	    // bind timers to global for call from export context
-	    : IS_BIND && own ? ctx(out, global)
-	    // wrap global constructors for prevent change them in library
-	    : IS_WRAP && target[key] == out ? (function(C){
-	      var F = function(param){
-	        return this instanceof C ? new C(param) : C(param);
-	      };
-	      F[PROTOTYPE] = C[PROTOTYPE];
-	      return F;
-	    // make static versions for prototype methods
-	    })(out) : IS_PROTO && typeof out == 'function' ? ctx(Function.call, out) : out;
-	    if(IS_PROTO)(exports[PROTOTYPE] || (exports[PROTOTYPE] = {}))[key] = out;
-	  }
-	};
-	// type bitmap
-	$export.F = 1;  // forced
-	$export.G = 2;  // global
-	$export.S = 4;  // static
-	$export.P = 8;  // proto
-	$export.B = 16; // bind
-	$export.W = 32; // wrap
-	module.exports = $export;
-
-/***/ }),
-/* 29 */
-/***/ (function(module, exports) {
-
-	// https://github.com/zloirock/core-js/issues/86#issuecomment-115759028
-	var global = module.exports = typeof window != 'undefined' && window.Math == Math
-	  ? window : typeof self != 'undefined' && self.Math == Math ? self : Function('return this')();
-	if(typeof __g == 'number')__g = global; // eslint-disable-line no-undef
-
-/***/ }),
-/* 30 */
-/***/ (function(module, exports) {
-
-	var core = module.exports = {version: '1.2.6'};
-	if(typeof __e == 'number')__e = core; // eslint-disable-line no-undef
-
-/***/ }),
-/* 31 */
-/***/ (function(module, exports, __webpack_require__) {
-
-	// optional / simple context binding
-	var aFunction = __webpack_require__(32);
-	module.exports = function(fn, that, length){
-	  aFunction(fn);
-	  if(that === undefined)return fn;
-	  switch(length){
-	    case 1: return function(a){
-	      return fn.call(that, a);
-	    };
-	    case 2: return function(a, b){
-	      return fn.call(that, a, b);
-	    };
-	    case 3: return function(a, b, c){
-	      return fn.call(that, a, b, c);
-	    };
-	  }
-	  return function(/* ...args */){
-	    return fn.apply(that, arguments);
-	  };
-	};
-
-/***/ }),
-/* 32 */
-/***/ (function(module, exports) {
-
-	module.exports = function(it){
-	  if(typeof it != 'function')throw TypeError(it + ' is not a function!');
-	  return it;
-	};
-
-/***/ }),
-/* 33 */
-/***/ (function(module, exports) {
-
-	module.exports = function(exec){
-	  try {
-	    return !!exec();
-	  } catch(e){
-	    return true;
-	  }
-	};
-
-/***/ }),
-/* 34 */
+/* 39 */
 /***/ (function(module, exports) {
 
 	/* WEBPACK VAR INJECTION */(function(global) {/* global window */
@@ -3622,7 +3747,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	/* WEBPACK VAR INJECTION */}.call(exports, (function() { return this; }())))
 
 /***/ }),
-/* 35 */
+/* 40 */
 /***/ (function(module, exports) {
 
 	'use strict';
@@ -3657,7 +3782,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	module.exports = exports['default'];
 
 /***/ }),
-/* 36 */
+/* 41 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -3667,17 +3792,18 @@ return /******/ (function(modules) { // webpackBootstrap
 	var _interopRequireWildcard = __webpack_require__(3)['default'];
 
 	exports.__esModule = true;
+	exports.parseWithoutProcessing = parseWithoutProcessing;
 	exports.parse = parse;
 
-	var _parser = __webpack_require__(37);
+	var _parser = __webpack_require__(42);
 
 	var _parser2 = _interopRequireDefault(_parser);
 
-	var _whitespaceControl = __webpack_require__(38);
+	var _whitespaceControl = __webpack_require__(43);
 
 	var _whitespaceControl2 = _interopRequireDefault(_whitespaceControl);
 
-	var _helpers = __webpack_require__(40);
+	var _helpers = __webpack_require__(45);
 
 	var Helpers = _interopRequireWildcard(_helpers);
 
@@ -3688,7 +3814,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	var yy = {};
 	_utils.extend(yy, Helpers);
 
-	function parse(input, options) {
+	function parseWithoutProcessing(input, options) {
 	  // Just return if an already-compiled AST was passed in.
 	  if (input.type === 'Program') {
 	    return input;
@@ -3701,12 +3827,20 @@ return /******/ (function(modules) { // webpackBootstrap
 	    return new yy.SourceLocation(options && options.srcName, locInfo);
 	  };
 
+	  var ast = _parser2['default'].parse(input);
+
+	  return ast;
+	}
+
+	function parse(input, options) {
+	  var ast = parseWithoutProcessing(input, options);
 	  var strip = new _whitespaceControl2['default'](options);
-	  return strip.accept(_parser2['default'].parse(input));
+
+	  return strip.accept(ast);
 	}
 
 /***/ }),
-/* 37 */
+/* 42 */
 /***/ (function(module, exports) {
 
 	// File ignored in coverage tests via setting in .istanbul.yml
@@ -3717,11 +3851,10 @@ return /******/ (function(modules) { // webpackBootstrap
 	var handlebars = (function () {
 	    var parser = { trace: function trace() {},
 	        yy: {},
-	        symbols_: { "error": 2, "root": 3, "program": 4, "EOF": 5, "program_repetition0": 6, "statement": 7, "mustache": 8, "block": 9, "rawBlock": 10, "partial": 11, "partialBlock": 12, "content": 13, "COMMENT": 14, "CONTENT": 15, "openRawBlock": 16, "rawBlock_repetition_plus0": 17, "END_RAW_BLOCK": 18, "OPEN_RAW_BLOCK": 19, "helperName": 20, "openRawBlock_repetition0": 21, "openRawBlock_option0": 22, "CLOSE_RAW_BLOCK": 23, "openBlock": 24, "block_option0": 25, "closeBlock": 26, "openInverse": 27, "block_option1": 28, "OPEN_BLOCK": 29, "openBlock_repetition0": 30, "openBlock_option0": 31, "openBlock_option1": 32, "CLOSE": 33, "OPEN_INVERSE": 34, "openInverse_repetition0": 35, "openInverse_option0": 36, "openInverse_option1": 37, "openInverseChain": 38, "OPEN_INVERSE_CHAIN": 39, "openInverseChain_repetition0": 40, "openInverseChain_option0": 41, "openInverseChain_option1": 42, "inverseAndProgram": 43, "INVERSE": 44, "inverseChain": 45, "inverseChain_option0": 46, "OPEN_ENDBLOCK": 47, "OPEN": 48, "mustache_repetition0": 49, "mustache_option0": 50, "OPEN_UNESCAPED": 51, "mustache_repetition1": 52, "mustache_option1": 53, "CLOSE_UNESCAPED": 54, "OPEN_PARTIAL": 55, "partialName": 56, "partial_repetition0": 57, "partial_option0": 58, "openPartialBlock": 59, "OPEN_PARTIAL_BLOCK": 60, "openPartialBlock_repetition0": 61, "openPartialBlock_option0": 62, "param": 63, "sexpr": 64, "OPEN_SEXPR": 65, "sexpr_repetition0": 66, "sexpr_option0": 67, "CLOSE_SEXPR": 68, "hash": 69, "hash_repetition_plus0": 70, "hashSegment": 71, "ID": 72, "EQUALS": 73, "blockParams": 74, "OPEN_BLOCK_PARAMS": 75, "blockParams_repetition_plus0": 76, "CLOSE_BLOCK_PARAMS": 77, "path": 78, "dataName": 79, "STRING": 80, "NUMBER": 81, "BOOLEAN": 82, "UNDEFINED": 83, "NULL": 84, "DATA": 85, "pathSegments": 86, "SEP": 87, "$accept": 0, "$end": 1 },
+	        symbols_: { "error": 2, "root": 3, "program": 4, "EOF": 5, "program_repetition0": 6, "statement": 7, "mustache": 8, "block": 9, "rawBlock": 10, "partial": 11, "partialBlock": 12, "content": 13, "COMMENT": 14, "CONTENT": 15, "openRawBlock": 16, "rawBlock_repetition0": 17, "END_RAW_BLOCK": 18, "OPEN_RAW_BLOCK": 19, "helperName": 20, "openRawBlock_repetition0": 21, "openRawBlock_option0": 22, "CLOSE_RAW_BLOCK": 23, "openBlock": 24, "block_option0": 25, "closeBlock": 26, "openInverse": 27, "block_option1": 28, "OPEN_BLOCK": 29, "openBlock_repetition0": 30, "openBlock_option0": 31, "openBlock_option1": 32, "CLOSE": 33, "OPEN_INVERSE": 34, "openInverse_repetition0": 35, "openInverse_option0": 36, "openInverse_option1": 37, "openInverseChain": 38, "OPEN_INVERSE_CHAIN": 39, "openInverseChain_repetition0": 40, "openInverseChain_option0": 41, "openInverseChain_option1": 42, "inverseAndProgram": 43, "INVERSE": 44, "inverseChain": 45, "inverseChain_option0": 46, "OPEN_ENDBLOCK": 47, "OPEN": 48, "mustache_repetition0": 49, "mustache_option0": 50, "OPEN_UNESCAPED": 51, "mustache_repetition1": 52, "mustache_option1": 53, "CLOSE_UNESCAPED": 54, "OPEN_PARTIAL": 55, "partialName": 56, "partial_repetition0": 57, "partial_option0": 58, "openPartialBlock": 59, "OPEN_PARTIAL_BLOCK": 60, "openPartialBlock_repetition0": 61, "openPartialBlock_option0": 62, "param": 63, "sexpr": 64, "OPEN_SEXPR": 65, "sexpr_repetition0": 66, "sexpr_option0": 67, "CLOSE_SEXPR": 68, "hash": 69, "hash_repetition_plus0": 70, "hashSegment": 71, "ID": 72, "EQUALS": 73, "blockParams": 74, "OPEN_BLOCK_PARAMS": 75, "blockParams_repetition_plus0": 76, "CLOSE_BLOCK_PARAMS": 77, "path": 78, "dataName": 79, "STRING": 80, "NUMBER": 81, "BOOLEAN": 82, "UNDEFINED": 83, "NULL": 84, "DATA": 85, "pathSegments": 86, "SEP": 87, "$accept": 0, "$end": 1 },
 	        terminals_: { 2: "error", 5: "EOF", 14: "COMMENT", 15: "CONTENT", 18: "END_RAW_BLOCK", 19: "OPEN_RAW_BLOCK", 23: "CLOSE_RAW_BLOCK", 29: "OPEN_BLOCK", 33: "CLOSE", 34: "OPEN_INVERSE", 39: "OPEN_INVERSE_CHAIN", 44: "INVERSE", 47: "OPEN_ENDBLOCK", 48: "OPEN", 51: "OPEN_UNESCAPED", 54: "CLOSE_UNESCAPED", 55: "OPEN_PARTIAL", 60: "OPEN_PARTIAL_BLOCK", 65: "OPEN_SEXPR", 68: "CLOSE_SEXPR", 72: "ID", 73: "EQUALS", 75: "OPEN_BLOCK_PARAMS", 77: "CLOSE_BLOCK_PARAMS", 80: "STRING", 81: "NUMBER", 82: "BOOLEAN", 83: "UNDEFINED", 84: "NULL", 85: "DATA", 87: "SEP" },
-	        productions_: [0, [3, 2], [4, 1], [7, 1], [7, 1], [7, 1], [7, 1], [7, 1], [7, 1], [7, 1], [13, 1], [10, 3], [16, 5], [9, 4], [9, 4], [24, 6], [27, 6], [38, 6], [43, 2], [45, 3], [45, 1], [26, 3], [8, 5], [8, 5], [11, 5], [12, 3], [59, 5], [63, 1], [63, 1], [64, 5], [69, 1], [71, 3], [74, 3], [20, 1], [20, 1], [20, 1], [20, 1], [20, 1], [20, 1], [20, 1], [56, 1], [56, 1], [79, 2], [78, 1], [86, 3], [86, 1], [6, 0], [6, 2], [17, 1], [17, 2], [21, 0], [21, 2], [22, 0], [22, 1], [25, 0], [25, 1], [28, 0], [28, 1], [30, 0], [30, 2], [31, 0], [31, 1], [32, 0], [32, 1], [35, 0], [35, 2], [36, 0], [36, 1], [37, 0], [37, 1], [40, 0], [40, 2], [41, 0], [41, 1], [42, 0], [42, 1], [46, 0], [46, 1], [49, 0], [49, 2], [50, 0], [50, 1], [52, 0], [52, 2], [53, 0], [53, 1], [57, 0], [57, 2], [58, 0], [58, 1], [61, 0], [61, 2], [62, 0], [62, 1], [66, 0], [66, 2], [67, 0], [67, 1], [70, 1], [70, 2], [76, 1], [76, 2]],
-	        performAction: function anonymous(yytext, yyleng, yylineno, yy, yystate, $$, _$
-	        /**/) {
+	        productions_: [0, [3, 2], [4, 1], [7, 1], [7, 1], [7, 1], [7, 1], [7, 1], [7, 1], [7, 1], [13, 1], [10, 3], [16, 5], [9, 4], [9, 4], [24, 6], [27, 6], [38, 6], [43, 2], [45, 3], [45, 1], [26, 3], [8, 5], [8, 5], [11, 5], [12, 3], [59, 5], [63, 1], [63, 1], [64, 5], [69, 1], [71, 3], [74, 3], [20, 1], [20, 1], [20, 1], [20, 1], [20, 1], [20, 1], [20, 1], [56, 1], [56, 1], [79, 2], [78, 1], [86, 3], [86, 1], [6, 0], [6, 2], [17, 0], [17, 2], [21, 0], [21, 2], [22, 0], [22, 1], [25, 0], [25, 1], [28, 0], [28, 1], [30, 0], [30, 2], [31, 0], [31, 1], [32, 0], [32, 1], [35, 0], [35, 2], [36, 0], [36, 1], [37, 0], [37, 1], [40, 0], [40, 2], [41, 0], [41, 1], [42, 0], [42, 1], [46, 0], [46, 1], [49, 0], [49, 2], [50, 0], [50, 1], [52, 0], [52, 2], [53, 0], [53, 1], [57, 0], [57, 2], [58, 0], [58, 1], [61, 0], [61, 2], [62, 0], [62, 1], [66, 0], [66, 2], [67, 0], [67, 1], [70, 1], [70, 2], [76, 1], [76, 2]],
+	        performAction: function anonymous(yytext, yyleng, yylineno, yy, yystate, $$, _$) {
 
 	            var $0 = $$.length - 1;
 	            switch (yystate) {
@@ -3900,7 +4033,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	                    $$[$0 - 1].push($$[$0]);
 	                    break;
 	                case 48:
-	                    this.$ = [$$[$0]];
+	                    this.$ = [];
 	                    break;
 	                case 49:
 	                    $$[$0 - 1].push($$[$0]);
@@ -3973,8 +4106,8 @@ return /******/ (function(modules) { // webpackBootstrap
 	                    break;
 	            }
 	        },
-	        table: [{ 3: 1, 4: 2, 5: [2, 46], 6: 3, 14: [2, 46], 15: [2, 46], 19: [2, 46], 29: [2, 46], 34: [2, 46], 48: [2, 46], 51: [2, 46], 55: [2, 46], 60: [2, 46] }, { 1: [3] }, { 5: [1, 4] }, { 5: [2, 2], 7: 5, 8: 6, 9: 7, 10: 8, 11: 9, 12: 10, 13: 11, 14: [1, 12], 15: [1, 20], 16: 17, 19: [1, 23], 24: 15, 27: 16, 29: [1, 21], 34: [1, 22], 39: [2, 2], 44: [2, 2], 47: [2, 2], 48: [1, 13], 51: [1, 14], 55: [1, 18], 59: 19, 60: [1, 24] }, { 1: [2, 1] }, { 5: [2, 47], 14: [2, 47], 15: [2, 47], 19: [2, 47], 29: [2, 47], 34: [2, 47], 39: [2, 47], 44: [2, 47], 47: [2, 47], 48: [2, 47], 51: [2, 47], 55: [2, 47], 60: [2, 47] }, { 5: [2, 3], 14: [2, 3], 15: [2, 3], 19: [2, 3], 29: [2, 3], 34: [2, 3], 39: [2, 3], 44: [2, 3], 47: [2, 3], 48: [2, 3], 51: [2, 3], 55: [2, 3], 60: [2, 3] }, { 5: [2, 4], 14: [2, 4], 15: [2, 4], 19: [2, 4], 29: [2, 4], 34: [2, 4], 39: [2, 4], 44: [2, 4], 47: [2, 4], 48: [2, 4], 51: [2, 4], 55: [2, 4], 60: [2, 4] }, { 5: [2, 5], 14: [2, 5], 15: [2, 5], 19: [2, 5], 29: [2, 5], 34: [2, 5], 39: [2, 5], 44: [2, 5], 47: [2, 5], 48: [2, 5], 51: [2, 5], 55: [2, 5], 60: [2, 5] }, { 5: [2, 6], 14: [2, 6], 15: [2, 6], 19: [2, 6], 29: [2, 6], 34: [2, 6], 39: [2, 6], 44: [2, 6], 47: [2, 6], 48: [2, 6], 51: [2, 6], 55: [2, 6], 60: [2, 6] }, { 5: [2, 7], 14: [2, 7], 15: [2, 7], 19: [2, 7], 29: [2, 7], 34: [2, 7], 39: [2, 7], 44: [2, 7], 47: [2, 7], 48: [2, 7], 51: [2, 7], 55: [2, 7], 60: [2, 7] }, { 5: [2, 8], 14: [2, 8], 15: [2, 8], 19: [2, 8], 29: [2, 8], 34: [2, 8], 39: [2, 8], 44: [2, 8], 47: [2, 8], 48: [2, 8], 51: [2, 8], 55: [2, 8], 60: [2, 8] }, { 5: [2, 9], 14: [2, 9], 15: [2, 9], 19: [2, 9], 29: [2, 9], 34: [2, 9], 39: [2, 9], 44: [2, 9], 47: [2, 9], 48: [2, 9], 51: [2, 9], 55: [2, 9], 60: [2, 9] }, { 20: 25, 72: [1, 35], 78: 26, 79: 27, 80: [1, 28], 81: [1, 29], 82: [1, 30], 83: [1, 31], 84: [1, 32], 85: [1, 34], 86: 33 }, { 20: 36, 72: [1, 35], 78: 26, 79: 27, 80: [1, 28], 81: [1, 29], 82: [1, 30], 83: [1, 31], 84: [1, 32], 85: [1, 34], 86: 33 }, { 4: 37, 6: 3, 14: [2, 46], 15: [2, 46], 19: [2, 46], 29: [2, 46], 34: [2, 46], 39: [2, 46], 44: [2, 46], 47: [2, 46], 48: [2, 46], 51: [2, 46], 55: [2, 46], 60: [2, 46] }, { 4: 38, 6: 3, 14: [2, 46], 15: [2, 46], 19: [2, 46], 29: [2, 46], 34: [2, 46], 44: [2, 46], 47: [2, 46], 48: [2, 46], 51: [2, 46], 55: [2, 46], 60: [2, 46] }, { 13: 40, 15: [1, 20], 17: 39 }, { 20: 42, 56: 41, 64: 43, 65: [1, 44], 72: [1, 35], 78: 26, 79: 27, 80: [1, 28], 81: [1, 29], 82: [1, 30], 83: [1, 31], 84: [1, 32], 85: [1, 34], 86: 33 }, { 4: 45, 6: 3, 14: [2, 46], 15: [2, 46], 19: [2, 46], 29: [2, 46], 34: [2, 46], 47: [2, 46], 48: [2, 46], 51: [2, 46], 55: [2, 46], 60: [2, 46] }, { 5: [2, 10], 14: [2, 10], 15: [2, 10], 18: [2, 10], 19: [2, 10], 29: [2, 10], 34: [2, 10], 39: [2, 10], 44: [2, 10], 47: [2, 10], 48: [2, 10], 51: [2, 10], 55: [2, 10], 60: [2, 10] }, { 20: 46, 72: [1, 35], 78: 26, 79: 27, 80: [1, 28], 81: [1, 29], 82: [1, 30], 83: [1, 31], 84: [1, 32], 85: [1, 34], 86: 33 }, { 20: 47, 72: [1, 35], 78: 26, 79: 27, 80: [1, 28], 81: [1, 29], 82: [1, 30], 83: [1, 31], 84: [1, 32], 85: [1, 34], 86: 33 }, { 20: 48, 72: [1, 35], 78: 26, 79: 27, 80: [1, 28], 81: [1, 29], 82: [1, 30], 83: [1, 31], 84: [1, 32], 85: [1, 34], 86: 33 }, { 20: 42, 56: 49, 64: 43, 65: [1, 44], 72: [1, 35], 78: 26, 79: 27, 80: [1, 28], 81: [1, 29], 82: [1, 30], 83: [1, 31], 84: [1, 32], 85: [1, 34], 86: 33 }, { 33: [2, 78], 49: 50, 65: [2, 78], 72: [2, 78], 80: [2, 78], 81: [2, 78], 82: [2, 78], 83: [2, 78], 84: [2, 78], 85: [2, 78] }, { 23: [2, 33], 33: [2, 33], 54: [2, 33], 65: [2, 33], 68: [2, 33], 72: [2, 33], 75: [2, 33], 80: [2, 33], 81: [2, 33], 82: [2, 33], 83: [2, 33], 84: [2, 33], 85: [2, 33] }, { 23: [2, 34], 33: [2, 34], 54: [2, 34], 65: [2, 34], 68: [2, 34], 72: [2, 34], 75: [2, 34], 80: [2, 34], 81: [2, 34], 82: [2, 34], 83: [2, 34], 84: [2, 34], 85: [2, 34] }, { 23: [2, 35], 33: [2, 35], 54: [2, 35], 65: [2, 35], 68: [2, 35], 72: [2, 35], 75: [2, 35], 80: [2, 35], 81: [2, 35], 82: [2, 35], 83: [2, 35], 84: [2, 35], 85: [2, 35] }, { 23: [2, 36], 33: [2, 36], 54: [2, 36], 65: [2, 36], 68: [2, 36], 72: [2, 36], 75: [2, 36], 80: [2, 36], 81: [2, 36], 82: [2, 36], 83: [2, 36], 84: [2, 36], 85: [2, 36] }, { 23: [2, 37], 33: [2, 37], 54: [2, 37], 65: [2, 37], 68: [2, 37], 72: [2, 37], 75: [2, 37], 80: [2, 37], 81: [2, 37], 82: [2, 37], 83: [2, 37], 84: [2, 37], 85: [2, 37] }, { 23: [2, 38], 33: [2, 38], 54: [2, 38], 65: [2, 38], 68: [2, 38], 72: [2, 38], 75: [2, 38], 80: [2, 38], 81: [2, 38], 82: [2, 38], 83: [2, 38], 84: [2, 38], 85: [2, 38] }, { 23: [2, 39], 33: [2, 39], 54: [2, 39], 65: [2, 39], 68: [2, 39], 72: [2, 39], 75: [2, 39], 80: [2, 39], 81: [2, 39], 82: [2, 39], 83: [2, 39], 84: [2, 39], 85: [2, 39] }, { 23: [2, 43], 33: [2, 43], 54: [2, 43], 65: [2, 43], 68: [2, 43], 72: [2, 43], 75: [2, 43], 80: [2, 43], 81: [2, 43], 82: [2, 43], 83: [2, 43], 84: [2, 43], 85: [2, 43], 87: [1, 51] }, { 72: [1, 35], 86: 52 }, { 23: [2, 45], 33: [2, 45], 54: [2, 45], 65: [2, 45], 68: [2, 45], 72: [2, 45], 75: [2, 45], 80: [2, 45], 81: [2, 45], 82: [2, 45], 83: [2, 45], 84: [2, 45], 85: [2, 45], 87: [2, 45] }, { 52: 53, 54: [2, 82], 65: [2, 82], 72: [2, 82], 80: [2, 82], 81: [2, 82], 82: [2, 82], 83: [2, 82], 84: [2, 82], 85: [2, 82] }, { 25: 54, 38: 56, 39: [1, 58], 43: 57, 44: [1, 59], 45: 55, 47: [2, 54] }, { 28: 60, 43: 61, 44: [1, 59], 47: [2, 56] }, { 13: 63, 15: [1, 20], 18: [1, 62] }, { 15: [2, 48], 18: [2, 48] }, { 33: [2, 86], 57: 64, 65: [2, 86], 72: [2, 86], 80: [2, 86], 81: [2, 86], 82: [2, 86], 83: [2, 86], 84: [2, 86], 85: [2, 86] }, { 33: [2, 40], 65: [2, 40], 72: [2, 40], 80: [2, 40], 81: [2, 40], 82: [2, 40], 83: [2, 40], 84: [2, 40], 85: [2, 40] }, { 33: [2, 41], 65: [2, 41], 72: [2, 41], 80: [2, 41], 81: [2, 41], 82: [2, 41], 83: [2, 41], 84: [2, 41], 85: [2, 41] }, { 20: 65, 72: [1, 35], 78: 26, 79: 27, 80: [1, 28], 81: [1, 29], 82: [1, 30], 83: [1, 31], 84: [1, 32], 85: [1, 34], 86: 33 }, { 26: 66, 47: [1, 67] }, { 30: 68, 33: [2, 58], 65: [2, 58], 72: [2, 58], 75: [2, 58], 80: [2, 58], 81: [2, 58], 82: [2, 58], 83: [2, 58], 84: [2, 58], 85: [2, 58] }, { 33: [2, 64], 35: 69, 65: [2, 64], 72: [2, 64], 75: [2, 64], 80: [2, 64], 81: [2, 64], 82: [2, 64], 83: [2, 64], 84: [2, 64], 85: [2, 64] }, { 21: 70, 23: [2, 50], 65: [2, 50], 72: [2, 50], 80: [2, 50], 81: [2, 50], 82: [2, 50], 83: [2, 50], 84: [2, 50], 85: [2, 50] }, { 33: [2, 90], 61: 71, 65: [2, 90], 72: [2, 90], 80: [2, 90], 81: [2, 90], 82: [2, 90], 83: [2, 90], 84: [2, 90], 85: [2, 90] }, { 20: 75, 33: [2, 80], 50: 72, 63: 73, 64: 76, 65: [1, 44], 69: 74, 70: 77, 71: 78, 72: [1, 79], 78: 26, 79: 27, 80: [1, 28], 81: [1, 29], 82: [1, 30], 83: [1, 31], 84: [1, 32], 85: [1, 34], 86: 33 }, { 72: [1, 80] }, { 23: [2, 42], 33: [2, 42], 54: [2, 42], 65: [2, 42], 68: [2, 42], 72: [2, 42], 75: [2, 42], 80: [2, 42], 81: [2, 42], 82: [2, 42], 83: [2, 42], 84: [2, 42], 85: [2, 42], 87: [1, 51] }, { 20: 75, 53: 81, 54: [2, 84], 63: 82, 64: 76, 65: [1, 44], 69: 83, 70: 77, 71: 78, 72: [1, 79], 78: 26, 79: 27, 80: [1, 28], 81: [1, 29], 82: [1, 30], 83: [1, 31], 84: [1, 32], 85: [1, 34], 86: 33 }, { 26: 84, 47: [1, 67] }, { 47: [2, 55] }, { 4: 85, 6: 3, 14: [2, 46], 15: [2, 46], 19: [2, 46], 29: [2, 46], 34: [2, 46], 39: [2, 46], 44: [2, 46], 47: [2, 46], 48: [2, 46], 51: [2, 46], 55: [2, 46], 60: [2, 46] }, { 47: [2, 20] }, { 20: 86, 72: [1, 35], 78: 26, 79: 27, 80: [1, 28], 81: [1, 29], 82: [1, 30], 83: [1, 31], 84: [1, 32], 85: [1, 34], 86: 33 }, { 4: 87, 6: 3, 14: [2, 46], 15: [2, 46], 19: [2, 46], 29: [2, 46], 34: [2, 46], 47: [2, 46], 48: [2, 46], 51: [2, 46], 55: [2, 46], 60: [2, 46] }, { 26: 88, 47: [1, 67] }, { 47: [2, 57] }, { 5: [2, 11], 14: [2, 11], 15: [2, 11], 19: [2, 11], 29: [2, 11], 34: [2, 11], 39: [2, 11], 44: [2, 11], 47: [2, 11], 48: [2, 11], 51: [2, 11], 55: [2, 11], 60: [2, 11] }, { 15: [2, 49], 18: [2, 49] }, { 20: 75, 33: [2, 88], 58: 89, 63: 90, 64: 76, 65: [1, 44], 69: 91, 70: 77, 71: 78, 72: [1, 79], 78: 26, 79: 27, 80: [1, 28], 81: [1, 29], 82: [1, 30], 83: [1, 31], 84: [1, 32], 85: [1, 34], 86: 33 }, { 65: [2, 94], 66: 92, 68: [2, 94], 72: [2, 94], 80: [2, 94], 81: [2, 94], 82: [2, 94], 83: [2, 94], 84: [2, 94], 85: [2, 94] }, { 5: [2, 25], 14: [2, 25], 15: [2, 25], 19: [2, 25], 29: [2, 25], 34: [2, 25], 39: [2, 25], 44: [2, 25], 47: [2, 25], 48: [2, 25], 51: [2, 25], 55: [2, 25], 60: [2, 25] }, { 20: 93, 72: [1, 35], 78: 26, 79: 27, 80: [1, 28], 81: [1, 29], 82: [1, 30], 83: [1, 31], 84: [1, 32], 85: [1, 34], 86: 33 }, { 20: 75, 31: 94, 33: [2, 60], 63: 95, 64: 76, 65: [1, 44], 69: 96, 70: 77, 71: 78, 72: [1, 79], 75: [2, 60], 78: 26, 79: 27, 80: [1, 28], 81: [1, 29], 82: [1, 30], 83: [1, 31], 84: [1, 32], 85: [1, 34], 86: 33 }, { 20: 75, 33: [2, 66], 36: 97, 63: 98, 64: 76, 65: [1, 44], 69: 99, 70: 77, 71: 78, 72: [1, 79], 75: [2, 66], 78: 26, 79: 27, 80: [1, 28], 81: [1, 29], 82: [1, 30], 83: [1, 31], 84: [1, 32], 85: [1, 34], 86: 33 }, { 20: 75, 22: 100, 23: [2, 52], 63: 101, 64: 76, 65: [1, 44], 69: 102, 70: 77, 71: 78, 72: [1, 79], 78: 26, 79: 27, 80: [1, 28], 81: [1, 29], 82: [1, 30], 83: [1, 31], 84: [1, 32], 85: [1, 34], 86: 33 }, { 20: 75, 33: [2, 92], 62: 103, 63: 104, 64: 76, 65: [1, 44], 69: 105, 70: 77, 71: 78, 72: [1, 79], 78: 26, 79: 27, 80: [1, 28], 81: [1, 29], 82: [1, 30], 83: [1, 31], 84: [1, 32], 85: [1, 34], 86: 33 }, { 33: [1, 106] }, { 33: [2, 79], 65: [2, 79], 72: [2, 79], 80: [2, 79], 81: [2, 79], 82: [2, 79], 83: [2, 79], 84: [2, 79], 85: [2, 79] }, { 33: [2, 81] }, { 23: [2, 27], 33: [2, 27], 54: [2, 27], 65: [2, 27], 68: [2, 27], 72: [2, 27], 75: [2, 27], 80: [2, 27], 81: [2, 27], 82: [2, 27], 83: [2, 27], 84: [2, 27], 85: [2, 27] }, { 23: [2, 28], 33: [2, 28], 54: [2, 28], 65: [2, 28], 68: [2, 28], 72: [2, 28], 75: [2, 28], 80: [2, 28], 81: [2, 28], 82: [2, 28], 83: [2, 28], 84: [2, 28], 85: [2, 28] }, { 23: [2, 30], 33: [2, 30], 54: [2, 30], 68: [2, 30], 71: 107, 72: [1, 108], 75: [2, 30] }, { 23: [2, 98], 33: [2, 98], 54: [2, 98], 68: [2, 98], 72: [2, 98], 75: [2, 98] }, { 23: [2, 45], 33: [2, 45], 54: [2, 45], 65: [2, 45], 68: [2, 45], 72: [2, 45], 73: [1, 109], 75: [2, 45], 80: [2, 45], 81: [2, 45], 82: [2, 45], 83: [2, 45], 84: [2, 45], 85: [2, 45], 87: [2, 45] }, { 23: [2, 44], 33: [2, 44], 54: [2, 44], 65: [2, 44], 68: [2, 44], 72: [2, 44], 75: [2, 44], 80: [2, 44], 81: [2, 44], 82: [2, 44], 83: [2, 44], 84: [2, 44], 85: [2, 44], 87: [2, 44] }, { 54: [1, 110] }, { 54: [2, 83], 65: [2, 83], 72: [2, 83], 80: [2, 83], 81: [2, 83], 82: [2, 83], 83: [2, 83], 84: [2, 83], 85: [2, 83] }, { 54: [2, 85] }, { 5: [2, 13], 14: [2, 13], 15: [2, 13], 19: [2, 13], 29: [2, 13], 34: [2, 13], 39: [2, 13], 44: [2, 13], 47: [2, 13], 48: [2, 13], 51: [2, 13], 55: [2, 13], 60: [2, 13] }, { 38: 56, 39: [1, 58], 43: 57, 44: [1, 59], 45: 112, 46: 111, 47: [2, 76] }, { 33: [2, 70], 40: 113, 65: [2, 70], 72: [2, 70], 75: [2, 70], 80: [2, 70], 81: [2, 70], 82: [2, 70], 83: [2, 70], 84: [2, 70], 85: [2, 70] }, { 47: [2, 18] }, { 5: [2, 14], 14: [2, 14], 15: [2, 14], 19: [2, 14], 29: [2, 14], 34: [2, 14], 39: [2, 14], 44: [2, 14], 47: [2, 14], 48: [2, 14], 51: [2, 14], 55: [2, 14], 60: [2, 14] }, { 33: [1, 114] }, { 33: [2, 87], 65: [2, 87], 72: [2, 87], 80: [2, 87], 81: [2, 87], 82: [2, 87], 83: [2, 87], 84: [2, 87], 85: [2, 87] }, { 33: [2, 89] }, { 20: 75, 63: 116, 64: 76, 65: [1, 44], 67: 115, 68: [2, 96], 69: 117, 70: 77, 71: 78, 72: [1, 79], 78: 26, 79: 27, 80: [1, 28], 81: [1, 29], 82: [1, 30], 83: [1, 31], 84: [1, 32], 85: [1, 34], 86: 33 }, { 33: [1, 118] }, { 32: 119, 33: [2, 62], 74: 120, 75: [1, 121] }, { 33: [2, 59], 65: [2, 59], 72: [2, 59], 75: [2, 59], 80: [2, 59], 81: [2, 59], 82: [2, 59], 83: [2, 59], 84: [2, 59], 85: [2, 59] }, { 33: [2, 61], 75: [2, 61] }, { 33: [2, 68], 37: 122, 74: 123, 75: [1, 121] }, { 33: [2, 65], 65: [2, 65], 72: [2, 65], 75: [2, 65], 80: [2, 65], 81: [2, 65], 82: [2, 65], 83: [2, 65], 84: [2, 65], 85: [2, 65] }, { 33: [2, 67], 75: [2, 67] }, { 23: [1, 124] }, { 23: [2, 51], 65: [2, 51], 72: [2, 51], 80: [2, 51], 81: [2, 51], 82: [2, 51], 83: [2, 51], 84: [2, 51], 85: [2, 51] }, { 23: [2, 53] }, { 33: [1, 125] }, { 33: [2, 91], 65: [2, 91], 72: [2, 91], 80: [2, 91], 81: [2, 91], 82: [2, 91], 83: [2, 91], 84: [2, 91], 85: [2, 91] }, { 33: [2, 93] }, { 5: [2, 22], 14: [2, 22], 15: [2, 22], 19: [2, 22], 29: [2, 22], 34: [2, 22], 39: [2, 22], 44: [2, 22], 47: [2, 22], 48: [2, 22], 51: [2, 22], 55: [2, 22], 60: [2, 22] }, { 23: [2, 99], 33: [2, 99], 54: [2, 99], 68: [2, 99], 72: [2, 99], 75: [2, 99] }, { 73: [1, 109] }, { 20: 75, 63: 126, 64: 76, 65: [1, 44], 72: [1, 35], 78: 26, 79: 27, 80: [1, 28], 81: [1, 29], 82: [1, 30], 83: [1, 31], 84: [1, 32], 85: [1, 34], 86: 33 }, { 5: [2, 23], 14: [2, 23], 15: [2, 23], 19: [2, 23], 29: [2, 23], 34: [2, 23], 39: [2, 23], 44: [2, 23], 47: [2, 23], 48: [2, 23], 51: [2, 23], 55: [2, 23], 60: [2, 23] }, { 47: [2, 19] }, { 47: [2, 77] }, { 20: 75, 33: [2, 72], 41: 127, 63: 128, 64: 76, 65: [1, 44], 69: 129, 70: 77, 71: 78, 72: [1, 79], 75: [2, 72], 78: 26, 79: 27, 80: [1, 28], 81: [1, 29], 82: [1, 30], 83: [1, 31], 84: [1, 32], 85: [1, 34], 86: 33 }, { 5: [2, 24], 14: [2, 24], 15: [2, 24], 19: [2, 24], 29: [2, 24], 34: [2, 24], 39: [2, 24], 44: [2, 24], 47: [2, 24], 48: [2, 24], 51: [2, 24], 55: [2, 24], 60: [2, 24] }, { 68: [1, 130] }, { 65: [2, 95], 68: [2, 95], 72: [2, 95], 80: [2, 95], 81: [2, 95], 82: [2, 95], 83: [2, 95], 84: [2, 95], 85: [2, 95] }, { 68: [2, 97] }, { 5: [2, 21], 14: [2, 21], 15: [2, 21], 19: [2, 21], 29: [2, 21], 34: [2, 21], 39: [2, 21], 44: [2, 21], 47: [2, 21], 48: [2, 21], 51: [2, 21], 55: [2, 21], 60: [2, 21] }, { 33: [1, 131] }, { 33: [2, 63] }, { 72: [1, 133], 76: 132 }, { 33: [1, 134] }, { 33: [2, 69] }, { 15: [2, 12] }, { 14: [2, 26], 15: [2, 26], 19: [2, 26], 29: [2, 26], 34: [2, 26], 47: [2, 26], 48: [2, 26], 51: [2, 26], 55: [2, 26], 60: [2, 26] }, { 23: [2, 31], 33: [2, 31], 54: [2, 31], 68: [2, 31], 72: [2, 31], 75: [2, 31] }, { 33: [2, 74], 42: 135, 74: 136, 75: [1, 121] }, { 33: [2, 71], 65: [2, 71], 72: [2, 71], 75: [2, 71], 80: [2, 71], 81: [2, 71], 82: [2, 71], 83: [2, 71], 84: [2, 71], 85: [2, 71] }, { 33: [2, 73], 75: [2, 73] }, { 23: [2, 29], 33: [2, 29], 54: [2, 29], 65: [2, 29], 68: [2, 29], 72: [2, 29], 75: [2, 29], 80: [2, 29], 81: [2, 29], 82: [2, 29], 83: [2, 29], 84: [2, 29], 85: [2, 29] }, { 14: [2, 15], 15: [2, 15], 19: [2, 15], 29: [2, 15], 34: [2, 15], 39: [2, 15], 44: [2, 15], 47: [2, 15], 48: [2, 15], 51: [2, 15], 55: [2, 15], 60: [2, 15] }, { 72: [1, 138], 77: [1, 137] }, { 72: [2, 100], 77: [2, 100] }, { 14: [2, 16], 15: [2, 16], 19: [2, 16], 29: [2, 16], 34: [2, 16], 44: [2, 16], 47: [2, 16], 48: [2, 16], 51: [2, 16], 55: [2, 16], 60: [2, 16] }, { 33: [1, 139] }, { 33: [2, 75] }, { 33: [2, 32] }, { 72: [2, 101], 77: [2, 101] }, { 14: [2, 17], 15: [2, 17], 19: [2, 17], 29: [2, 17], 34: [2, 17], 39: [2, 17], 44: [2, 17], 47: [2, 17], 48: [2, 17], 51: [2, 17], 55: [2, 17], 60: [2, 17] }],
-	        defaultActions: { 4: [2, 1], 55: [2, 55], 57: [2, 20], 61: [2, 57], 74: [2, 81], 83: [2, 85], 87: [2, 18], 91: [2, 89], 102: [2, 53], 105: [2, 93], 111: [2, 19], 112: [2, 77], 117: [2, 97], 120: [2, 63], 123: [2, 69], 124: [2, 12], 136: [2, 75], 137: [2, 32] },
+	        table: [{ 3: 1, 4: 2, 5: [2, 46], 6: 3, 14: [2, 46], 15: [2, 46], 19: [2, 46], 29: [2, 46], 34: [2, 46], 48: [2, 46], 51: [2, 46], 55: [2, 46], 60: [2, 46] }, { 1: [3] }, { 5: [1, 4] }, { 5: [2, 2], 7: 5, 8: 6, 9: 7, 10: 8, 11: 9, 12: 10, 13: 11, 14: [1, 12], 15: [1, 20], 16: 17, 19: [1, 23], 24: 15, 27: 16, 29: [1, 21], 34: [1, 22], 39: [2, 2], 44: [2, 2], 47: [2, 2], 48: [1, 13], 51: [1, 14], 55: [1, 18], 59: 19, 60: [1, 24] }, { 1: [2, 1] }, { 5: [2, 47], 14: [2, 47], 15: [2, 47], 19: [2, 47], 29: [2, 47], 34: [2, 47], 39: [2, 47], 44: [2, 47], 47: [2, 47], 48: [2, 47], 51: [2, 47], 55: [2, 47], 60: [2, 47] }, { 5: [2, 3], 14: [2, 3], 15: [2, 3], 19: [2, 3], 29: [2, 3], 34: [2, 3], 39: [2, 3], 44: [2, 3], 47: [2, 3], 48: [2, 3], 51: [2, 3], 55: [2, 3], 60: [2, 3] }, { 5: [2, 4], 14: [2, 4], 15: [2, 4], 19: [2, 4], 29: [2, 4], 34: [2, 4], 39: [2, 4], 44: [2, 4], 47: [2, 4], 48: [2, 4], 51: [2, 4], 55: [2, 4], 60: [2, 4] }, { 5: [2, 5], 14: [2, 5], 15: [2, 5], 19: [2, 5], 29: [2, 5], 34: [2, 5], 39: [2, 5], 44: [2, 5], 47: [2, 5], 48: [2, 5], 51: [2, 5], 55: [2, 5], 60: [2, 5] }, { 5: [2, 6], 14: [2, 6], 15: [2, 6], 19: [2, 6], 29: [2, 6], 34: [2, 6], 39: [2, 6], 44: [2, 6], 47: [2, 6], 48: [2, 6], 51: [2, 6], 55: [2, 6], 60: [2, 6] }, { 5: [2, 7], 14: [2, 7], 15: [2, 7], 19: [2, 7], 29: [2, 7], 34: [2, 7], 39: [2, 7], 44: [2, 7], 47: [2, 7], 48: [2, 7], 51: [2, 7], 55: [2, 7], 60: [2, 7] }, { 5: [2, 8], 14: [2, 8], 15: [2, 8], 19: [2, 8], 29: [2, 8], 34: [2, 8], 39: [2, 8], 44: [2, 8], 47: [2, 8], 48: [2, 8], 51: [2, 8], 55: [2, 8], 60: [2, 8] }, { 5: [2, 9], 14: [2, 9], 15: [2, 9], 19: [2, 9], 29: [2, 9], 34: [2, 9], 39: [2, 9], 44: [2, 9], 47: [2, 9], 48: [2, 9], 51: [2, 9], 55: [2, 9], 60: [2, 9] }, { 20: 25, 72: [1, 35], 78: 26, 79: 27, 80: [1, 28], 81: [1, 29], 82: [1, 30], 83: [1, 31], 84: [1, 32], 85: [1, 34], 86: 33 }, { 20: 36, 72: [1, 35], 78: 26, 79: 27, 80: [1, 28], 81: [1, 29], 82: [1, 30], 83: [1, 31], 84: [1, 32], 85: [1, 34], 86: 33 }, { 4: 37, 6: 3, 14: [2, 46], 15: [2, 46], 19: [2, 46], 29: [2, 46], 34: [2, 46], 39: [2, 46], 44: [2, 46], 47: [2, 46], 48: [2, 46], 51: [2, 46], 55: [2, 46], 60: [2, 46] }, { 4: 38, 6: 3, 14: [2, 46], 15: [2, 46], 19: [2, 46], 29: [2, 46], 34: [2, 46], 44: [2, 46], 47: [2, 46], 48: [2, 46], 51: [2, 46], 55: [2, 46], 60: [2, 46] }, { 15: [2, 48], 17: 39, 18: [2, 48] }, { 20: 41, 56: 40, 64: 42, 65: [1, 43], 72: [1, 35], 78: 26, 79: 27, 80: [1, 28], 81: [1, 29], 82: [1, 30], 83: [1, 31], 84: [1, 32], 85: [1, 34], 86: 33 }, { 4: 44, 6: 3, 14: [2, 46], 15: [2, 46], 19: [2, 46], 29: [2, 46], 34: [2, 46], 47: [2, 46], 48: [2, 46], 51: [2, 46], 55: [2, 46], 60: [2, 46] }, { 5: [2, 10], 14: [2, 10], 15: [2, 10], 18: [2, 10], 19: [2, 10], 29: [2, 10], 34: [2, 10], 39: [2, 10], 44: [2, 10], 47: [2, 10], 48: [2, 10], 51: [2, 10], 55: [2, 10], 60: [2, 10] }, { 20: 45, 72: [1, 35], 78: 26, 79: 27, 80: [1, 28], 81: [1, 29], 82: [1, 30], 83: [1, 31], 84: [1, 32], 85: [1, 34], 86: 33 }, { 20: 46, 72: [1, 35], 78: 26, 79: 27, 80: [1, 28], 81: [1, 29], 82: [1, 30], 83: [1, 31], 84: [1, 32], 85: [1, 34], 86: 33 }, { 20: 47, 72: [1, 35], 78: 26, 79: 27, 80: [1, 28], 81: [1, 29], 82: [1, 30], 83: [1, 31], 84: [1, 32], 85: [1, 34], 86: 33 }, { 20: 41, 56: 48, 64: 42, 65: [1, 43], 72: [1, 35], 78: 26, 79: 27, 80: [1, 28], 81: [1, 29], 82: [1, 30], 83: [1, 31], 84: [1, 32], 85: [1, 34], 86: 33 }, { 33: [2, 78], 49: 49, 65: [2, 78], 72: [2, 78], 80: [2, 78], 81: [2, 78], 82: [2, 78], 83: [2, 78], 84: [2, 78], 85: [2, 78] }, { 23: [2, 33], 33: [2, 33], 54: [2, 33], 65: [2, 33], 68: [2, 33], 72: [2, 33], 75: [2, 33], 80: [2, 33], 81: [2, 33], 82: [2, 33], 83: [2, 33], 84: [2, 33], 85: [2, 33] }, { 23: [2, 34], 33: [2, 34], 54: [2, 34], 65: [2, 34], 68: [2, 34], 72: [2, 34], 75: [2, 34], 80: [2, 34], 81: [2, 34], 82: [2, 34], 83: [2, 34], 84: [2, 34], 85: [2, 34] }, { 23: [2, 35], 33: [2, 35], 54: [2, 35], 65: [2, 35], 68: [2, 35], 72: [2, 35], 75: [2, 35], 80: [2, 35], 81: [2, 35], 82: [2, 35], 83: [2, 35], 84: [2, 35], 85: [2, 35] }, { 23: [2, 36], 33: [2, 36], 54: [2, 36], 65: [2, 36], 68: [2, 36], 72: [2, 36], 75: [2, 36], 80: [2, 36], 81: [2, 36], 82: [2, 36], 83: [2, 36], 84: [2, 36], 85: [2, 36] }, { 23: [2, 37], 33: [2, 37], 54: [2, 37], 65: [2, 37], 68: [2, 37], 72: [2, 37], 75: [2, 37], 80: [2, 37], 81: [2, 37], 82: [2, 37], 83: [2, 37], 84: [2, 37], 85: [2, 37] }, { 23: [2, 38], 33: [2, 38], 54: [2, 38], 65: [2, 38], 68: [2, 38], 72: [2, 38], 75: [2, 38], 80: [2, 38], 81: [2, 38], 82: [2, 38], 83: [2, 38], 84: [2, 38], 85: [2, 38] }, { 23: [2, 39], 33: [2, 39], 54: [2, 39], 65: [2, 39], 68: [2, 39], 72: [2, 39], 75: [2, 39], 80: [2, 39], 81: [2, 39], 82: [2, 39], 83: [2, 39], 84: [2, 39], 85: [2, 39] }, { 23: [2, 43], 33: [2, 43], 54: [2, 43], 65: [2, 43], 68: [2, 43], 72: [2, 43], 75: [2, 43], 80: [2, 43], 81: [2, 43], 82: [2, 43], 83: [2, 43], 84: [2, 43], 85: [2, 43], 87: [1, 50] }, { 72: [1, 35], 86: 51 }, { 23: [2, 45], 33: [2, 45], 54: [2, 45], 65: [2, 45], 68: [2, 45], 72: [2, 45], 75: [2, 45], 80: [2, 45], 81: [2, 45], 82: [2, 45], 83: [2, 45], 84: [2, 45], 85: [2, 45], 87: [2, 45] }, { 52: 52, 54: [2, 82], 65: [2, 82], 72: [2, 82], 80: [2, 82], 81: [2, 82], 82: [2, 82], 83: [2, 82], 84: [2, 82], 85: [2, 82] }, { 25: 53, 38: 55, 39: [1, 57], 43: 56, 44: [1, 58], 45: 54, 47: [2, 54] }, { 28: 59, 43: 60, 44: [1, 58], 47: [2, 56] }, { 13: 62, 15: [1, 20], 18: [1, 61] }, { 33: [2, 86], 57: 63, 65: [2, 86], 72: [2, 86], 80: [2, 86], 81: [2, 86], 82: [2, 86], 83: [2, 86], 84: [2, 86], 85: [2, 86] }, { 33: [2, 40], 65: [2, 40], 72: [2, 40], 80: [2, 40], 81: [2, 40], 82: [2, 40], 83: [2, 40], 84: [2, 40], 85: [2, 40] }, { 33: [2, 41], 65: [2, 41], 72: [2, 41], 80: [2, 41], 81: [2, 41], 82: [2, 41], 83: [2, 41], 84: [2, 41], 85: [2, 41] }, { 20: 64, 72: [1, 35], 78: 26, 79: 27, 80: [1, 28], 81: [1, 29], 82: [1, 30], 83: [1, 31], 84: [1, 32], 85: [1, 34], 86: 33 }, { 26: 65, 47: [1, 66] }, { 30: 67, 33: [2, 58], 65: [2, 58], 72: [2, 58], 75: [2, 58], 80: [2, 58], 81: [2, 58], 82: [2, 58], 83: [2, 58], 84: [2, 58], 85: [2, 58] }, { 33: [2, 64], 35: 68, 65: [2, 64], 72: [2, 64], 75: [2, 64], 80: [2, 64], 81: [2, 64], 82: [2, 64], 83: [2, 64], 84: [2, 64], 85: [2, 64] }, { 21: 69, 23: [2, 50], 65: [2, 50], 72: [2, 50], 80: [2, 50], 81: [2, 50], 82: [2, 50], 83: [2, 50], 84: [2, 50], 85: [2, 50] }, { 33: [2, 90], 61: 70, 65: [2, 90], 72: [2, 90], 80: [2, 90], 81: [2, 90], 82: [2, 90], 83: [2, 90], 84: [2, 90], 85: [2, 90] }, { 20: 74, 33: [2, 80], 50: 71, 63: 72, 64: 75, 65: [1, 43], 69: 73, 70: 76, 71: 77, 72: [1, 78], 78: 26, 79: 27, 80: [1, 28], 81: [1, 29], 82: [1, 30], 83: [1, 31], 84: [1, 32], 85: [1, 34], 86: 33 }, { 72: [1, 79] }, { 23: [2, 42], 33: [2, 42], 54: [2, 42], 65: [2, 42], 68: [2, 42], 72: [2, 42], 75: [2, 42], 80: [2, 42], 81: [2, 42], 82: [2, 42], 83: [2, 42], 84: [2, 42], 85: [2, 42], 87: [1, 50] }, { 20: 74, 53: 80, 54: [2, 84], 63: 81, 64: 75, 65: [1, 43], 69: 82, 70: 76, 71: 77, 72: [1, 78], 78: 26, 79: 27, 80: [1, 28], 81: [1, 29], 82: [1, 30], 83: [1, 31], 84: [1, 32], 85: [1, 34], 86: 33 }, { 26: 83, 47: [1, 66] }, { 47: [2, 55] }, { 4: 84, 6: 3, 14: [2, 46], 15: [2, 46], 19: [2, 46], 29: [2, 46], 34: [2, 46], 39: [2, 46], 44: [2, 46], 47: [2, 46], 48: [2, 46], 51: [2, 46], 55: [2, 46], 60: [2, 46] }, { 47: [2, 20] }, { 20: 85, 72: [1, 35], 78: 26, 79: 27, 80: [1, 28], 81: [1, 29], 82: [1, 30], 83: [1, 31], 84: [1, 32], 85: [1, 34], 86: 33 }, { 4: 86, 6: 3, 14: [2, 46], 15: [2, 46], 19: [2, 46], 29: [2, 46], 34: [2, 46], 47: [2, 46], 48: [2, 46], 51: [2, 46], 55: [2, 46], 60: [2, 46] }, { 26: 87, 47: [1, 66] }, { 47: [2, 57] }, { 5: [2, 11], 14: [2, 11], 15: [2, 11], 19: [2, 11], 29: [2, 11], 34: [2, 11], 39: [2, 11], 44: [2, 11], 47: [2, 11], 48: [2, 11], 51: [2, 11], 55: [2, 11], 60: [2, 11] }, { 15: [2, 49], 18: [2, 49] }, { 20: 74, 33: [2, 88], 58: 88, 63: 89, 64: 75, 65: [1, 43], 69: 90, 70: 76, 71: 77, 72: [1, 78], 78: 26, 79: 27, 80: [1, 28], 81: [1, 29], 82: [1, 30], 83: [1, 31], 84: [1, 32], 85: [1, 34], 86: 33 }, { 65: [2, 94], 66: 91, 68: [2, 94], 72: [2, 94], 80: [2, 94], 81: [2, 94], 82: [2, 94], 83: [2, 94], 84: [2, 94], 85: [2, 94] }, { 5: [2, 25], 14: [2, 25], 15: [2, 25], 19: [2, 25], 29: [2, 25], 34: [2, 25], 39: [2, 25], 44: [2, 25], 47: [2, 25], 48: [2, 25], 51: [2, 25], 55: [2, 25], 60: [2, 25] }, { 20: 92, 72: [1, 35], 78: 26, 79: 27, 80: [1, 28], 81: [1, 29], 82: [1, 30], 83: [1, 31], 84: [1, 32], 85: [1, 34], 86: 33 }, { 20: 74, 31: 93, 33: [2, 60], 63: 94, 64: 75, 65: [1, 43], 69: 95, 70: 76, 71: 77, 72: [1, 78], 75: [2, 60], 78: 26, 79: 27, 80: [1, 28], 81: [1, 29], 82: [1, 30], 83: [1, 31], 84: [1, 32], 85: [1, 34], 86: 33 }, { 20: 74, 33: [2, 66], 36: 96, 63: 97, 64: 75, 65: [1, 43], 69: 98, 70: 76, 71: 77, 72: [1, 78], 75: [2, 66], 78: 26, 79: 27, 80: [1, 28], 81: [1, 29], 82: [1, 30], 83: [1, 31], 84: [1, 32], 85: [1, 34], 86: 33 }, { 20: 74, 22: 99, 23: [2, 52], 63: 100, 64: 75, 65: [1, 43], 69: 101, 70: 76, 71: 77, 72: [1, 78], 78: 26, 79: 27, 80: [1, 28], 81: [1, 29], 82: [1, 30], 83: [1, 31], 84: [1, 32], 85: [1, 34], 86: 33 }, { 20: 74, 33: [2, 92], 62: 102, 63: 103, 64: 75, 65: [1, 43], 69: 104, 70: 76, 71: 77, 72: [1, 78], 78: 26, 79: 27, 80: [1, 28], 81: [1, 29], 82: [1, 30], 83: [1, 31], 84: [1, 32], 85: [1, 34], 86: 33 }, { 33: [1, 105] }, { 33: [2, 79], 65: [2, 79], 72: [2, 79], 80: [2, 79], 81: [2, 79], 82: [2, 79], 83: [2, 79], 84: [2, 79], 85: [2, 79] }, { 33: [2, 81] }, { 23: [2, 27], 33: [2, 27], 54: [2, 27], 65: [2, 27], 68: [2, 27], 72: [2, 27], 75: [2, 27], 80: [2, 27], 81: [2, 27], 82: [2, 27], 83: [2, 27], 84: [2, 27], 85: [2, 27] }, { 23: [2, 28], 33: [2, 28], 54: [2, 28], 65: [2, 28], 68: [2, 28], 72: [2, 28], 75: [2, 28], 80: [2, 28], 81: [2, 28], 82: [2, 28], 83: [2, 28], 84: [2, 28], 85: [2, 28] }, { 23: [2, 30], 33: [2, 30], 54: [2, 30], 68: [2, 30], 71: 106, 72: [1, 107], 75: [2, 30] }, { 23: [2, 98], 33: [2, 98], 54: [2, 98], 68: [2, 98], 72: [2, 98], 75: [2, 98] }, { 23: [2, 45], 33: [2, 45], 54: [2, 45], 65: [2, 45], 68: [2, 45], 72: [2, 45], 73: [1, 108], 75: [2, 45], 80: [2, 45], 81: [2, 45], 82: [2, 45], 83: [2, 45], 84: [2, 45], 85: [2, 45], 87: [2, 45] }, { 23: [2, 44], 33: [2, 44], 54: [2, 44], 65: [2, 44], 68: [2, 44], 72: [2, 44], 75: [2, 44], 80: [2, 44], 81: [2, 44], 82: [2, 44], 83: [2, 44], 84: [2, 44], 85: [2, 44], 87: [2, 44] }, { 54: [1, 109] }, { 54: [2, 83], 65: [2, 83], 72: [2, 83], 80: [2, 83], 81: [2, 83], 82: [2, 83], 83: [2, 83], 84: [2, 83], 85: [2, 83] }, { 54: [2, 85] }, { 5: [2, 13], 14: [2, 13], 15: [2, 13], 19: [2, 13], 29: [2, 13], 34: [2, 13], 39: [2, 13], 44: [2, 13], 47: [2, 13], 48: [2, 13], 51: [2, 13], 55: [2, 13], 60: [2, 13] }, { 38: 55, 39: [1, 57], 43: 56, 44: [1, 58], 45: 111, 46: 110, 47: [2, 76] }, { 33: [2, 70], 40: 112, 65: [2, 70], 72: [2, 70], 75: [2, 70], 80: [2, 70], 81: [2, 70], 82: [2, 70], 83: [2, 70], 84: [2, 70], 85: [2, 70] }, { 47: [2, 18] }, { 5: [2, 14], 14: [2, 14], 15: [2, 14], 19: [2, 14], 29: [2, 14], 34: [2, 14], 39: [2, 14], 44: [2, 14], 47: [2, 14], 48: [2, 14], 51: [2, 14], 55: [2, 14], 60: [2, 14] }, { 33: [1, 113] }, { 33: [2, 87], 65: [2, 87], 72: [2, 87], 80: [2, 87], 81: [2, 87], 82: [2, 87], 83: [2, 87], 84: [2, 87], 85: [2, 87] }, { 33: [2, 89] }, { 20: 74, 63: 115, 64: 75, 65: [1, 43], 67: 114, 68: [2, 96], 69: 116, 70: 76, 71: 77, 72: [1, 78], 78: 26, 79: 27, 80: [1, 28], 81: [1, 29], 82: [1, 30], 83: [1, 31], 84: [1, 32], 85: [1, 34], 86: 33 }, { 33: [1, 117] }, { 32: 118, 33: [2, 62], 74: 119, 75: [1, 120] }, { 33: [2, 59], 65: [2, 59], 72: [2, 59], 75: [2, 59], 80: [2, 59], 81: [2, 59], 82: [2, 59], 83: [2, 59], 84: [2, 59], 85: [2, 59] }, { 33: [2, 61], 75: [2, 61] }, { 33: [2, 68], 37: 121, 74: 122, 75: [1, 120] }, { 33: [2, 65], 65: [2, 65], 72: [2, 65], 75: [2, 65], 80: [2, 65], 81: [2, 65], 82: [2, 65], 83: [2, 65], 84: [2, 65], 85: [2, 65] }, { 33: [2, 67], 75: [2, 67] }, { 23: [1, 123] }, { 23: [2, 51], 65: [2, 51], 72: [2, 51], 80: [2, 51], 81: [2, 51], 82: [2, 51], 83: [2, 51], 84: [2, 51], 85: [2, 51] }, { 23: [2, 53] }, { 33: [1, 124] }, { 33: [2, 91], 65: [2, 91], 72: [2, 91], 80: [2, 91], 81: [2, 91], 82: [2, 91], 83: [2, 91], 84: [2, 91], 85: [2, 91] }, { 33: [2, 93] }, { 5: [2, 22], 14: [2, 22], 15: [2, 22], 19: [2, 22], 29: [2, 22], 34: [2, 22], 39: [2, 22], 44: [2, 22], 47: [2, 22], 48: [2, 22], 51: [2, 22], 55: [2, 22], 60: [2, 22] }, { 23: [2, 99], 33: [2, 99], 54: [2, 99], 68: [2, 99], 72: [2, 99], 75: [2, 99] }, { 73: [1, 108] }, { 20: 74, 63: 125, 64: 75, 65: [1, 43], 72: [1, 35], 78: 26, 79: 27, 80: [1, 28], 81: [1, 29], 82: [1, 30], 83: [1, 31], 84: [1, 32], 85: [1, 34], 86: 33 }, { 5: [2, 23], 14: [2, 23], 15: [2, 23], 19: [2, 23], 29: [2, 23], 34: [2, 23], 39: [2, 23], 44: [2, 23], 47: [2, 23], 48: [2, 23], 51: [2, 23], 55: [2, 23], 60: [2, 23] }, { 47: [2, 19] }, { 47: [2, 77] }, { 20: 74, 33: [2, 72], 41: 126, 63: 127, 64: 75, 65: [1, 43], 69: 128, 70: 76, 71: 77, 72: [1, 78], 75: [2, 72], 78: 26, 79: 27, 80: [1, 28], 81: [1, 29], 82: [1, 30], 83: [1, 31], 84: [1, 32], 85: [1, 34], 86: 33 }, { 5: [2, 24], 14: [2, 24], 15: [2, 24], 19: [2, 24], 29: [2, 24], 34: [2, 24], 39: [2, 24], 44: [2, 24], 47: [2, 24], 48: [2, 24], 51: [2, 24], 55: [2, 24], 60: [2, 24] }, { 68: [1, 129] }, { 65: [2, 95], 68: [2, 95], 72: [2, 95], 80: [2, 95], 81: [2, 95], 82: [2, 95], 83: [2, 95], 84: [2, 95], 85: [2, 95] }, { 68: [2, 97] }, { 5: [2, 21], 14: [2, 21], 15: [2, 21], 19: [2, 21], 29: [2, 21], 34: [2, 21], 39: [2, 21], 44: [2, 21], 47: [2, 21], 48: [2, 21], 51: [2, 21], 55: [2, 21], 60: [2, 21] }, { 33: [1, 130] }, { 33: [2, 63] }, { 72: [1, 132], 76: 131 }, { 33: [1, 133] }, { 33: [2, 69] }, { 15: [2, 12], 18: [2, 12] }, { 14: [2, 26], 15: [2, 26], 19: [2, 26], 29: [2, 26], 34: [2, 26], 47: [2, 26], 48: [2, 26], 51: [2, 26], 55: [2, 26], 60: [2, 26] }, { 23: [2, 31], 33: [2, 31], 54: [2, 31], 68: [2, 31], 72: [2, 31], 75: [2, 31] }, { 33: [2, 74], 42: 134, 74: 135, 75: [1, 120] }, { 33: [2, 71], 65: [2, 71], 72: [2, 71], 75: [2, 71], 80: [2, 71], 81: [2, 71], 82: [2, 71], 83: [2, 71], 84: [2, 71], 85: [2, 71] }, { 33: [2, 73], 75: [2, 73] }, { 23: [2, 29], 33: [2, 29], 54: [2, 29], 65: [2, 29], 68: [2, 29], 72: [2, 29], 75: [2, 29], 80: [2, 29], 81: [2, 29], 82: [2, 29], 83: [2, 29], 84: [2, 29], 85: [2, 29] }, { 14: [2, 15], 15: [2, 15], 19: [2, 15], 29: [2, 15], 34: [2, 15], 39: [2, 15], 44: [2, 15], 47: [2, 15], 48: [2, 15], 51: [2, 15], 55: [2, 15], 60: [2, 15] }, { 72: [1, 137], 77: [1, 136] }, { 72: [2, 100], 77: [2, 100] }, { 14: [2, 16], 15: [2, 16], 19: [2, 16], 29: [2, 16], 34: [2, 16], 44: [2, 16], 47: [2, 16], 48: [2, 16], 51: [2, 16], 55: [2, 16], 60: [2, 16] }, { 33: [1, 138] }, { 33: [2, 75] }, { 33: [2, 32] }, { 72: [2, 101], 77: [2, 101] }, { 14: [2, 17], 15: [2, 17], 19: [2, 17], 29: [2, 17], 34: [2, 17], 39: [2, 17], 44: [2, 17], 47: [2, 17], 48: [2, 17], 51: [2, 17], 55: [2, 17], 60: [2, 17] }],
+	        defaultActions: { 4: [2, 1], 54: [2, 55], 56: [2, 20], 60: [2, 57], 73: [2, 81], 82: [2, 85], 86: [2, 18], 90: [2, 89], 101: [2, 53], 104: [2, 93], 110: [2, 19], 111: [2, 77], 116: [2, 97], 119: [2, 63], 122: [2, 69], 135: [2, 75], 136: [2, 32] },
 	        parseError: function parseError(str, hash) {
 	            throw new Error(str);
 	        },
@@ -4258,11 +4391,10 @@ return /******/ (function(modules) { // webpackBootstrap
 	                this.begin(condition);
 	            } };
 	        lexer.options = {};
-	        lexer.performAction = function anonymous(yy, yy_, $avoiding_name_collisions, YY_START
-	        /**/) {
+	        lexer.performAction = function anonymous(yy, yy_, $avoiding_name_collisions, YY_START) {
 
 	            function strip(start, end) {
-	                return yy_.yytext = yy_.yytext.substr(start, yy_.yyleng - end);
+	                return yy_.yytext = yy_.yytext.substring(start, yy_.yyleng - end + start);
 	            }
 
 	            var YYSTATE = YY_START;
@@ -4299,7 +4431,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	                    if (this.conditionStack[this.conditionStack.length - 1] === 'raw') {
 	                        return 15;
 	                    } else {
-	                        yy_.yytext = yy_.yytext.substr(5, yy_.yyleng - 9);
+	                        strip(5, 9);
 	                        return 'END_RAW_BLOCK';
 	                    }
 
@@ -4436,7 +4568,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	                    break;
 	            }
 	        };
-	        lexer.rules = [/^(?:[^\x00]*?(?=(\{\{)))/, /^(?:[^\x00]+)/, /^(?:[^\x00]{2,}?(?=(\{\{|\\\{\{|\\\\\{\{|$)))/, /^(?:\{\{\{\{(?=[^\/]))/, /^(?:\{\{\{\{\/[^\s!"#%-,\.\/;->@\[-\^`\{-~]+(?=[=}\s\/.])\}\}\}\})/, /^(?:[^\x00]*?(?=(\{\{\{\{)))/, /^(?:[\s\S]*?--(~)?\}\})/, /^(?:\()/, /^(?:\))/, /^(?:\{\{\{\{)/, /^(?:\}\}\}\})/, /^(?:\{\{(~)?>)/, /^(?:\{\{(~)?#>)/, /^(?:\{\{(~)?#\*?)/, /^(?:\{\{(~)?\/)/, /^(?:\{\{(~)?\^\s*(~)?\}\})/, /^(?:\{\{(~)?\s*else\s*(~)?\}\})/, /^(?:\{\{(~)?\^)/, /^(?:\{\{(~)?\s*else\b)/, /^(?:\{\{(~)?\{)/, /^(?:\{\{(~)?&)/, /^(?:\{\{(~)?!--)/, /^(?:\{\{(~)?![\s\S]*?\}\})/, /^(?:\{\{(~)?\*?)/, /^(?:=)/, /^(?:\.\.)/, /^(?:\.(?=([=~}\s\/.)|])))/, /^(?:[\/.])/, /^(?:\s+)/, /^(?:\}(~)?\}\})/, /^(?:(~)?\}\})/, /^(?:"(\\["]|[^"])*")/, /^(?:'(\\[']|[^'])*')/, /^(?:@)/, /^(?:true(?=([~}\s)])))/, /^(?:false(?=([~}\s)])))/, /^(?:undefined(?=([~}\s)])))/, /^(?:null(?=([~}\s)])))/, /^(?:-?[0-9]+(?:\.[0-9]+)?(?=([~}\s)])))/, /^(?:as\s+\|)/, /^(?:\|)/, /^(?:([^\s!"#%-,\.\/;->@\[-\^`\{-~]+(?=([=~}\s\/.)|]))))/, /^(?:\[(\\\]|[^\]])*\])/, /^(?:.)/, /^(?:$)/];
+	        lexer.rules = [/^(?:[^\x00]*?(?=(\{\{)))/, /^(?:[^\x00]+)/, /^(?:[^\x00]{2,}?(?=(\{\{|\\\{\{|\\\\\{\{|$)))/, /^(?:\{\{\{\{(?=[^\/]))/, /^(?:\{\{\{\{\/[^\s!"#%-,\.\/;->@\[-\^`\{-~]+(?=[=}\s\/.])\}\}\}\})/, /^(?:[^\x00]+?(?=(\{\{\{\{)))/, /^(?:[\s\S]*?--(~)?\}\})/, /^(?:\()/, /^(?:\))/, /^(?:\{\{\{\{)/, /^(?:\}\}\}\})/, /^(?:\{\{(~)?>)/, /^(?:\{\{(~)?#>)/, /^(?:\{\{(~)?#\*?)/, /^(?:\{\{(~)?\/)/, /^(?:\{\{(~)?\^\s*(~)?\}\})/, /^(?:\{\{(~)?\s*else\s*(~)?\}\})/, /^(?:\{\{(~)?\^)/, /^(?:\{\{(~)?\s*else\b)/, /^(?:\{\{(~)?\{)/, /^(?:\{\{(~)?&)/, /^(?:\{\{(~)?!--)/, /^(?:\{\{(~)?![\s\S]*?\}\})/, /^(?:\{\{(~)?\*?)/, /^(?:=)/, /^(?:\.\.)/, /^(?:\.(?=([=~}\s\/.)|])))/, /^(?:[\/.])/, /^(?:\s+)/, /^(?:\}(~)?\}\})/, /^(?:(~)?\}\})/, /^(?:"(\\["]|[^"])*")/, /^(?:'(\\[']|[^'])*')/, /^(?:@)/, /^(?:true(?=([~}\s)])))/, /^(?:false(?=([~}\s)])))/, /^(?:undefined(?=([~}\s)])))/, /^(?:null(?=([~}\s)])))/, /^(?:-?[0-9]+(?:\.[0-9]+)?(?=([~}\s)])))/, /^(?:as\s+\|)/, /^(?:\|)/, /^(?:([^\s!"#%-,\.\/;->@\[-\^`\{-~]+(?=([=~}\s\/.)|]))))/, /^(?:\[(\\\]|[^\]])*\])/, /^(?:.)/, /^(?:$)/];
 	        lexer.conditions = { "mu": { "rules": [7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44], "inclusive": false }, "emu": { "rules": [2], "inclusive": false }, "com": { "rules": [6], "inclusive": false }, "raw": { "rules": [3, 4, 5], "inclusive": false }, "INITIAL": { "rules": [0, 1, 44], "inclusive": true } };
 	        return lexer;
 	    })();
@@ -4449,7 +4581,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	module.exports = exports["default"];
 
 /***/ }),
-/* 38 */
+/* 43 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -4458,7 +4590,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	exports.__esModule = true;
 
-	var _visitor = __webpack_require__(39);
+	var _visitor = __webpack_require__(44);
 
 	var _visitor2 = _interopRequireDefault(_visitor);
 
@@ -4662,7 +4794,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	    return;
 	  }
 
-	  // We omit the last node if it's whitespace only and not preceeded by a non-content node.
+	  // We omit the last node if it's whitespace only and not preceded by a non-content node.
 	  var original = current.value;
 	  current.value = current.value.replace(multiple ? /\s+$/ : /[ \t]+$/, '');
 	  current.leftStripped = current.value !== original;
@@ -4673,7 +4805,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	module.exports = exports['default'];
 
 /***/ }),
-/* 39 */
+/* 44 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -4816,7 +4948,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	module.exports = exports['default'];
 
 /***/ }),
-/* 40 */
+/* 45 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -4863,7 +4995,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	function id(token) {
 	  if (/^\[.*\]$/.test(token)) {
-	    return token.substr(1, token.length - 2);
+	    return token.substring(1, token.length - 1);
 	  } else {
 	    return token;
 	  }
@@ -5047,12 +5179,14 @@ return /******/ (function(modules) { // webpackBootstrap
 	}
 
 /***/ }),
-/* 41 */
+/* 46 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	/* eslint-disable new-cap */
 
 	'use strict';
+
+	var _Object$create = __webpack_require__(47)['default'];
 
 	var _interopRequireDefault = __webpack_require__(1)['default'];
 
@@ -5067,7 +5201,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	var _utils = __webpack_require__(5);
 
-	var _ast = __webpack_require__(35);
+	var _ast = __webpack_require__(40);
 
 	var _ast2 = _interopRequireDefault(_ast);
 
@@ -5121,9 +5255,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	    options.blockParams = options.blockParams || [];
 
-	    // These changes will propagate to the other compiler components
-	    var knownHelpers = options.knownHelpers;
-	    options.knownHelpers = {
+	    options.knownHelpers = _utils.extend(_Object$create(null), {
 	      'helperMissing': true,
 	      'blockHelperMissing': true,
 	      'each': true,
@@ -5132,15 +5264,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	      'with': true,
 	      'log': true,
 	      'lookup': true
-	    };
-	    if (knownHelpers) {
-	      // the next line should use "Object.keys", but the code has been like this a long time and changing it, might
-	      // cause backwards-compatibility issues... It's an old library...
-	      // eslint-disable-next-line guard-for-in
-	      for (var _name in knownHelpers) {
-	        this.options.knownHelpers[_name] = knownHelpers[_name];
-	      }
-	    }
+	    }, options.knownHelpers);
 
 	    return this.accept(program);
 	  },
@@ -5434,10 +5558,9 @@ return /******/ (function(modules) { // webpackBootstrap
 	    // if ambiguous, we can possibly resolve the ambiguity now
 	    // An eligible helper is one that does not have a complex path, i.e. `this.foo`, `../foo` etc.
 	    if (isEligible && !isHelper) {
-	      var _name2 = sexpr.path.parts[0],
+	      var _name = sexpr.path.parts[0],
 	          options = this.options;
-
-	      if (options.knownHelpers[_name2]) {
+	      if (options.knownHelpers[_name]) {
 	        isHelper = true;
 	      } else if (options.knownHelpersOnly) {
 	        isEligible = false;
@@ -5623,10 +5746,27 @@ return /******/ (function(modules) { // webpackBootstrap
 	}
 
 /***/ }),
-/* 42 */
+/* 47 */
+/***/ (function(module, exports, __webpack_require__) {
+
+	module.exports = { "default": __webpack_require__(48), __esModule: true };
+
+/***/ }),
+/* 48 */
+/***/ (function(module, exports, __webpack_require__) {
+
+	var $ = __webpack_require__(9);
+	module.exports = function create(P, D){
+	  return $.create(P, D);
+	};
+
+/***/ }),
+/* 49 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
+
+	var _Object$keys = __webpack_require__(13)['default'];
 
 	var _interopRequireDefault = __webpack_require__(1)['default'];
 
@@ -5640,9 +5780,11 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	var _utils = __webpack_require__(5);
 
-	var _codeGen = __webpack_require__(43);
+	var _codeGen = __webpack_require__(50);
 
 	var _codeGen2 = _interopRequireDefault(_codeGen);
+
+	var _helpersLookup = __webpack_require__(28);
 
 	function Literal(value) {
 	  this.value = value;
@@ -5654,10 +5796,18 @@ return /******/ (function(modules) { // webpackBootstrap
 	  // PUBLIC API: You can override these methods in a subclass to provide
 	  // alternative compiled forms for name lookup and buffering semantics
 	  nameLookup: function nameLookup(parent, name /* , type*/) {
-	    if (JavaScriptCompiler.isValidJavaScriptVariableName(name)) {
-	      return [parent, '.', name];
-	    } else {
-	      return [parent, '[', JSON.stringify(name), ']'];
+	    if (_helpersLookup.dangerousPropertyRegex.test(name)) {
+	      var isEnumerable = [this.aliasable('container.propertyIsEnumerable'), '.call(', parent, ',', JSON.stringify(name), ')'];
+	      return ['(', isEnumerable, '?', _actualLookup(), ' : undefined)'];
+	    }
+	    return _actualLookup();
+
+	    function _actualLookup() {
+	      if (JavaScriptCompiler.isValidJavaScriptVariableName(name)) {
+	        return [parent, '.', name];
+	      } else {
+	        return [parent, '[', JSON.stringify(name), ']'];
+	      }
 	    }
 	  },
 	  depthedLookup: function depthedLookup(name) {
@@ -5839,6 +5989,10 @@ return /******/ (function(modules) { // webpackBootstrap
 	  },
 
 	  createFunctionContext: function createFunctionContext(asObject) {
+	    // istanbul ignore next
+
+	    var _this = this;
+
 	    var varDeclarations = '';
 
 	    var locals = this.stackVars.concat(this.registers.list);
@@ -5853,15 +6007,13 @@ return /******/ (function(modules) { // webpackBootstrap
 	    // aliases will not be used, but this case is already being run on the client and
 	    // we aren't concern about minimizing the template size.
 	    var aliasCount = 0;
-	    for (var alias in this.aliases) {
-	      // eslint-disable-line guard-for-in
-	      var node = this.aliases[alias];
-
-	      if (this.aliases.hasOwnProperty(alias) && node.children && node.referenceCount > 1) {
+	    _Object$keys(this.aliases).forEach(function (alias) {
+	      var node = _this.aliases[alias];
+	      if (node.children && node.referenceCount > 1) {
 	        varDeclarations += ', alias' + ++aliasCount + '=' + alias;
 	        node.children[0] = 'alias' + aliasCount;
 	      }
-	    }
+	    });
 
 	    var params = ['container', 'depth0', 'helpers', 'partials', 'data'];
 
@@ -5951,7 +6103,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	  // replace it on the stack with the result of properly
 	  // invoking blockHelperMissing.
 	  blockValue: function blockValue(name) {
-	    var blockHelperMissing = this.aliasable('helpers.blockHelperMissing'),
+	    var blockHelperMissing = this.aliasable('container.hooks.blockHelperMissing'),
 	        params = [this.contextName(0)];
 	    this.setupHelperArgs(name, 0, params);
 
@@ -5969,7 +6121,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	  // On stack, after, if lastHelper: value
 	  ambiguousBlockValue: function ambiguousBlockValue() {
 	    // We're being a bit cheeky and reusing the options value from the prior exec
-	    var blockHelperMissing = this.aliasable('helpers.blockHelperMissing'),
+	    var blockHelperMissing = this.aliasable('container.hooks.blockHelperMissing'),
 	        params = [this.contextName(0)];
 	    this.setupHelperArgs('', 0, params, true);
 
@@ -6107,7 +6259,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	  resolvePath: function resolvePath(type, parts, i, falsy, strict) {
 	    // istanbul ignore next
 
-	    var _this = this;
+	    var _this2 = this;
 
 	    if (this.options.strict || this.options.assumeObjects) {
 	      this.push(strictLookup(this.options.strict && strict, this, parts, type));
@@ -6118,7 +6270,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	    for (; i < len; i++) {
 	      /* eslint-disable no-loop-func */
 	      this.replaceStack(function (current) {
-	        var lookup = _this.nameLookup(current, parts[i], type);
+	        var lookup = _this2.nameLookup(current, parts[i], type);
 	        // We want to ensure that zero and false are handled properly if the context (falsy flag)
 	        // needs to have the special handling for these values.
 	        if (!falsy) {
@@ -6180,7 +6332,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	    if (this.hash) {
 	      this.hashes.push(this.hash);
 	    }
-	    this.hash = { values: [], types: [], contexts: [], ids: [] };
+	    this.hash = { values: {}, types: [], contexts: [], ids: [] };
 	  },
 	  popHash: function popHash() {
 	    var hash = this.hash;
@@ -6260,18 +6412,33 @@ return /******/ (function(modules) { // webpackBootstrap
 	  // If the helper is not found, `helperMissing` is called.
 	  invokeHelper: function invokeHelper(paramSize, name, isSimple) {
 	    var nonHelper = this.popStack(),
-	        helper = this.setupHelper(paramSize, name),
-	        simple = isSimple ? [helper.name, ' || '] : '';
+	        helper = this.setupHelper(paramSize, name);
 
-	    var lookup = ['('].concat(simple, nonHelper);
-	    if (!this.options.strict) {
-	      lookup.push(' || ', this.aliasable('helpers.helperMissing'));
+	    var possibleFunctionCalls = [];
+
+	    if (isSimple) {
+	      // direct call to helper
+	      possibleFunctionCalls.push(helper.name);
 	    }
-	    lookup.push(')');
+	    // call a function from the input object
+	    possibleFunctionCalls.push(nonHelper);
+	    if (!this.options.strict) {
+	      possibleFunctionCalls.push(this.aliasable('container.hooks.helperMissing'));
+	    }
 
-	    this.push(this.source.functionCall(lookup, 'call', helper.callParams));
+	    var functionLookupCode = ['(', this.itemsSeparatedBy(possibleFunctionCalls, '||'), ')'];
+	    var functionCall = this.source.functionCall(functionLookupCode, 'call', helper.callParams);
+	    this.push(functionCall);
 	  },
 
+	  itemsSeparatedBy: function itemsSeparatedBy(items, separator) {
+	    var result = [];
+	    result.push(items[0]);
+	    for (var i = 1; i < items.length; i++) {
+	      result.push(separator, items[i]);
+	    }
+	    return result;
+	  },
 	  // [invokeKnownHelper]
 	  //
 	  // On stack, before: hash, inverse, program, params..., ...
@@ -6309,7 +6476,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	    var lookup = ['(', '(helper = ', helperName, ' || ', nonHelper, ')'];
 	    if (!this.options.strict) {
 	      lookup[0] = '(helper = ';
-	      lookup.push(' != null ? helper : ', this.aliasable('helpers.helperMissing'));
+	      lookup.push(' != null ? helper : ', this.aliasable('container.hooks.helperMissing'));
 	    }
 
 	    this.push(['(', lookup, helper.paramsInit ? ['),(', helper.paramsInit] : [], '),', '(typeof helper === ', this.aliasable('"function"'), ' ? ', this.source.functionCall('helper', 'call', helper.callParams), ' : helper))']);
@@ -6703,6 +6870,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	  setupHelperArgs: function setupHelperArgs(helper, paramSize, params, useRegister) {
 	    var options = this.setupParams(helper, paramSize, params);
+	    options.loc = JSON.stringify(this.source.currentLocation);
 	    options = this.objectLiteral(options);
 	    if (useRegister) {
 	      this.useRegister('options');
@@ -6744,7 +6912,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	  }
 
 	  if (requireTerminal) {
-	    return [compiler.aliasable('container.strict'), '(', stack, ', ', compiler.quotedString(parts[i]), ')'];
+	    return [compiler.aliasable('container.strict'), '(', stack, ', ', compiler.quotedString(parts[i]), ', ', JSON.stringify(compiler.source.currentLocation), ' )'];
 	  } else {
 	    return stack;
 	  }
@@ -6754,11 +6922,13 @@ return /******/ (function(modules) { // webpackBootstrap
 	module.exports = exports['default'];
 
 /***/ }),
-/* 43 */
+/* 50 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	/* global define */
 	'use strict';
+
+	var _Object$keys = __webpack_require__(13)['default'];
 
 	exports.__esModule = true;
 
@@ -6880,16 +7050,18 @@ return /******/ (function(modules) { // webpackBootstrap
 	  },
 
 	  objectLiteral: function objectLiteral(obj) {
+	    // istanbul ignore next
+
+	    var _this = this;
+
 	    var pairs = [];
 
-	    for (var key in obj) {
-	      if (obj.hasOwnProperty(key)) {
-	        var value = castChunk(obj[key], this);
-	        if (value !== 'undefined') {
-	          pairs.push([this.quotedString(key), ':', value]);
-	        }
+	    _Object$keys(obj).forEach(function (key) {
+	      var value = castChunk(obj[key], _this);
+	      if (value !== 'undefined') {
+	        pairs.push([_this.quotedString(key), ':', value]);
 	      }
-	    }
+	    });
 
 	    var ret = this.generateList(pairs);
 	    ret.prepend('{');
@@ -12676,7 +12848,13 @@ function CroutonLocalization(language) {
 			"states": "Provinser",
 			"postal_codes": "Post nummer",
 			"formats": "Struktur",
-			"map": "Kort"
+			"map": "Kort",
+			"neighborhood": "Neighborhood",
+			"near_me": "Near Me",
+			"text_search": "Text Search",
+			"click_search": "Click Search",
+			"pan_and_zoom": "Pan + Zoom",
+			"languages": "Languages",
 		},
 		"de-DE":{
 			"days_of_the_week": ["", "Sonntag", "Montag", "Dienstag", "Mittwoch", "Donnerstag", "Frietag", "Samstag"],
@@ -12690,7 +12868,13 @@ function CroutonLocalization(language) {
 			"states": "Bundesländer",
 			"postal_codes": "PLZ",
 			"formats": "Formate",
-			"map": "Karte"
+			"map": "Karte",
+			"neighborhood": "Neighborhood",
+			"near_me": "Near Me",
+			"text_search": "Text Search",
+			"click_search": "Click Search",
+			"pan_and_zoom": "Pan + Zoom",
+			"languages": "Languages",
 		},
 		"en-US": {
 			"days_of_the_week" : ["", "Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"],
@@ -12704,7 +12888,13 @@ function CroutonLocalization(language) {
 			"states" : "States",
 			"postal_codes" : "Zips",
 			"formats" : "Formats",
-			"map" : "Map"
+			"map" : "Map",
+			"neighborhood": "Neighborhood",
+			"near_me": "Near Me",
+			"text_search": "Text Search",
+			"click_search": "Click Search",
+			"pan_and_zoom": "Pan + Zoom",
+			"languages": "Languages",
 		},
 		"en-CA": {
 			"days_of_the_week" : ["", "Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"],
@@ -12718,7 +12908,13 @@ function CroutonLocalization(language) {
 			"states" : "Provinces",
 			"postal_codes" : "Postal Codes",
 			"formats" : "Formats",
-			"map" : "Map"
+			"map" : "Map",
+			"neighborhood": "Neighborhood",
+			"near_me": "Near Me",
+			"text_search": "Text Search",
+			"click_search": "Click Search",
+			"pan_and_zoom": "Pan + Zoom",
+			"languages": "Languages",
 		},
 		"fa-IR": {
 			"days_of_the_week" : ["", 'یَکشَنب', 'دوشَنبه', 'سه‌شنبه', 'چهار شنبه', 'پَنج شَنبه', 'جُمعه', 'شَنبه'],
@@ -12732,7 +12928,13 @@ function CroutonLocalization(language) {
 			"states" : "ایالات",
 			"postal_codes":"کد پستی",
 			"formats" : "فورمت ها",
-			"map" : "نقشه"
+			"map" : "نقشه",
+			"neighborhood": "Neighborhood",
+			"near_me": "Near Me",
+			"text_search": "Text Search",
+			"click_search": "Click Search",
+			"pan_and_zoom": "Pan + Zoom",
+			"languages": "Languages",
 		},
 		"fr-CA": {
 			"days_of_the_week" : ["", "Dimanche", "Lundi", "Mardi", "Mercredi", "Jeudi", "Vendredi", "Samedi"],
@@ -12746,7 +12948,13 @@ function CroutonLocalization(language) {
 			"states" : "Provinces",
 			"postal_codes" : "Codes postaux",
 			"formats" : "Formats",
-			"map" : "Carte"
+			"map" : "Carte",
+			"neighborhood": "Neighborhood",
+			"near_me": "Near Me",
+			"text_search": "Text Search",
+			"click_search": "Click Search",
+			"pan_and_zoom": "Pan + Zoom",
+			"languages": "Languages",
 		},
 		"it-IT": {
 			"days_of_the_week" : ["", "Domenica", " Lunedì", "Martedì", "Mercoledì", "Giovedì", "Venerdì", "Sabato"],
@@ -12761,6 +12969,12 @@ function CroutonLocalization(language) {
 			"postal_codes" : "CAP",
 			"formats" : "Formati",
 			"map" : "Mappa",
+			"neighborhood": "Neighborhood",
+			"near_me": "Near Me",
+			"text_search": "Text Search",
+			"click_search": "Click Search",
+			"pan_and_zoom": "Pan + Zoom",
+			"languages": "Languages",
 		},
 		"es-US": {
 			"days_of_the_week" : ["", "Domingo", " Lunes", "Martes", "Miércoles", "Jueves", "Viernes", "Sábado"],
@@ -12775,6 +12989,12 @@ function CroutonLocalization(language) {
 			"postal_codes" : "Codiagos postales",
 			"formats" : "Formatos",
 			"map" : "Mapa",
+			"neighborhood": "Neighborhood",
+			"near_me": "Near Me",
+			"text_search": "Text Search",
+			"click_search": "Click Search",
+			"pan_and_zoom": "Pan + Zoom",
+			"languages": "Languages",
 		},
 		"en-NZ": {
 			"days_of_the_week" : ["", "Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"],
@@ -12788,7 +13008,13 @@ function CroutonLocalization(language) {
 			"states" : "States",
 			"postal_codes" : "Postcodes",
 			"formats" : "Formats",
-			"map" : "Map"
+			"map" : "Map",
+			"neighborhood": "Neighborhood",
+			"near_me": "Near Me",
+			"text_search": "Text Search",
+			"click_search": "Click Search",
+			"pan_and_zoom": "Pan + Zoom",
+			"languages": "Languages",
 		},
 		"en-AU": {
 			"days_of_the_week" : ["", "Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"],
@@ -12802,7 +13028,13 @@ function CroutonLocalization(language) {
 			"states" : "States",
 			"postal_codes" : "Postcodes",
 			"formats" : "Formats",
-			"map" : "Map"
+			"map" : "Map",
+			"neighborhood": "Neighborhood",
+			"near_me": "Near Me",
+			"text_search": "Text Search",
+			"click_search": "Click Search",
+			"pan_and_zoom": "Pan + Zoom",
+			"languages": "Languages",
 		},
 		"en-UK": {
 			"days_of_the_week" : ["", "Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"],
@@ -12816,7 +13048,53 @@ function CroutonLocalization(language) {
 			"states" : "States",
 			"postal_codes" : "Postcodes",
 			"formats" : "Formats",
-			"map" : "Map"
+			"map" : "Map",
+			"neighborhood": "Neighborhood",
+			"near_me": "Near Me",
+			"text_search": "Text Search",
+			"click_search": "Click Search",
+			"pan_and_zoom": "Pan + Zoom",
+			"languages": "Languages",
+		},
+		"pl-PL": {
+			"days_of_the_week" : ["", "Niedziela", "Poniedziałek", "Wtorek", "Środa", "Czwartek", "Piątek", "Sobota"],
+			"weekday" : "Dzień tygodnia",
+			"city" : "Miasto",
+			"cities" : "Miasta",
+			"groups" : "Grupy",
+			"areas" : "Okręgi",
+			"locations" : "Lokalizacje",
+			"counties" : "Powiaty",
+			"states" : "Województwa",
+			"postal_codes" : "Kody pocztowe",
+			"formats" : "Formaty",
+			"map" : "Mapa",
+			"neighborhood": "Neighborhood",
+			"near_me": "Near Me",
+			"text_search": "Text Search",
+			"click_search": "Click Search",
+			"pan_and_zoom": "Pan + Zoom",
+			"languages": "Languages",
+		},
+		"pt-BR": {
+			"days_of_the_week" : ["", "Domingo", "Segunda-feira", "Terça-feira", "Quarta-feira", "Quinta-feira", "Sexta-feira", "Sábado"],
+			"weekday" : "Dia da semana",
+			"city" : "Cidade",
+			"cities" : "Cidades",
+			"groups" : "Grupos",
+			"areas" : "Áreas",
+			"locations" : "Localizações",
+			"counties" : "Municípios",
+			"states" : "Estados",
+			"postal_codes" : "CEPs",
+			"formats" : "Formatos",
+			"map" : "Mapa",
+			"neighborhood": "Bairro",
+			"near_me": "Minha Localização",
+			"text_search": "Buscar por Texto",
+			"click_search": "Clique no local",
+			"pan_and_zoom": "Panorâmico + Zoom",
+			"languages": "Languages",
 		},
 	};
 }
@@ -12841,52 +13119,56 @@ this["hbs_Crouton"]["templates"]["byday"] = Handlebars.template({"1":function(co
     + "</td>\n            </tr>\n"
     + ((stack1 = container.invokePartial(partials.meetings,(depth0 != null ? depth0.meetings : depth0),{"name":"meetings","data":data,"indent":"            ","helpers":helpers,"partials":partials,"decorators":container.decorators})) != null ? stack1 : "")
     + "            </tbody>\n";
-},"compiler":[7,">= 4.0.0"],"main":function(container,depth0,helpers,partials,data) {
+},"compiler":[8,">= 4.3.0"],"main":function(container,depth0,helpers,partials,data) {
     var stack1;
 
   return "<div id=\"bmlt-table-div\">\n    <table class='bmlt-table table table-striped table-hover table-bordered tablesaw tablesaw-stack'>\n"
-    + ((stack1 = helpers.each.call(depth0 != null ? depth0 : (container.nullContext || {}),depth0,{"name":"each","hash":{},"fn":container.program(1, data, 0),"inverse":container.noop,"data":data})) != null ? stack1 : "")
+    + ((stack1 = helpers.each.call(depth0 != null ? depth0 : (container.nullContext || {}),depth0,{"name":"each","hash":{},"fn":container.program(1, data, 0),"inverse":container.noop,"data":data,"loc":{"start":{"line":3,"column":8},"end":{"line":10,"column":17}}})) != null ? stack1 : "")
     + "    </table>\n</div>\n";
 },"usePartial":true,"useData":true});
 this["hbs_Crouton"]["templates"]["byfield"] = Handlebars.template({"1":function(container,depth0,helpers,partials,data) {
     var stack1, helper;
 
   return "			<tr class=\"meeting-header\">\n				<td colspan=\"3\">"
-    + container.escapeExpression(((helper = (helper = helpers.key || (data && data.key)) != null ? helper : helpers.helperMissing),(typeof helper === "function" ? helper.call(depth0 != null ? depth0 : (container.nullContext || {}),{"name":"key","hash":{},"data":data}) : helper)))
+    + container.escapeExpression(((helper = (helper = helpers.key || (data && data.key)) != null ? helper : container.hooks.helperMissing),(typeof helper === "function" ? helper.call(depth0 != null ? depth0 : (container.nullContext || {}),{"name":"key","hash":{},"data":data,"loc":{"start":{"line":6,"column":20},"end":{"line":6,"column":28}}}) : helper)))
     + "</td>\n			</tr>\n"
     + ((stack1 = container.invokePartial(partials.meetings,depth0,{"name":"meetings","data":data,"indent":"\t\t\t","helpers":helpers,"partials":partials,"decorators":container.decorators})) != null ? stack1 : "");
-},"compiler":[7,">= 4.0.0"],"main":function(container,depth0,helpers,partials,data) {
+},"compiler":[8,">= 4.3.0"],"main":function(container,depth0,helpers,partials,data) {
     var stack1;
 
   return "<div id=\"bmlt-table-div\">\n	<table class='bmlt-table table table-striped table-hover table-bordered tablesaw tablesaw-stack'>\n		<tbody>\n"
-    + ((stack1 = helpers.each.call(depth0 != null ? depth0 : (container.nullContext || {}),depth0,{"name":"each","hash":{},"fn":container.program(1, data, 0),"inverse":container.noop,"data":data})) != null ? stack1 : "")
+    + ((stack1 = helpers.each.call(depth0 != null ? depth0 : (container.nullContext || {}),depth0,{"name":"each","hash":{},"fn":container.program(1, data, 0),"inverse":container.noop,"data":data,"loc":{"start":{"line":4,"column":2},"end":{"line":9,"column":11}}})) != null ? stack1 : "")
     + "		</tbody>\n	</table>\n</div>\n";
 },"usePartial":true,"useData":true});
 this["hbs_Crouton"]["templates"]["header"] = Handlebars.template({"1":function(container,depth0,helpers,partials,data) {
     var stack1, alias1=depth0 != null ? depth0 : (container.nullContext || {});
 
-  return ((stack1 = helpers["if"].call(alias1,((stack1 = (depth0 != null ? depth0.config : depth0)) != null ? stack1.include_weekday_button : stack1),{"name":"if","hash":{},"fn":container.program(2, data, 0),"inverse":container.noop,"data":data})) != null ? stack1 : "")
-    + ((stack1 = helpers.each.call(alias1,((stack1 = (depth0 != null ? depth0.config : depth0)) != null ? stack1.button_filters : stack1),{"name":"each","hash":{},"fn":container.program(4, data, 0),"inverse":container.noop,"data":data})) != null ? stack1 : "")
+  return ((stack1 = helpers["if"].call(alias1,((stack1 = (depth0 != null ? depth0.config : depth0)) != null ? stack1.include_weekday_button : stack1),{"name":"if","hash":{},"fn":container.program(2, data, 0),"inverse":container.noop,"data":data,"loc":{"start":{"line":2,"column":4},"end":{"line":4,"column":11}}})) != null ? stack1 : "")
+    + ((stack1 = helpers.each.call(alias1,((stack1 = (depth0 != null ? depth0.config : depth0)) != null ? stack1.button_filters : stack1),{"name":"each","hash":{},"fn":container.program(4, data, 0),"inverse":container.noop,"data":data,"loc":{"start":{"line":5,"column":4},"end":{"line":7,"column":13}}})) != null ? stack1 : "")
     + "\n"
-    + ((stack1 = helpers["if"].call(alias1,((stack1 = (depth0 != null ? depth0.config : depth0)) != null ? stack1.has_cities : stack1),{"name":"if","hash":{},"fn":container.program(6, data, 0),"inverse":container.noop,"data":data})) != null ? stack1 : "")
+    + ((stack1 = helpers["if"].call(alias1,((stack1 = (depth0 != null ? depth0.config : depth0)) != null ? stack1.has_cities : stack1),{"name":"if","hash":{},"fn":container.program(6, data, 0),"inverse":container.noop,"data":data,"loc":{"start":{"line":9,"column":4},"end":{"line":18,"column":11}}})) != null ? stack1 : "")
     + "\n"
-    + ((stack1 = helpers["if"].call(alias1,((stack1 = (depth0 != null ? depth0.config : depth0)) != null ? stack1.has_groups : stack1),{"name":"if","hash":{},"fn":container.program(9, data, 0),"inverse":container.noop,"data":data})) != null ? stack1 : "")
+    + ((stack1 = helpers["if"].call(alias1,((stack1 = (depth0 != null ? depth0.config : depth0)) != null ? stack1.has_groups : stack1),{"name":"if","hash":{},"fn":container.program(9, data, 0),"inverse":container.noop,"data":data,"loc":{"start":{"line":20,"column":4},"end":{"line":29,"column":11}}})) != null ? stack1 : "")
     + "\n"
-    + ((stack1 = helpers["if"].call(alias1,((stack1 = (depth0 != null ? depth0.config : depth0)) != null ? stack1.has_areas : stack1),{"name":"if","hash":{},"fn":container.program(11, data, 0),"inverse":container.noop,"data":data})) != null ? stack1 : "")
+    + ((stack1 = helpers["if"].call(alias1,((stack1 = (depth0 != null ? depth0.config : depth0)) != null ? stack1.has_areas : stack1),{"name":"if","hash":{},"fn":container.program(11, data, 0),"inverse":container.noop,"data":data,"loc":{"start":{"line":31,"column":4},"end":{"line":40,"column":11}}})) != null ? stack1 : "")
     + "\n"
-    + ((stack1 = helpers["if"].call(alias1,((stack1 = (depth0 != null ? depth0.config : depth0)) != null ? stack1.has_locations : stack1),{"name":"if","hash":{},"fn":container.program(14, data, 0),"inverse":container.noop,"data":data})) != null ? stack1 : "")
+    + ((stack1 = helpers["if"].call(alias1,((stack1 = (depth0 != null ? depth0.config : depth0)) != null ? stack1.has_locations : stack1),{"name":"if","hash":{},"fn":container.program(14, data, 0),"inverse":container.noop,"data":data,"loc":{"start":{"line":42,"column":4},"end":{"line":51,"column":11}}})) != null ? stack1 : "")
     + "\n"
-    + ((stack1 = helpers["if"].call(alias1,((stack1 = (depth0 != null ? depth0.config : depth0)) != null ? stack1.has_sub_province : stack1),{"name":"if","hash":{},"fn":container.program(16, data, 0),"inverse":container.noop,"data":data})) != null ? stack1 : "")
+    + ((stack1 = helpers["if"].call(alias1,((stack1 = (depth0 != null ? depth0.config : depth0)) != null ? stack1.has_sub_province : stack1),{"name":"if","hash":{},"fn":container.program(16, data, 0),"inverse":container.noop,"data":data,"loc":{"start":{"line":53,"column":4},"end":{"line":62,"column":11}}})) != null ? stack1 : "")
     + "\n"
-    + ((stack1 = helpers["if"].call(alias1,((stack1 = (depth0 != null ? depth0.config : depth0)) != null ? stack1.has_states : stack1),{"name":"if","hash":{},"fn":container.program(18, data, 0),"inverse":container.noop,"data":data})) != null ? stack1 : "")
+    + ((stack1 = helpers["if"].call(alias1,((stack1 = (depth0 != null ? depth0.config : depth0)) != null ? stack1.has_neighborhoods : stack1),{"name":"if","hash":{},"fn":container.program(18, data, 0),"inverse":container.noop,"data":data,"loc":{"start":{"line":64,"column":1},"end":{"line":73,"column":8}}})) != null ? stack1 : "")
     + "\n"
-    + ((stack1 = helpers["if"].call(alias1,((stack1 = (depth0 != null ? depth0.config : depth0)) != null ? stack1.has_zip_codes : stack1),{"name":"if","hash":{},"fn":container.program(20, data, 0),"inverse":container.noop,"data":data})) != null ? stack1 : "")
+    + ((stack1 = helpers["if"].call(alias1,((stack1 = (depth0 != null ? depth0.config : depth0)) != null ? stack1.has_states : stack1),{"name":"if","hash":{},"fn":container.program(20, data, 0),"inverse":container.noop,"data":data,"loc":{"start":{"line":75,"column":4},"end":{"line":84,"column":11}}})) != null ? stack1 : "")
     + "\n"
-    + ((stack1 = helpers["if"].call(alias1,((stack1 = (depth0 != null ? depth0.config : depth0)) != null ? stack1.has_formats : stack1),{"name":"if","hash":{},"fn":container.program(22, data, 0),"inverse":container.noop,"data":data})) != null ? stack1 : "")
+    + ((stack1 = helpers["if"].call(alias1,((stack1 = (depth0 != null ? depth0.config : depth0)) != null ? stack1.has_zip_codes : stack1),{"name":"if","hash":{},"fn":container.program(22, data, 0),"inverse":container.noop,"data":data,"loc":{"start":{"line":86,"column":4},"end":{"line":95,"column":11}}})) != null ? stack1 : "")
+    + "\n"
+    + ((stack1 = helpers["if"].call(alias1,((stack1 = (depth0 != null ? depth0.config : depth0)) != null ? stack1.has_formats : stack1),{"name":"if","hash":{},"fn":container.program(24, data, 0),"inverse":container.noop,"data":data,"loc":{"start":{"line":97,"column":4},"end":{"line":106,"column":11}}})) != null ? stack1 : "")
+    + "\n"
+    + ((stack1 = helpers["if"].call(alias1,((stack1 = (depth0 != null ? depth0.config : depth0)) != null ? stack1.has_languages : stack1),{"name":"if","hash":{},"fn":container.program(27, data, 0),"inverse":container.noop,"data":data,"loc":{"start":{"line":108,"column":1},"end":{"line":117,"column":8}}})) != null ? stack1 : "")
     + "    </div>\n";
 },"2":function(container,depth0,helpers,partials,data) {
     return "        <div class=\"bmlt-button-container\"><a id=\"day\" class=\"btn btn-primary btn-sm\">"
-    + container.escapeExpression((helpers.getWord || (depth0 && depth0.getWord) || helpers.helperMissing).call(depth0 != null ? depth0 : (container.nullContext || {}),"weekday",{"name":"getWord","hash":{},"data":data}))
+    + container.escapeExpression((helpers.getWord||(depth0 && depth0.getWord)||container.hooks.helperMissing).call(depth0 != null ? depth0 : (container.nullContext || {}),"weekday",{"name":"getWord","hash":{},"data":data,"loc":{"start":{"line":3,"column":86},"end":{"line":3,"column":107}}}))
     + "</a></div>\n";
 },"4":function(container,depth0,helpers,partials,data) {
     var alias1=container.lambda, alias2=container.escapeExpression;
@@ -12896,45 +13178,45 @@ this["hbs_Crouton"]["templates"]["header"] = Handlebars.template({"1":function(c
     + "\" data-field=\""
     + alias2(alias1((depth0 != null ? depth0.field : depth0), depth0))
     + "\" class=\"filterButton btn btn-primary btn-sm\">"
-    + alias2((helpers.getWord || (depth0 && depth0.getWord) || helpers.helperMissing).call(depth0 != null ? depth0 : (container.nullContext || {}),(depth0 != null ? depth0.title : depth0),{"name":"getWord","hash":{},"data":data}))
+    + alias2((helpers.getWord||(depth0 && depth0.getWord)||container.hooks.helperMissing).call(depth0 != null ? depth0 : (container.nullContext || {}),(depth0 != null ? depth0.title : depth0),{"name":"getWord","hash":{},"data":data,"loc":{"start":{"line":6,"column":151},"end":{"line":6,"column":173}}}))
     + "</a></div>\n";
 },"6":function(container,depth0,helpers,partials,data) {
     var stack1, alias1=container.escapeExpression, alias2=depth0 != null ? depth0 : (container.nullContext || {});
 
-  return "        <div class=\"bmlt-dropdown-container\">\n            <select class=\"crouton-select\" style=\"width:"
+  return "        <div class=\"bmlt-dropdown-container\">\n            <select class=\"crouton-select filter-dropdown\" style=\"width:"
     + alias1(container.lambda(((stack1 = (depth0 != null ? depth0.config : depth0)) != null ? stack1.dropdown_width : stack1), depth0))
     + ";\" data-placeholder=\""
-    + alias1((helpers.getWord || (depth0 && depth0.getWord) || helpers.helperMissing).call(alias2,"cities",{"name":"getWord","hash":{},"data":data}))
-    + "\" data-pointer=\"Cities\" id=\"e1\">\n                <option></option>\n"
-    + ((stack1 = helpers.each.call(alias2,((stack1 = (depth0 != null ? depth0.uniqueData : depth0)) != null ? stack1.cities : stack1),{"name":"each","hash":{},"fn":container.program(7, data, 0),"inverse":container.noop,"data":data})) != null ? stack1 : "")
+    + alias1((helpers.getWord||(depth0 && depth0.getWord)||container.hooks.helperMissing).call(alias2,"cities",{"name":"getWord","hash":{},"data":data,"loc":{"start":{"line":11,"column":123},"end":{"line":11,"column":143}}}))
+    + "\" data-pointer=\"Cities\" id=\"filter-dropdown-cities\">\n                <option></option>\n"
+    + ((stack1 = helpers.each.call(alias2,((stack1 = (depth0 != null ? depth0.uniqueData : depth0)) != null ? stack1.cities : stack1),{"name":"each","hash":{},"fn":container.program(7, data, 0),"inverse":container.noop,"data":data,"loc":{"start":{"line":13,"column":16},"end":{"line":15,"column":25}}})) != null ? stack1 : "")
     + "            </select>\n        </div>\n";
 },"7":function(container,depth0,helpers,partials,data) {
     var alias1=container.escapeExpression;
 
   return "                    <option value=\"a-"
-    + alias1((helpers.formatDataPointer || (depth0 && depth0.formatDataPointer) || helpers.helperMissing).call(depth0 != null ? depth0 : (container.nullContext || {}),depth0,{"name":"formatDataPointer","hash":{},"data":data}))
+    + alias1((helpers.formatDataPointer||(depth0 && depth0.formatDataPointer)||container.hooks.helperMissing).call(depth0 != null ? depth0 : (container.nullContext || {}),depth0,{"name":"formatDataPointer","hash":{},"data":data,"loc":{"start":{"line":14,"column":37},"end":{"line":14,"column":63}}}))
     + "\">"
     + alias1(container.lambda(depth0, depth0))
     + "</option>\n";
 },"9":function(container,depth0,helpers,partials,data) {
     var stack1, alias1=container.escapeExpression, alias2=depth0 != null ? depth0 : (container.nullContext || {});
 
-  return "        <div class=\"bmlt-dropdown-container\">\n            <select class=\"crouton-select\" style=\"width:"
+  return "        <div class=\"bmlt-dropdown-container\">\n            <select class=\"crouton-select filter-dropdown\" style=\"width:"
     + alias1(container.lambda(((stack1 = (depth0 != null ? depth0.config : depth0)) != null ? stack1.dropdown_width : stack1), depth0))
     + ";\" data-placeholder=\""
-    + alias1((helpers.getWord || (depth0 && depth0.getWord) || helpers.helperMissing).call(alias2,"groups",{"name":"getWord","hash":{},"data":data}))
-    + "\" data-pointer=\"Groups\" id=\"e2\">\n                <option></option>\n"
-    + ((stack1 = helpers.each.call(alias2,((stack1 = (depth0 != null ? depth0.uniqueData : depth0)) != null ? stack1.groups : stack1),{"name":"each","hash":{},"fn":container.program(7, data, 0),"inverse":container.noop,"data":data})) != null ? stack1 : "")
+    + alias1((helpers.getWord||(depth0 && depth0.getWord)||container.hooks.helperMissing).call(alias2,"groups",{"name":"getWord","hash":{},"data":data,"loc":{"start":{"line":22,"column":123},"end":{"line":22,"column":143}}}))
+    + "\" data-pointer=\"Groups\" id=\"filter-dropdown-groups\">\n                <option></option>\n"
+    + ((stack1 = helpers.each.call(alias2,((stack1 = (depth0 != null ? depth0.uniqueData : depth0)) != null ? stack1.groups : stack1),{"name":"each","hash":{},"fn":container.program(7, data, 0),"inverse":container.noop,"data":data,"loc":{"start":{"line":24,"column":16},"end":{"line":26,"column":25}}})) != null ? stack1 : "")
     + "            </select>\n        </div>\n";
 },"11":function(container,depth0,helpers,partials,data) {
     var stack1, alias1=container.escapeExpression, alias2=depth0 != null ? depth0 : (container.nullContext || {});
 
-  return "        <div class=\"bmlt-dropdown-container\">\n            <select class=\"crouton-select\" style=\"width:"
+  return "        <div class=\"bmlt-dropdown-container\">\n            <select class=\"crouton-select filter-dropdown\" style=\"width:"
     + alias1(container.lambda(((stack1 = (depth0 != null ? depth0.config : depth0)) != null ? stack1.dropdown_width : stack1), depth0))
     + ";\" data-placeholder=\""
-    + alias1((helpers.getWord || (depth0 && depth0.getWord) || helpers.helperMissing).call(alias2,"areas",{"name":"getWord","hash":{},"data":data}))
-    + "\" data-pointer=\"Areas\" id=\"e3\">\n                <option></option>\n"
-    + ((stack1 = helpers.each.call(alias2,((stack1 = (depth0 != null ? depth0.uniqueData : depth0)) != null ? stack1.areas : stack1),{"name":"each","hash":{},"fn":container.program(12, data, 0),"inverse":container.noop,"data":data})) != null ? stack1 : "")
+    + alias1((helpers.getWord||(depth0 && depth0.getWord)||container.hooks.helperMissing).call(alias2,"areas",{"name":"getWord","hash":{},"data":data,"loc":{"start":{"line":33,"column":123},"end":{"line":33,"column":142}}}))
+    + "\" data-pointer=\"Areas\" id=\"filter-dropdown-areas\">\n                <option></option>\n"
+    + ((stack1 = helpers.each.call(alias2,((stack1 = (depth0 != null ? depth0.uniqueData : depth0)) != null ? stack1.areas : stack1),{"name":"each","hash":{},"fn":container.program(12, data, 0),"inverse":container.noop,"data":data,"loc":{"start":{"line":35,"column":16},"end":{"line":37,"column":25}}})) != null ? stack1 : "")
     + "            </select>\n        </div>\n";
 },"12":function(container,depth0,helpers,partials,data) {
     var alias1=container.lambda, alias2=container.escapeExpression;
@@ -12947,102 +13229,130 @@ this["hbs_Crouton"]["templates"]["header"] = Handlebars.template({"1":function(c
 },"14":function(container,depth0,helpers,partials,data) {
     var stack1, alias1=container.escapeExpression, alias2=depth0 != null ? depth0 : (container.nullContext || {});
 
-  return "        <div class=\"bmlt-dropdown-container\">\n            <select class=\"crouton-select\" style=\"width:"
+  return "        <div class=\"bmlt-dropdown-container\">\n            <select class=\"crouton-select filter-dropdown\" style=\"width:"
     + alias1(container.lambda(((stack1 = (depth0 != null ? depth0.config : depth0)) != null ? stack1.dropdown_width : stack1), depth0))
     + ";\" data-placeholder=\""
-    + alias1((helpers.getWord || (depth0 && depth0.getWord) || helpers.helperMissing).call(alias2,"locations",{"name":"getWord","hash":{},"data":data}))
-    + "\" data-pointer=\"Locations\" id=\"e4\">\n                <option></option>\n"
-    + ((stack1 = helpers.each.call(alias2,((stack1 = (depth0 != null ? depth0.uniqueData : depth0)) != null ? stack1.locations : stack1),{"name":"each","hash":{},"fn":container.program(7, data, 0),"inverse":container.noop,"data":data})) != null ? stack1 : "")
+    + alias1((helpers.getWord||(depth0 && depth0.getWord)||container.hooks.helperMissing).call(alias2,"locations",{"name":"getWord","hash":{},"data":data,"loc":{"start":{"line":44,"column":123},"end":{"line":44,"column":146}}}))
+    + "\" data-pointer=\"Locations\" id=\"filter-dropdown-locations\">\n                <option></option>\n"
+    + ((stack1 = helpers.each.call(alias2,((stack1 = (depth0 != null ? depth0.uniqueData : depth0)) != null ? stack1.locations : stack1),{"name":"each","hash":{},"fn":container.program(7, data, 0),"inverse":container.noop,"data":data,"loc":{"start":{"line":46,"column":16},"end":{"line":48,"column":25}}})) != null ? stack1 : "")
     + "            </select>\n        </div>\n";
 },"16":function(container,depth0,helpers,partials,data) {
     var stack1, alias1=container.escapeExpression, alias2=depth0 != null ? depth0 : (container.nullContext || {});
 
-  return "        <div class=\"bmlt-dropdown-container\">\n            <select class=\"crouton-select\" style=\"width:"
+  return "        <div class=\"bmlt-dropdown-container\">\n            <select class=\"crouton-select filter-dropdown\" style=\"width:"
     + alias1(container.lambda(((stack1 = (depth0 != null ? depth0.config : depth0)) != null ? stack1.dropdown_width : stack1), depth0))
     + ";\" data-placeholder=\""
-    + alias1((helpers.getWord || (depth0 && depth0.getWord) || helpers.helperMissing).call(alias2,"counties",{"name":"getWord","hash":{},"data":data}))
-    + "\" data-pointer=\"Counties\" id=\"e5\">\n                <option></option>\n"
-    + ((stack1 = helpers.each.call(alias2,((stack1 = (depth0 != null ? depth0.uniqueData : depth0)) != null ? stack1.sub_provinces : stack1),{"name":"each","hash":{},"fn":container.program(7, data, 0),"inverse":container.noop,"data":data})) != null ? stack1 : "")
+    + alias1((helpers.getWord||(depth0 && depth0.getWord)||container.hooks.helperMissing).call(alias2,"counties",{"name":"getWord","hash":{},"data":data,"loc":{"start":{"line":55,"column":123},"end":{"line":55,"column":145}}}))
+    + "\" data-pointer=\"Counties\" id=\"filter-dropdown-sub_province\">\n                <option></option>\n"
+    + ((stack1 = helpers.each.call(alias2,((stack1 = (depth0 != null ? depth0.uniqueData : depth0)) != null ? stack1.sub_provinces : stack1),{"name":"each","hash":{},"fn":container.program(7, data, 0),"inverse":container.noop,"data":data,"loc":{"start":{"line":57,"column":16},"end":{"line":59,"column":25}}})) != null ? stack1 : "")
     + "            </select>\n        </div>\n";
 },"18":function(container,depth0,helpers,partials,data) {
     var stack1, alias1=container.escapeExpression, alias2=depth0 != null ? depth0 : (container.nullContext || {});
 
-  return "        <div class=\"bmlt-dropdown-container\">\n            <select class=\"crouton-select\" style=\"width:"
+  return "        <div class=\"bmlt-dropdown-container\">\n            <select class=\"crouton-select filter-dropdown\" style=\"width:"
     + alias1(container.lambda(((stack1 = (depth0 != null ? depth0.config : depth0)) != null ? stack1.dropdown_width : stack1), depth0))
     + ";\" data-placeholder=\""
-    + alias1((helpers.getWord || (depth0 && depth0.getWord) || helpers.helperMissing).call(alias2,"states",{"name":"getWord","hash":{},"data":data}))
-    + "\" data-pointer=\"States\" id=\"e6\">\n                <option></option>\n"
-    + ((stack1 = helpers.each.call(alias2,((stack1 = (depth0 != null ? depth0.uniqueData : depth0)) != null ? stack1.states : stack1),{"name":"each","hash":{},"fn":container.program(7, data, 0),"inverse":container.noop,"data":data})) != null ? stack1 : "")
+    + alias1((helpers.getWord||(depth0 && depth0.getWord)||container.hooks.helperMissing).call(alias2,"neighborhood",{"name":"getWord","hash":{},"data":data,"loc":{"start":{"line":66,"column":123},"end":{"line":66,"column":149}}}))
+    + "\" data-pointer=\"Neighborhoods\" id=\"filter-dropdown-neighborhoods\">\n                <option></option>\n"
+    + ((stack1 = helpers.each.call(alias2,((stack1 = (depth0 != null ? depth0.uniqueData : depth0)) != null ? stack1.neighborhoods : stack1),{"name":"each","hash":{},"fn":container.program(7, data, 0),"inverse":container.noop,"data":data,"loc":{"start":{"line":68,"column":4},"end":{"line":70,"column":13}}})) != null ? stack1 : "")
     + "            </select>\n        </div>\n";
 },"20":function(container,depth0,helpers,partials,data) {
     var stack1, alias1=container.escapeExpression, alias2=depth0 != null ? depth0 : (container.nullContext || {});
 
-  return "        <div class=\"bmlt-dropdown-container\">\n            <select class=\"crouton-select\" style=\"width:"
+  return "        <div class=\"bmlt-dropdown-container\">\n            <select class=\"crouton-select filter-dropdown\" style=\"width:"
     + alias1(container.lambda(((stack1 = (depth0 != null ? depth0.config : depth0)) != null ? stack1.dropdown_width : stack1), depth0))
     + ";\" data-placeholder=\""
-    + alias1((helpers.getWord || (depth0 && depth0.getWord) || helpers.helperMissing).call(alias2,"postal_codes",{"name":"getWord","hash":{},"data":data}))
-    + "\" data-pointer=\"Zips\" id=\"e7\">\n                <option></option>\n"
-    + ((stack1 = helpers.each.call(alias2,((stack1 = (depth0 != null ? depth0.uniqueData : depth0)) != null ? stack1.zips : stack1),{"name":"each","hash":{},"fn":container.program(7, data, 0),"inverse":container.noop,"data":data})) != null ? stack1 : "")
+    + alias1((helpers.getWord||(depth0 && depth0.getWord)||container.hooks.helperMissing).call(alias2,"states",{"name":"getWord","hash":{},"data":data,"loc":{"start":{"line":77,"column":123},"end":{"line":77,"column":143}}}))
+    + "\" data-pointer=\"States\" id=\"filter-dropdown-states\">\n                <option></option>\n"
+    + ((stack1 = helpers.each.call(alias2,((stack1 = (depth0 != null ? depth0.uniqueData : depth0)) != null ? stack1.states : stack1),{"name":"each","hash":{},"fn":container.program(7, data, 0),"inverse":container.noop,"data":data,"loc":{"start":{"line":79,"column":16},"end":{"line":81,"column":25}}})) != null ? stack1 : "")
     + "            </select>\n        </div>\n";
 },"22":function(container,depth0,helpers,partials,data) {
     var stack1, alias1=container.escapeExpression, alias2=depth0 != null ? depth0 : (container.nullContext || {});
 
-  return "        <div class=\"bmlt-dropdown-container\">\n            <select class=\"crouton-select\" style=\"width:"
+  return "        <div class=\"bmlt-dropdown-container\">\n            <select class=\"crouton-select filter-dropdown\" style=\"width:"
     + alias1(container.lambda(((stack1 = (depth0 != null ? depth0.config : depth0)) != null ? stack1.dropdown_width : stack1), depth0))
     + ";\" data-placeholder=\""
-    + alias1((helpers.getWord || (depth0 && depth0.getWord) || helpers.helperMissing).call(alias2,"formats",{"name":"getWord","hash":{},"data":data}))
-    + "\" data-pointer=\"Formats\" id=\"e8\">\n                <option></option>\n"
-    + ((stack1 = helpers.each.call(alias2,((stack1 = (depth0 != null ? depth0.uniqueData : depth0)) != null ? stack1.formats : stack1),{"name":"each","hash":{},"fn":container.program(23, data, 0),"inverse":container.noop,"data":data})) != null ? stack1 : "")
+    + alias1((helpers.getWord||(depth0 && depth0.getWord)||container.hooks.helperMissing).call(alias2,"postal_codes",{"name":"getWord","hash":{},"data":data,"loc":{"start":{"line":88,"column":123},"end":{"line":88,"column":149}}}))
+    + "\" data-pointer=\"Zips\" id=\"filter-dropdown-zipcodes\">\n                <option></option>\n"
+    + ((stack1 = helpers.each.call(alias2,((stack1 = (depth0 != null ? depth0.uniqueData : depth0)) != null ? stack1.zips : stack1),{"name":"each","hash":{},"fn":container.program(7, data, 0),"inverse":container.noop,"data":data,"loc":{"start":{"line":90,"column":16},"end":{"line":92,"column":25}}})) != null ? stack1 : "")
     + "            </select>\n        </div>\n";
-},"23":function(container,depth0,helpers,partials,data) {
-    var helper, alias1=depth0 != null ? depth0 : (container.nullContext || {}), alias2=helpers.helperMissing, alias3=container.escapeExpression;
+},"24":function(container,depth0,helpers,partials,data) {
+    var stack1, alias1=container.escapeExpression, alias2=depth0 != null ? depth0 : (container.nullContext || {});
+
+  return "        <div class=\"bmlt-dropdown-container\">\n            <select class=\"crouton-select filter-dropdown\" style=\"width:"
+    + alias1(container.lambda(((stack1 = (depth0 != null ? depth0.config : depth0)) != null ? stack1.dropdown_width : stack1), depth0))
+    + ";\" data-placeholder=\""
+    + alias1((helpers.getWord||(depth0 && depth0.getWord)||container.hooks.helperMissing).call(alias2,"formats",{"name":"getWord","hash":{},"data":data,"loc":{"start":{"line":99,"column":123},"end":{"line":99,"column":144}}}))
+    + "\" data-pointer=\"Formats\" id=\"filter-dropdown-formats\">\n                <option></option>\n"
+    + ((stack1 = helpers.each.call(alias2,((stack1 = (depth0 != null ? depth0.uniqueData : depth0)) != null ? stack1.formats : stack1),{"name":"each","hash":{},"fn":container.program(25, data, 0),"inverse":container.noop,"data":data,"loc":{"start":{"line":101,"column":16},"end":{"line":103,"column":25}}})) != null ? stack1 : "")
+    + "            </select>\n        </div>\n";
+},"25":function(container,depth0,helpers,partials,data) {
+    var helper, alias1=depth0 != null ? depth0 : (container.nullContext || {}), alias2=container.hooks.helperMissing, alias3=container.escapeExpression;
 
   return "                    <option value=\"a-"
-    + alias3((helpers.formatDataPointer || (depth0 && depth0.formatDataPointer) || alias2).call(alias1,(depth0 != null ? depth0.name_string : depth0),{"name":"formatDataPointer","hash":{},"data":data}))
+    + alias3((helpers.formatDataPointer||(depth0 && depth0.formatDataPointer)||alias2).call(alias1,(depth0 != null ? depth0.name_string : depth0),{"name":"formatDataPointer","hash":{},"data":data,"loc":{"start":{"line":102,"column":37},"end":{"line":102,"column":70}}}))
     + "\">"
-    + alias3(((helper = (helper = helpers.name_string || (depth0 != null ? depth0.name_string : depth0)) != null ? helper : alias2),(typeof helper === "function" ? helper.call(alias1,{"name":"name_string","hash":{},"data":data}) : helper)))
+    + alias3(((helper = (helper = helpers.name_string || (depth0 != null ? depth0.name_string : depth0)) != null ? helper : alias2),(typeof helper === "function" ? helper.call(alias1,{"name":"name_string","hash":{},"data":data,"loc":{"start":{"line":102,"column":72},"end":{"line":102,"column":87}}}) : helper)))
     + "</option>\n";
-},"25":function(container,depth0,helpers,partials,data) {
+},"27":function(container,depth0,helpers,partials,data) {
+    var stack1, alias1=container.escapeExpression, alias2=depth0 != null ? depth0 : (container.nullContext || {});
+
+  return "		<div class=\"bmlt-dropdown-container\">\n			<select class=\"crouton-select filter-dropdown\" style=\"width:"
+    + alias1(container.lambda(((stack1 = (depth0 != null ? depth0.config : depth0)) != null ? stack1.dropdown_width : stack1), depth0))
+    + ";\" data-placeholder=\""
+    + alias1((helpers.getWord||(depth0 && depth0.getWord)||container.hooks.helperMissing).call(alias2,"languages",{"name":"getWord","hash":{},"data":data,"loc":{"start":{"line":110,"column":114},"end":{"line":110,"column":137}}}))
+    + "\" data-pointer=\"Languages\" id=\"filter-dropdown-languages\">\n				<option></option>\n"
+    + ((stack1 = helpers.each.call(alias2,((stack1 = (depth0 != null ? depth0.uniqueData : depth0)) != null ? stack1.languages : stack1),{"name":"each","hash":{},"fn":container.program(28, data, 0),"inverse":container.noop,"data":data,"loc":{"start":{"line":112,"column":4},"end":{"line":114,"column":13}}})) != null ? stack1 : "")
+    + "			</select>\n		</div>\n";
+},"28":function(container,depth0,helpers,partials,data) {
+    var helper, alias1=depth0 != null ? depth0 : (container.nullContext || {}), alias2=container.hooks.helperMissing, alias3=container.escapeExpression;
+
+  return "					<option value=\"a-"
+    + alias3((helpers.formatDataPointer||(depth0 && depth0.formatDataPointer)||alias2).call(alias1,(depth0 != null ? depth0.name_string : depth0),{"name":"formatDataPointer","hash":{},"data":data,"loc":{"start":{"line":113,"column":22},"end":{"line":113,"column":55}}}))
+    + "\">"
+    + alias3(((helper = (helper = helpers.name_string || (depth0 != null ? depth0.name_string : depth0)) != null ? helper : alias2),(typeof helper === "function" ? helper.call(alias1,{"name":"name_string","hash":{},"data":data,"loc":{"start":{"line":113,"column":57},"end":{"line":113,"column":72}}}) : helper)))
+    + "</option>\n";
+},"30":function(container,depth0,helpers,partials,data) {
     var stack1, alias1=depth0 != null ? depth0 : (container.nullContext || {});
 
-  return ((stack1 = (helpers.ifEquals || (depth0 && depth0.ifEquals) || helpers.helperMissing).call(alias1,((stack1 = (depth0 != null ? depth0.config : depth0)) != null ? stack1.view_by : stack1),"weekdays",{"name":"ifEquals","hash":{},"fn":container.program(26, data, 0),"inverse":container.program(28, data, 0),"data":data})) != null ? stack1 : "")
+  return ((stack1 = (helpers.ifEquals||(depth0 && depth0.ifEquals)||container.hooks.helperMissing).call(alias1,((stack1 = (depth0 != null ? depth0.config : depth0)) != null ? stack1.view_by : stack1),"weekdays",{"name":"ifEquals","hash":{},"fn":container.program(31, data, 0),"inverse":container.program(33, data, 0),"data":data,"loc":{"start":{"line":122,"column":4},"end":{"line":126,"column":17}}})) != null ? stack1 : "")
     + "        <ul class=\"nav nav-tabs\">\n"
-    + ((stack1 = helpers.each.call(alias1,((stack1 = (depth0 != null ? depth0.config : depth0)) != null ? stack1.day_sequence : stack1),{"name":"each","hash":{},"fn":container.program(30, data, 0),"inverse":container.noop,"data":data})) != null ? stack1 : "")
+    + ((stack1 = helpers.each.call(alias1,((stack1 = (depth0 != null ? depth0.config : depth0)) != null ? stack1.day_sequence : stack1),{"name":"each","hash":{},"fn":container.program(35, data, 0),"inverse":container.noop,"data":data,"loc":{"start":{"line":128,"column":12},"end":{"line":130,"column":21}}})) != null ? stack1 : "")
     + "        </ul>\n    </div>\n";
-},"26":function(container,depth0,helpers,partials,data) {
+},"31":function(container,depth0,helpers,partials,data) {
     return "        <div class=\"bmlt-page show\" id=\"nav-days\">\n";
-},"28":function(container,depth0,helpers,partials,data) {
+},"33":function(container,depth0,helpers,partials,data) {
     return "        <div class=\"bmlt-page hide\" id=\"nav-days\">\n";
-},"30":function(container,depth0,helpers,partials,data) {
+},"35":function(container,depth0,helpers,partials,data) {
     var alias1=container.escapeExpression;
 
   return "                <li><a href=\"#tab"
     + alias1(container.lambda(depth0, depth0))
     + "\" data-toggle=\"tab\">"
-    + alias1((helpers.getDayOfTheWeek || (depth0 && depth0.getDayOfTheWeek) || helpers.helperMissing).call(depth0 != null ? depth0 : (container.nullContext || {}),depth0,{"name":"getDayOfTheWeek","hash":{},"data":data}))
+    + alias1((helpers.getDayOfTheWeek||(depth0 && depth0.getDayOfTheWeek)||container.hooks.helperMissing).call(depth0 != null ? depth0 : (container.nullContext || {}),depth0,{"name":"getDayOfTheWeek","hash":{},"data":data,"loc":{"start":{"line":129,"column":61},"end":{"line":129,"column":85}}}))
     + "</a></li>\n";
-},"compiler":[7,">= 4.0.0"],"main":function(container,depth0,helpers,partials,data) {
+},"compiler":[8,">= 4.3.0"],"main":function(container,depth0,helpers,partials,data) {
     var stack1, alias1=depth0 != null ? depth0 : (container.nullContext || {});
 
-  return ((stack1 = helpers["if"].call(alias1,((stack1 = (depth0 != null ? depth0.config : depth0)) != null ? stack1.header : stack1),{"name":"if","hash":{},"fn":container.program(1, data, 0),"inverse":container.noop,"data":data})) != null ? stack1 : "")
+  return ((stack1 = helpers["if"].call(alias1,((stack1 = (depth0 != null ? depth0.config : depth0)) != null ? stack1.header : stack1),{"name":"if","hash":{},"fn":container.program(1, data, 0),"inverse":container.noop,"data":data,"loc":{"start":{"line":1,"column":0},"end":{"line":119,"column":7}}})) != null ? stack1 : "")
     + "\n"
-    + ((stack1 = helpers["if"].call(alias1,((stack1 = (depth0 != null ? depth0.config : depth0)) != null ? stack1.has_tabs : stack1),{"name":"if","hash":{},"fn":container.program(25, data, 0),"inverse":container.noop,"data":data})) != null ? stack1 : "");
+    + ((stack1 = helpers["if"].call(alias1,((stack1 = (depth0 != null ? depth0.config : depth0)) != null ? stack1.has_tabs : stack1),{"name":"if","hash":{},"fn":container.program(30, data, 0),"inverse":container.noop,"data":data,"loc":{"start":{"line":121,"column":0},"end":{"line":133,"column":7}}})) != null ? stack1 : "");
 },"useData":true});
 this["hbs_Crouton"]["templates"]["master"] = Handlebars.template({"1":function(container,depth0,helpers,partials,data) {
     var stack1, helper;
 
   return "		<div id=\"byfield_"
-    + container.escapeExpression(((helper = (helper = helpers.key || (data && data.key)) != null ? helper : helpers.helperMissing),(typeof helper === "function" ? helper.call(depth0 != null ? depth0 : (container.nullContext || {}),{"name":"key","hash":{},"data":data}) : helper)))
+    + container.escapeExpression(((helper = (helper = helpers.key || (data && data.key)) != null ? helper : container.hooks.helperMissing),(typeof helper === "function" ? helper.call(depth0 != null ? depth0 : (container.nullContext || {}),{"name":"key","hash":{},"data":data,"loc":{"start":{"line":6,"column":19},"end":{"line":6,"column":29}}}) : helper)))
     + "\" class=\"bmlt-page hide\">\n"
     + ((stack1 = container.invokePartial(partials.byfields,depth0,{"name":"byfields","data":data,"indent":"\t\t\t","helpers":helpers,"partials":partials,"decorators":container.decorators})) != null ? stack1 : "")
     + "		</div>\n";
-},"compiler":[7,">= 4.0.0"],"main":function(container,depth0,helpers,partials,data) {
+},"compiler":[8,">= 4.3.0"],"main":function(container,depth0,helpers,partials,data) {
     var stack1;
 
-  return "<div id=\"bmlt-map\" class=\"bmlt-map hide\"></div>\n<div id=\"bmlt-tabs-table\">\n    <div id=\"bmlt-header\" class=\"bmlt-header hide\">\n"
+  return "<div id=\"bmlt-tabs-table\">\n    <div id=\"bmlt-header\" class=\"bmlt-header hide\">\n"
     + ((stack1 = container.invokePartial(partials.header,depth0,{"name":"header","data":data,"indent":"        ","helpers":helpers,"partials":partials,"decorators":container.decorators})) != null ? stack1 : "")
     + "    </div>\n"
-    + ((stack1 = helpers.each.call(depth0 != null ? depth0 : (container.nullContext || {}),((stack1 = (depth0 != null ? depth0.meetings : depth0)) != null ? stack1.buttonFilters : stack1),{"name":"each","hash":{},"fn":container.program(1, data, 0),"inverse":container.noop,"data":data})) != null ? stack1 : "")
+    + ((stack1 = helpers.each.call(depth0 != null ? depth0 : (container.nullContext || {}),((stack1 = (depth0 != null ? depth0.meetings : depth0)) != null ? stack1.buttonFilters : stack1),{"name":"each","hash":{},"fn":container.program(1, data, 0),"inverse":container.noop,"data":data,"loc":{"start":{"line":5,"column":1},"end":{"line":9,"column":10}}})) != null ? stack1 : "")
     + "    <div id=\"byday\" class=\"bmlt-page hide\">\n"
     + ((stack1 = container.invokePartial(partials.bydays,((stack1 = (depth0 != null ? depth0.meetings : depth0)) != null ? stack1.bydays : stack1),{"name":"bydays","data":data,"indent":"        ","helpers":helpers,"partials":partials,"decorators":container.decorators})) != null ? stack1 : "")
     + "    </div>\n    <div id=\"tabs-content\" class=\"bmlt-page\">\n"
@@ -13050,118 +13360,116 @@ this["hbs_Crouton"]["templates"]["master"] = Handlebars.template({"1":function(c
     + "    </div>\n</div>\n";
 },"usePartial":true,"useData":true});
 this["hbs_Crouton"]["templates"]["meetings"] = Handlebars.template({"1":function(container,depth0,helpers,partials,data) {
-    var stack1, alias1=depth0 != null ? depth0 : (container.nullContext || {}), alias2=helpers.helperMissing, alias3=container.escapeExpression, alias4=container.lambda;
+    var stack1, alias1=container.lambda, alias2=container.escapeExpression, alias3=depth0 != null ? depth0 : (container.nullContext || {}), alias4=container.hooks.helperMissing;
 
-  return "    <tr class=\"bmlt-data-row\"\n        data-cities=\""
-    + alias3((helpers.formatDataPointer || (depth0 && depth0.formatDataPointer) || alias2).call(alias1,(depth0 != null ? depth0.location_municipality : depth0),{"name":"formatDataPointer","hash":{},"data":data}))
-    + "\"\n        data-groups=\""
-    + alias3((helpers.formatDataPointer || (depth0 && depth0.formatDataPointer) || alias2).call(alias1,(depth0 != null ? depth0.meeting_name : depth0),{"name":"formatDataPointer","hash":{},"data":data}))
-    + "\"\n        data-locations=\""
-    + alias3((helpers.formatDataPointer || (depth0 && depth0.formatDataPointer) || alias2).call(alias1,(depth0 != null ? depth0.location_text : depth0),{"name":"formatDataPointer","hash":{},"data":data}))
-    + "\"\n        data-zips=\""
-    + alias3((helpers.formatDataPointer || (depth0 && depth0.formatDataPointer) || alias2).call(alias1,(depth0 != null ? depth0.location_postal_code_1 : depth0),{"name":"formatDataPointer","hash":{},"data":data}))
-    + "\"\n        data-formats=\""
-    + alias3((helpers.formatDataPointerFormats || (depth0 && depth0.formatDataPointerFormats) || alias2).call(alias1,(depth0 != null ? depth0.formats_expanded : depth0),{"name":"formatDataPointerFormats","hash":{},"data":data}))
-    + "\"\n        data-areas=\""
-    + alias3((helpers.formatDataPointer || (depth0 && depth0.formatDataPointer) || alias2).call(alias1,(depth0 != null ? depth0.service_body_bigint : depth0),{"name":"formatDataPointer","hash":{},"data":data}))
-    + "\"\n        data-counties=\""
-    + alias3((helpers.formatDataPointer || (depth0 && depth0.formatDataPointer) || alias2).call(alias1,(depth0 != null ? depth0.location_sub_province : depth0),{"name":"formatDataPointer","hash":{},"data":data}))
-    + "\"\n        data-states=\""
-    + alias3((helpers.formatDataPointer || (depth0 && depth0.formatDataPointer) || alias2).call(alias1,(depth0 != null ? depth0.location_province : depth0),{"name":"formatDataPointer","hash":{},"data":data}))
-    + "\">\n        <td class=\"bmlt-column1\">\n            <div class=\"bmlt-day\">"
-    + alias3(alias4((depth0 != null ? depth0.formatted_day : depth0), depth0))
-    + "</div>\n            <div class=\"bmlt-time-2\">"
-    + alias3(alias4((depth0 != null ? depth0.start_time_formatted : depth0), depth0))
+  return "	<tr class=\"bmlt-data-row\"\n		id=\"meeting-data-row-"
+    + alias2(alias1((depth0 != null ? depth0.id_bigint : depth0), depth0))
+    + "\"\n		data-cities=\""
+    + alias2((helpers.formatDataPointer||(depth0 && depth0.formatDataPointer)||alias4).call(alias3,(depth0 != null ? depth0.location_municipality : depth0),{"name":"formatDataPointer","hash":{},"data":data,"loc":{"start":{"line":4,"column":15},"end":{"line":4,"column":63}}}))
+    + "\"\n		data-groups=\""
+    + alias2((helpers.formatDataPointer||(depth0 && depth0.formatDataPointer)||alias4).call(alias3,(depth0 != null ? depth0.meeting_name : depth0),{"name":"formatDataPointer","hash":{},"data":data,"loc":{"start":{"line":5,"column":15},"end":{"line":5,"column":54}}}))
+    + "\"\n		data-locations=\""
+    + alias2((helpers.formatDataPointer||(depth0 && depth0.formatDataPointer)||alias4).call(alias3,(depth0 != null ? depth0.location_text : depth0),{"name":"formatDataPointer","hash":{},"data":data,"loc":{"start":{"line":6,"column":18},"end":{"line":6,"column":58}}}))
+    + "\"\n		data-zips=\""
+    + alias2((helpers.formatDataPointer||(depth0 && depth0.formatDataPointer)||alias4).call(alias3,(depth0 != null ? depth0.location_postal_code_1 : depth0),{"name":"formatDataPointer","hash":{},"data":data,"loc":{"start":{"line":7,"column":13},"end":{"line":7,"column":62}}}))
+    + "\"\n		data-formats=\""
+    + alias2((helpers.formatDataPointerFormats||(depth0 && depth0.formatDataPointerFormats)||alias4).call(alias3,(depth0 != null ? depth0.formats_expanded : depth0),{"name":"formatDataPointerFormats","hash":{},"data":data,"loc":{"start":{"line":8,"column":16},"end":{"line":8,"column":66}}}))
+    + "\"\n		data-areas=\""
+    + alias2((helpers.formatDataPointer||(depth0 && depth0.formatDataPointer)||alias4).call(alias3,(depth0 != null ? depth0.service_body_bigint : depth0),{"name":"formatDataPointer","hash":{},"data":data,"loc":{"start":{"line":9,"column":14},"end":{"line":9,"column":60}}}))
+    + "\"\n		data-counties=\""
+    + alias2((helpers.formatDataPointer||(depth0 && depth0.formatDataPointer)||alias4).call(alias3,(depth0 != null ? depth0.location_sub_province : depth0),{"name":"formatDataPointer","hash":{},"data":data,"loc":{"start":{"line":10,"column":17},"end":{"line":10,"column":65}}}))
+    + "\"\n		data-neighborhoods=\""
+    + alias2((helpers.formatDataPointer||(depth0 && depth0.formatDataPointer)||alias4).call(alias3,(depth0 != null ? depth0.location_neighborhood : depth0),{"name":"formatDataPointer","hash":{},"data":data,"loc":{"start":{"line":11,"column":22},"end":{"line":11,"column":70}}}))
+    + "\"\n		data-states=\""
+    + alias2((helpers.formatDataPointer||(depth0 && depth0.formatDataPointer)||alias4).call(alias3,(depth0 != null ? depth0.location_province : depth0),{"name":"formatDataPointer","hash":{},"data":data,"loc":{"start":{"line":12,"column":15},"end":{"line":12,"column":59}}}))
+    + "\"\n		data-languages=\""
+    + alias2((helpers.formatDataPointerFormats||(depth0 && depth0.formatDataPointerFormats)||alias4).call(alias3,(depth0 != null ? depth0.formats_expanded : depth0),{"name":"formatDataPointerFormats","hash":{},"data":data,"loc":{"start":{"line":13,"column":18},"end":{"line":13,"column":68}}}))
+    + "\">\n		<td class=\"bmlt-column1\">\n			<div class=\"bmlt-day\">"
+    + alias2(alias1((depth0 != null ? depth0.formatted_day : depth0), depth0))
+    + "</div>\n			<div class=\"bmlt-time-2\">"
+    + alias2(alias1((depth0 != null ? depth0.start_time_formatted : depth0), depth0))
     + " - "
-    + alias3(alias4((depth0 != null ? depth0.end_time_formatted : depth0), depth0))
+    + alias2(alias1((depth0 != null ? depth0.end_time_formatted : depth0), depth0))
     + "</div>\n"
-    + ((stack1 = helpers["if"].call(alias1,(depth0 != null ? depth0.formats : depth0),{"name":"if","hash":{},"fn":container.program(2, data, 0),"inverse":container.noop,"data":data})) != null ? stack1 : "")
-    + ((stack1 = helpers["if"].call(alias1,(depth0 != null ? depth0.is_virtual : depth0),{"name":"if","hash":{},"fn":container.program(5, data, 0),"inverse":container.program(7, data, 0),"data":data})) != null ? stack1 : "")
-    + "        </td>\n        <td class=\"bmlt-column2\">\n			<div class=\"meeting-data-template\">"
+    + ((stack1 = helpers["if"].call(alias3,(depth0 != null ? depth0.formats : depth0),{"name":"if","hash":{},"fn":container.program(2, data, 0),"inverse":container.noop,"data":data,"loc":{"start":{"line":17,"column":3},"end":{"line":44,"column":10}}})) != null ? stack1 : "")
+    + ((stack1 = helpers["if"].call(alias3,(depth0 != null ? depth0.is_virtual : depth0),{"name":"if","hash":{},"fn":container.program(5, data, 0),"inverse":container.program(7, data, 0),"data":data,"loc":{"start":{"line":45,"column":3},"end":{"line":49,"column":10}}})) != null ? stack1 : "")
+    + "		</td>\n		<td class=\"bmlt-column2\">\n			<div class=\"meeting-data-template\">"
     + ((stack1 = container.invokePartial(partials.meetingDataTemplate,depth0,{"name":"meetingDataTemplate","data":data,"helpers":helpers,"partials":partials,"decorators":container.decorators})) != null ? stack1 : "")
-    + "</div>\n        </td>\n"
-    + ((stack1 = helpers["if"].call(alias1,(depth0 != null ? depth0.is_virtual : depth0),{"name":"if","hash":{},"fn":container.program(9, data, 0),"inverse":container.program(11, data, 0),"data":data})) != null ? stack1 : "")
-    + "    </tr>\n";
+    + "</div>\n		</td>\n		<td class=\"bmlt-column3\">\n"
+    + ((stack1 = container.invokePartial(partials.metaDataTemplate,depth0,{"name":"metaDataTemplate","data":data,"indent":"\t\t\t","helpers":helpers,"partials":partials,"decorators":container.decorators})) != null ? stack1 : "")
+    + "		</td>\n	</tr>\n";
 },"2":function(container,depth0,helpers,partials,data) {
     var stack1;
 
-  return "                <a id=\"bmlt-formats\"\n                   class=\"btn btn-primary btn-xs\"\n                   title=\"\"\n                   data-html=\"true\"\n                   tabindex=\"0\"\n                   data-trigger=\"focus\"\n                   role=\"button\"\n                   data-toggle=\"popover\"\n                   data-original-title=\"\"\n                   data-content=\"\n                        <table class='bmlt_a_format table-bordered'>\n"
-    + ((stack1 = helpers.each.call(depth0 != null ? depth0 : (container.nullContext || {}),(depth0 != null ? depth0.formats_expanded : depth0),{"name":"each","hash":{},"fn":container.program(3, data, 0),"inverse":container.noop,"data":data})) != null ? stack1 : "")
-    + "                    </table>\">\n                    <span class=\"glyphicon glyphicon-search\"\n                          aria-hidden=\"true\"\n                          data-toggle=\"popover\"\n                          data-trigger=\"focus\"\n                          data-html=\"true\"\n                          role=\"button\"></span>"
+  return "				<a id=\"bmlt-formats\"\n				   class=\"btn btn-primary btn-xs\"\n				   title=\"\"\n				   data-html=\"true\"\n				   tabindex=\"0\"\n				   data-trigger=\"focus\"\n				   role=\"button\"\n				   data-toggle=\"popover\"\n				   data-original-title=\"\"\n				   data-content=\"\n                        <table class='bmlt_a_format table-bordered'>\n"
+    + ((stack1 = helpers.each.call(depth0 != null ? depth0 : (container.nullContext || {}),(depth0 != null ? depth0.formats_expanded : depth0),{"name":"each","hash":{},"fn":container.program(3, data, 0),"inverse":container.noop,"data":data,"loc":{"start":{"line":29,"column":24},"end":{"line":35,"column":33}}})) != null ? stack1 : "")
+    + "                    </table>\">\n                    <span class=\"glyphicon glyphicon-search\"\n						  aria-hidden=\"true\"\n						  data-toggle=\"popover\"\n						  data-trigger=\"focus\"\n						  data-html=\"true\"\n						  role=\"button\"></span>"
     + container.escapeExpression(container.lambda((depth0 != null ? depth0.formats : depth0), depth0))
-    + "\n                </a>\n";
+    + "\n				</a>\n";
 },"3":function(container,depth0,helpers,partials,data) {
-    var helper, alias1=depth0 != null ? depth0 : (container.nullContext || {}), alias2=helpers.helperMissing, alias3="function", alias4=container.escapeExpression;
+    var helper, alias1=depth0 != null ? depth0 : (container.nullContext || {}), alias2=container.hooks.helperMissing, alias3="function", alias4=container.escapeExpression;
 
   return "                        <tr>\n                            <td class='formats_key'>"
-    + alias4(((helper = (helper = helpers.key || (depth0 != null ? depth0.key : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"key","hash":{},"data":data}) : helper)))
+    + alias4(((helper = (helper = helpers.key || (depth0 != null ? depth0.key : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"key","hash":{},"data":data,"loc":{"start":{"line":31,"column":52},"end":{"line":31,"column":59}}}) : helper)))
     + "</td>\n                            <td class='formats_name'>"
-    + alias4(((helper = (helper = helpers.name || (depth0 != null ? depth0.name : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"name","hash":{},"data":data}) : helper)))
+    + alias4(((helper = (helper = helpers.name || (depth0 != null ? depth0.name : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"name","hash":{},"data":data,"loc":{"start":{"line":32,"column":53},"end":{"line":32,"column":61}}}) : helper)))
     + "</td>\n                            <td class='formats_description'>"
-    + alias4(((helper = (helper = helpers.description || (depth0 != null ? depth0.description : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"description","hash":{},"data":data}) : helper)))
+    + alias4(((helper = (helper = helpers.description || (depth0 != null ? depth0.description : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"description","hash":{},"data":data,"loc":{"start":{"line":33,"column":60},"end":{"line":33,"column":75}}}) : helper)))
     + "</td>\n                        </tr>\n";
 },"5":function(container,depth0,helpers,partials,data) {
-    return "                <div></div>\n";
+    return "				<div></div>\n";
 },"7":function(container,depth0,helpers,partials,data) {
-    return "                <div class=\"bmlt-comments\">"
-    + container.escapeExpression((helpers.formatLink || (depth0 && depth0.formatLink) || helpers.helperMissing).call(depth0 != null ? depth0 : (container.nullContext || {}),(depth0 != null ? depth0.formatted_comments : depth0),{"name":"formatLink","hash":{},"data":data}))
+    return "				<div class=\"bmlt-comments\">"
+    + container.escapeExpression((helpers.formatLink||(depth0 && depth0.formatLink)||container.hooks.helperMissing).call(depth0 != null ? depth0 : (container.nullContext || {}),(depth0 != null ? depth0.formatted_comments : depth0),{"name":"formatLink","hash":{},"data":data,"loc":{"start":{"line":48,"column":31},"end":{"line":48,"column":69}}}))
     + "</div>\n";
-},"9":function(container,depth0,helpers,partials,data) {
-    return "        <td class=\"bmlt-column3 virtual\">\n            <div class=\"bmlt-comments\">"
-    + container.escapeExpression((helpers.formatLink || (depth0 && depth0.formatLink) || helpers.helperMissing).call(depth0 != null ? depth0 : (container.nullContext || {}),(depth0 != null ? depth0.formatted_comments : depth0),{"name":"formatLink","hash":{},"data":data}))
-    + "</div>\n        </td>\n";
-},"11":function(container,depth0,helpers,partials,data) {
-    var alias1=container.lambda, alias2=container.escapeExpression;
-
-  return "        <td class=\"bmlt-column3\">\n            <a target=\"_blank\" href=\"https://maps.google.com/maps?q="
-    + alias2(alias1((depth0 != null ? depth0.latitude : depth0), depth0))
-    + ","
-    + alias2(alias1((depth0 != null ? depth0.longitude : depth0), depth0))
-    + "\" id=\"map-button\" class=\"btn btn-primary btn-xs\">\n            <span class=\"glyphicon glyphicon-map-marker\"></span> "
-    + alias2(alias1((depth0 != null ? depth0.map_word : depth0), depth0))
-    + "\n            </a>\n            <div class='geo hide'>"
-    + alias2(alias1((depth0 != null ? depth0.latitude : depth0), depth0))
-    + ","
-    + alias2(alias1((depth0 != null ? depth0.longitude : depth0), depth0))
-    + "</div>\n        </td>\n";
-},"compiler":[7,">= 4.0.0"],"main":function(container,depth0,helpers,partials,data) {
+},"compiler":[8,">= 4.3.0"],"main":function(container,depth0,helpers,partials,data) {
     var stack1;
 
-  return ((stack1 = helpers.each.call(depth0 != null ? depth0 : (container.nullContext || {}),depth0,{"name":"each","hash":{},"fn":container.program(1, data, 0),"inverse":container.noop,"data":data})) != null ? stack1 : "");
+  return ((stack1 = helpers.each.call(depth0 != null ? depth0 : (container.nullContext || {}),depth0,{"name":"each","hash":{},"fn":container.program(1, data, 0),"inverse":container.noop,"data":data,"loc":{"start":{"line":1,"column":0},"end":{"line":58,"column":9}}})) != null ? stack1 : "");
 },"usePartial":true,"useData":true});
 this["hbs_Crouton"]["templates"]["weekdays"] = Handlebars.template({"1":function(container,depth0,helpers,partials,data) {
     var stack1, helper;
 
   return "        <div id='tab"
-    + container.escapeExpression(((helper = (helper = helpers.day || (depth0 != null ? depth0.day : depth0)) != null ? helper : helpers.helperMissing),(typeof helper === "function" ? helper.call(depth0 != null ? depth0 : (container.nullContext || {}),{"name":"day","hash":{},"data":data}) : helper)))
+    + container.escapeExpression(((helper = (helper = helpers.day || (depth0 != null ? depth0.day : depth0)) != null ? helper : container.hooks.helperMissing),(typeof helper === "function" ? helper.call(depth0 != null ? depth0 : (container.nullContext || {}),{"name":"day","hash":{},"data":data,"loc":{"start":{"line":3,"column":20},"end":{"line":3,"column":29}}}) : helper)))
     + "' class='tab-pane'>\n            <div id=\"bmlt-table-div\">\n                <table class='bmlt-table table table-striped table-hover table-bordered tablesaw tablesaw-stack'>\n                    <tbody>\n"
     + ((stack1 = container.invokePartial(partials.meetings,(depth0 != null ? depth0.meetings : depth0),{"name":"meetings","data":data,"indent":"                    ","helpers":helpers,"partials":partials,"decorators":container.decorators})) != null ? stack1 : "")
     + "                    </tbody>\n                </table>\n            </div>\n        </div>\n";
-},"compiler":[7,">= 4.0.0"],"main":function(container,depth0,helpers,partials,data) {
+},"compiler":[8,">= 4.3.0"],"main":function(container,depth0,helpers,partials,data) {
     var stack1;
 
   return "<div class=\"tab-content\">\n"
-    + ((stack1 = helpers.each.call(depth0 != null ? depth0 : (container.nullContext || {}),depth0,{"name":"each","hash":{},"fn":container.program(1, data, 0),"inverse":container.noop,"data":data})) != null ? stack1 : "")
+    + ((stack1 = helpers.each.call(depth0 != null ? depth0 : (container.nullContext || {}),depth0,{"name":"each","hash":{},"fn":container.program(1, data, 0),"inverse":container.noop,"data":data,"loc":{"start":{"line":2,"column":4},"end":{"line":12,"column":13}}})) != null ? stack1 : "")
     + "</div>\n";
 },"usePartial":true,"useData":true});
 var crouton_Handlebars = Handlebars.noConflict();
 function Crouton(config) {
 	var self = this;
 	self.mutex = false;
+	self.map = null;
+	self.geocoder = null;
+	self.map_objects = [];
+	self.map_clusters = [];
+	self.oms = null;
+	self.markerClusterer = null;
 	self.max_filters = 10;  // TODO: needs to be refactored so that dropdowns are treated dynamically
 	self.config = {
 		on_complete: null,            // Javascript function to callback when data querying is completed.
+		root_server: null,			  // The root server to use.
 		placeholder_id: "bmlt-tabs",  // The DOM id that will be used for rendering
 		map_max_zoom: 15,		      // Maximum zoom for the display map
 		time_format: "h:mm a",        // The format for time
 		language: "en-US",            // Default language translation, available translations listed here: https://github.com/bmlt-enabled/crouton/blob/master/croutonjs/src/js/crouton-localization.js
 		has_tabs: true,               // Shows the day tabs
+		filter_tabs: false,   		  // Whether to show weekday tabs on filtering.
 		header: true,                 // Shows the dropdowns and buttons
 		include_weekday_button: true, // Shows the weekday button
 		button_filters: [
 			{'title': 'City', 'field': 'location_municipality'},
 		],
+		default_filter_dropdown: "",  // Sets the default format for the dropdowns, the names will match the `has_` fields dropdowns without `has_.  Example: `formats=closed`.
 		show_map: false,              // Shows the map with pins
+		map_search: null, 			  // Start search with map click (ex {"latitude":x,"longitude":y,"width":-10,"zoom":10}
 		has_cities: true,             // Shows the cities dropdown
 		has_formats: true,            // Shows the formats dropdown
 		has_groups: true,             // Shows the groups dropdown
@@ -13170,6 +13478,8 @@ function Crouton(config) {
 		has_areas: false,             // Shows the areas dropdown
 		has_states: false,            // Shows the states dropdown
 		has_sub_province: false,      // Shows the sub province dropdown (counties)
+		has_neighborhoods: false,     // Shows the neighborhood dropdown
+		has_languages: false,		  // Shows the language dropdown
 		show_distance: false,         // Determines distance on page load
 		distance_search: 0,			  // Makes a distance based search with results either number of / or distance from coordinates
 		recurse_service_bodies: false,// Recurses service bodies when making service bodies request
@@ -13184,11 +13494,106 @@ function Crouton(config) {
 		int_start_day_id: 1,          // Controls the first day of the week sequence.  Sunday is 1.
 		view_by: "weekday",           // TODO: replace with using the first choice in button_filters as the default view_by.
 		theme: "jack",               // Allows for setting pre-packaged themes.  Choices are listed here:  https://github.com/bmlt-enabled/crouton/blob/master/croutonjs/dist/templates/themes
-		meeting_data_template: "<div class='meeting-name'>{{this.meeting_name}}</div><div class='location-text'>{{this.location_text}}</div><div class='meeting-address'>{{this.formatted_address}}</div><div class='location-information'>{{this.formatted_location_info}}</div>"
+		meeting_data_template: "<div class='meeting-name'>{{this.meeting_name}}</div><div class='location-text'>{{this.location_text}}</div><div class='meeting-address'>{{this.formatted_address}}</div><div class='location-information'>{{this.formatted_location_info}}</div>",
+		metadata_template: "<a target='_blank' href='https://www.google.com/maps/search/?api=1&query={{this.latitude}},{{this.longitude}}&q={{this.latitude}},{{this.longitude}}' id='map-button' class='btn btn-primary btn-xs'><span class='glyphicon glyphicon-map-marker'></span> {{this.map_word}}</a><div class='geo hide'>{{this.latitude}},{{this.longitude}}</div>"
 	};
 
 	self.setConfig(config);
-	self.getMeetings = function(url) {
+	self.loadGapi = function(callbackFunctionName) {
+		var tag = document.createElement('script');
+		tag.src = "https://maps.googleapis.com/maps/api/js?key=" + self.config['google_api_key'] + "&callback=" + callbackFunctionName;
+		tag.defer = true;
+		tag.async = true;
+		var firstScriptTag = document.getElementsByTagName('script')[0];
+		firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
+	};
+	self.getCurrentLocation = function(callback) {
+		if (navigator.geolocation) {
+			navigator.geolocation.getCurrentPosition(callback, self.errorHandler);
+		} else {
+			$('.geo').removeClass("hide").addClass("show").html('<p>Geolocation is not supported by your browser</p>');
+		}
+	};
+
+	self.searchByCoordinates = function(latitude, longitude) {
+		var width = self.config['map_search']['width'] || -50;
+
+		self.config['custom_query'] = "&lat_val=" + latitude + "&long_val=" + longitude
+			+ (self.config['distance_units'] === "km" ? '&geo_width_km=' : '&geo_width=') + width;
+		self.meetingSearch(function() {
+			self.reset();
+			self.render();
+			self.initMap(function() {
+				self.addCurrentLocationPin(latitude, longitude);
+			});
+		});
+	};
+
+	self.addCurrentLocationPin = function(latitude, longitude) {
+		var latlng = new google.maps.LatLng(latitude, longitude);
+		self.map.setCenter(latlng);
+
+		var currentLocationMarker = new google.maps.Marker({
+			"map": self.map,
+			"position": latlng,
+		});
+
+		self.addToMapObjectCollection(currentLocationMarker);
+
+		// TODO: needs to show on click only
+		/*var infowindow = new google.maps.InfoWindow({
+			"content": 'Current Location',
+			"position": latlng,
+		}).open(self.map, currentLocationMarker);*/
+	};
+
+	self.findMarkerById = function(id) {
+		for (var m = 0; m < self.map_objects.length; m++) {
+			var map_object = self.map_objects[m];
+			if (parseInt(map_object['id']) === id) {
+				return map_object;
+			}
+		}
+
+		return null;
+	};
+
+	self.rowClick = function(id) {
+		var map_marker = self.findMarkerById(id);
+		self.map.setCenter(map_marker.getPosition());
+		self.map.setZoom(17);
+		google.maps.event.trigger(map_marker, "click");
+	};
+
+	self.addToMapObjectCollection = function(obj) {
+		self.map_objects.push(obj);
+	};
+
+	self.clearAllMapClusters = function() {
+		while (self.map_clusters.length > 0) {
+			self.map_clusters[0].setMap(null);
+			self.map_clusters.splice(0, 1);
+		}
+
+		if (self.oms !== null) {
+			self.oms.removeAllMarkers();
+		}
+
+		if (self.markerClusterer !== null) {
+			self.markerClusterer.clearMarkers();
+		}
+	};
+
+	self.clearAllMapObjects = function() {
+		while (self.map_objects.length > 0) {
+			self.map_objects[0].setMap(null);
+			self.map_objects.splice(0, 1);
+		}
+
+		//infoWindow.close();
+	};
+
+	self.getMeetings = function(url, callback) {
 		jQuery.getJSON(this.config['root_server'] + url + '&callback=?', function (data) {
 			if (data === null || JSON.stringify(data) === "{}") {
 				console.error("Could not find any meetings for the criteria specified.");
@@ -13205,68 +13610,80 @@ function Crouton(config) {
 				jQuery.getJSON(self.config['root_server'] + url + '&callback=?' + extra_meetings_query, function (data) {
 					self.meetingData = self.meetingData.concat(data);
 					self.mutex = false;
+					callback();
 				});
 			} else {
 				self.mutex = false;
+				callback();
 			}
 		});
 	};
 	self.mutex = true;
 
-	var data_field_keys = [
-		'location_postal_code_1',
-		'duration_time',
-		'start_time',
-		'weekday_tinyint',
-		'service_body_bigint',
-		'longitude',
-		'latitude',
-		'location_province',
-		'location_municipality',
-		'location_street',
-		'location_info',
-		'location_text',
-		'formats',
-		'format_shared_id_list',
-		'comments',
-		'meeting_name',
-		'location_sub_province',
-		'worldid_mixed',
-		'root_server_uri'
-	];
+	self.meetingSearch = function(callback) {
+		var data_field_keys = [
+			'location_postal_code_1',
+			'duration_time',
+			'start_time',
+			'weekday_tinyint',
+			'service_body_bigint',
+			'longitude',
+			'latitude',
+			'location_province',
+			'location_municipality',
+			'location_street',
+			'location_info',
+			'location_text',
+			'location_neighborhood',
+			'formats',
+			'format_shared_id_list',
+			'comments',
+			'meeting_name',
+			'location_sub_province',
+			'worldid_mixed',
+			'root_server_uri',
+			'id_bigint',
+		];
 
-	var extra_fields_regex = /{{this\.([A-Za-z_]*)}}/gi;
-	while (arr = extra_fields_regex.exec(self.config['meeting_data_template'])) {
-		data_field_keys.push(arr[1])
-	}
-	var url = '/client_interface/jsonp/?switcher=GetSearchResults&data_field_key=' + data_field_keys.join(',');
-
-	if (self.config['distance_search'] !== 0) {
-		if (navigator.geolocation) {
-			navigator.geolocation.getCurrentPosition(function(position) {
-				url += '&lat_val=' + position.coords.latitude
-					+ '&long_val=' + position.coords.longitude
-					+ '&sort_results_by_distance=1';
-
-				url += (self.config['distance_units'] === "km" ? '&geo_width_km=' : '&geo_width=') + self.config['distance_search'];
-				self.getMeetings(url);
-			}, self.errorHandler);
+		var extra_fields_regex = /{{this\.([A-Za-z_]*)}}/gi;
+		while (arr = extra_fields_regex.exec(self.config['meeting_data_template'])) {
+			data_field_keys.push(arr[1])
 		}
-	} else if (self.config['custom_query'] != null) {
-		url += self.config['custom_query'] + '&sort_keys='  + self.config['sort_keys'];
-		self.getMeetings(url);
-	} else if (self.config['service_body'].length > 0) {
-		for (var i = 0; i < self.config['service_body'].length; i++) {
-			url += '&services[]=' + self.config['service_body'][i];
+		var url = '/client_interface/jsonp/?switcher=GetSearchResults&data_field_key=' + data_field_keys.join(',');
+
+		if (self.config['distance_search'] !== 0) {
+			if (navigator.geolocation) {
+				navigator.geolocation.getCurrentPosition(function(position) {
+					url += '&lat_val=' + position.coords.latitude
+						+ '&long_val=' + position.coords.longitude
+						+ '&sort_results_by_distance=1';
+
+					url += (self.config['distance_units'] === "km" ? '&geo_width_km=' : '&geo_width=') + self.config['distance_search'];
+					self.getMeetings(url, callback);
+				}, self.errorHandler);
+			}
+		} else if (self.config['custom_query'] != null) {
+			url += self.config['custom_query'] + '&sort_keys='  + self.config['sort_keys'];
+			self.getMeetings(url, callback);
+		} else if (self.config['service_body'].length > 0) {
+			for (var i = 0; i < self.config['service_body'].length; i++) {
+				url += '&services[]=' + self.config['service_body'][i];
+			}
+
+			if (self.config['recurse_service_bodies']) {
+				url += '&recursive=1';
+			}
+
+			url += '&sort_keys=' + self.config['sort_keys'];
+
+			self.getMeetings(url, callback);
 		}
+	};
 
-		if (self.config['recurse_service_bodies']) {
-			url += '&recursive=1';
-		}
-
-		url += '&sort_keys=' + self.config['sort_keys'];
-
-		self.getMeetings(url);
+	if (self.config['map_search'] !== null) {
+		self.loadGapi('crouton.renderMap');
+	} else {
+		self.meetingSearch(function() {});
 	}
 
 	self.lock = function(callback) {
@@ -13277,6 +13694,12 @@ function Crouton(config) {
 				callback();
 			}
 		}, 100)
+	};
+
+	self.dayTab = function(day_id) {
+		self.hideAllPages();
+		jQuery('.nav-tabs a[href="#tab' + day_id + '"]').tab('show');
+		self.showPage("#" + day_id);
 	};
 
 	self.showPage = function (id) {
@@ -13297,12 +13720,6 @@ function Crouton(config) {
 
 	self.byDayView = function () {
 		self.resetFilter();
-		for (var a = 1; a < self.max_filters; a++) {
-			if (jQuery("#e" + a).length) {
-				jQuery("#e" + a).select2("val", null);
-			}
-		}
-
 		self.lowlightButton(".filterButton");
 		self.highlightButton("#day");
 		jQuery('.bmlt-page').each(function (index) {
@@ -13315,12 +13732,6 @@ function Crouton(config) {
 
 	self.dayView = function () {
 		self.resetFilter();
-		for (var a = 1; a < self.max_filters; a++) {
-			if (jQuery("#e" + a).length) {
-				jQuery("#e" + a).select2("val", null);
-			}
-		}
-
 		self.lowlightButton(".filterButton");
 		self.highlightButton("#day");
 		jQuery('.bmlt-page').each(function (index) {
@@ -13334,12 +13745,6 @@ function Crouton(config) {
 
 	self.filteredView = function (field) {
 		self.resetFilter();
-		for (var a = 1; a < self.max_filters; a++) {
-			if (jQuery("#e" + a).length) {
-				jQuery("#e" + a).select2("val", null);
-			}
-		}
-
 		self.lowlightButton("#day");
 		self.lowlightButton(".filterButton");
 		self.highlightButton("#filterButton_" + field);
@@ -13362,24 +13767,37 @@ function Crouton(config) {
 		jQuery(id).removeClass("show").addClass("hide");
 	};
 
-	self.filteredPage = function (id, dataType, dataValue) {
-		self.resetFilter();
-		self.showPage(id);
+	self.hideAllPages = function (id) {
+		jQuery("#tab-pane").removeClass("show").addClass("hide");
+	};
+
+	self.filteredPage = function (dataType, dataValue) {
+		jQuery(".meeting-header").removeClass("hide");
 		jQuery(".bmlt-data-row").removeClass("hide");
-		if (dataType !== "formats") {
+		if (dataType !== "formats" && dataType !== "languages") {
 			jQuery(".bmlt-data-row").not("[data-" + dataType + "='" + dataValue + "']").addClass("hide");
 		} else {
 			jQuery(".bmlt-data-row").not("[data-" + dataType + "~='" + dataValue + "']").addClass("hide");
 		}
 
-		jQuery(".bmlt-data-rows").each(function (index, value) {
-			if (jQuery(value).find(".bmlt-data-row.hide").length === jQuery(value).find(".bmlt-data-row").length) {
-				jQuery(value).find(".meeting-header").addClass("hide");
-			}
-		})
+		if (self.config['filter_tabs']) {
+			self.showPage("#nav-days");
+			self.showPage("#tabs-content");
+		} else {
+			self.lowlightButton(".filterButton");
+			self.lowlightButton("#day");
+			self.showPage("#byday");
+
+			jQuery(".bmlt-data-rows").each(function (index, value) {
+				if (jQuery(value).find(".bmlt-data-row.hide").length === jQuery(value).find(".bmlt-data-row").length) {
+					jQuery(value).find(".meeting-header").addClass("hide");
+				}
+			});
+		}
 	};
 
 	self.resetFilter = function () {
+		jQuery(".filter-dropdown").val(null).trigger("change");
 		jQuery(".meeting-header").removeClass("hide");
 		jQuery(".bmlt-data-row").removeClass("hide");
 	};
@@ -13392,7 +13810,7 @@ function Crouton(config) {
 		crouton_Handlebars.registerPartial('header', hbs_Crouton.templates['header']);
 		crouton_Handlebars.registerPartial('byfields', hbs_Crouton.templates['byfield']);
 		var template = hbs_Crouton.templates['master'];
-		jQuery(selector).append(template(context));
+		jQuery(selector).html(template(context));
 		callback();
 	};
 
@@ -13476,7 +13894,7 @@ function Crouton(config) {
 		var meetings = [];
 
 		crouton_Handlebars.registerPartial("meetingDataTemplate", self.config['meeting_data_template']);
-		//crouton_Handlebars.registerPartial("metaDataTemplate", self.config['metadata_template']);
+		crouton_Handlebars.registerPartial("metaDataTemplate", self.config['metadata_template']);
 
 		for (var m = 0; m < meetingData.length; m++) {
 			meetingData[m]['formatted_comments'] = meetingData[m]['comments'];
@@ -13538,7 +13956,7 @@ function Crouton(config) {
 				return false;
 		}
 		return true;
-	}
+	};
 }
 
 Crouton.prototype.setConfig = function(config) {
@@ -13590,6 +14008,8 @@ Crouton.prototype.reset = function() {
 	var self = this;
 	jQuery("#custom-css").remove();
 	jQuery("#" + self.config["placeholder_id"]).html("");
+	self.clearAllMapObjects();
+	self.clearAllMapClusters();
 };
 
 Crouton.prototype.meetingCount = function(callback) {
@@ -13629,6 +14049,7 @@ Crouton.prototype.render = function(callback) {
 			'cities': getUniqueValuesOfKey(self.meetingData, 'location_municipality').sort(),
 			'locations': getUniqueValuesOfKey(self.meetingData, 'location_text').sort(),
 			'sub_provinces': getUniqueValuesOfKey(self.meetingData, 'location_sub_province').sort(),
+			'neighborhoods': getUniqueValuesOfKey(self.meetingData, 'location_neighborhood').sort(),
 			'states': getUniqueValuesOfKey(self.meetingData, 'location_province').sort(),
 			'zips': getUniqueValuesOfKey(self.meetingData, 'location_postal_code_1').sort(),
 			'unique_service_bodies_ids': getUniqueValuesOfKey(self.meetingData, 'service_body_bigint').sort()
@@ -13648,6 +14069,15 @@ Crouton.prototype.render = function(callback) {
 			self.getFormats(function (data) {
 				self.formatsData = data;
 				self.uniqueData['formats'] = data;
+				self.uniqueData['languages'] = [];
+
+				for (var l = 0; l < data.length; l++) {
+					var format = data[l];
+					if (format['format_type_enum'] === "LANG") {
+						self.uniqueData['languages'].push(data[l]);
+					}
+				}
+
 				var weekdaysData = [];
 				var enrichedMeetingData = self.enrichMeetings(self.meetingData);
 
@@ -13716,6 +14146,13 @@ Crouton.prototype.render = function(callback) {
 					},
 					"uniqueData": self.uniqueData
 				}, function () {
+					if (self.config['map_search'] != null || self.config['show_map']) {
+						jQuery(".bmlt-data-row").css({cursor: "pointer"});
+						jQuery(".bmlt-data-row").click(function () {
+							self.rowClick(parseInt(this.id.replace("meeting-data-row-", "")));
+						});
+					}
+
 					jQuery("#" + self.config['placeholder_id']).addClass("bootstrap-bmlt");
 					jQuery(".crouton-select").select2({
 						dropdownAutoWidth: true,
@@ -13732,26 +14169,16 @@ Crouton.prototype.render = function(callback) {
 						}
 					});
 
-					for (var a = 1; a < self.max_filters; a++) {
-						jQuery("#e" + a).on('select2:select', function (e) {
-							for (var j = 1; j < self.max_filters; j++) {
-								if (this.id !== "e" + j) {
-									if (jQuery("#e" + j).length) {
-										jQuery("#e" + j).select2("val", null);
-									}
-								}
-							}
+					jQuery('.filter-dropdown').on('select2:select', function (e) {
+						jQuery(this).parent().siblings().children(".filter-dropdown").val(null).trigger('change');
 
-							var val = jQuery("#" + this.id).val();
-							jQuery('.bmlt-page').each(function (index) {
-								self.hidePage("#" + this.id);
-								self.lowlightButton(".filterButton");
-								self.lowlightButton("#day");
-								self.filteredPage("#byday", e.target.getAttribute("data-pointer").toLowerCase(), val.replace("a-", ""));
-								return;
-							});
+						var val = jQuery(this).val();
+						jQuery('.bmlt-page').each(function () {
+							self.hidePage(this);
+							self.filteredPage(e.target.getAttribute("data-pointer").toLowerCase(), val.replace("a-", ""));
+							return;
 						});
-					}
+					});
 
 					jQuery("#day").on('click', function () {
 						self.showView(self.config['view_by'] === 'byday' ? 'byday' : 'day');
@@ -13785,21 +14212,17 @@ Crouton.prototype.render = function(callback) {
 					self.showPage(".bmlt-tabs");
 					self.showView(self.config['view_by']);
 
+					if (self.config['default_filter_dropdown'] !== "") {
+						var filter = self.config['default_filter_dropdown'].toLowerCase().split("=");
+						jQuery("#filter-dropdown-" + filter[0]).val('a-' + filter[1]).trigger('change').trigger('select2:select');
+					}
+
 					if (self.config['show_distance']) {
-						if (navigator.geolocation) {
-							navigator.geolocation.getCurrentPosition(self.showLocation, self.errorHandler);
-						} else {
-							$('.geo').removeClass("hide").addClass("show").html('<p>Geolocation is not supported by your browser</p>');
-						}
+						self.getCurrentLocation(self.showLocation);
 					}
 
 					if (self.config['show_map']) {
-						var tag = document.createElement('script');
-						tag.src = "https://maps.googleapis.com/maps/api/js?key=" + self.config['google_api_key'] + "&callback=crouton.initMap";
-						tag.defer = true;
-						tag.async = true;
-						var firstScriptTag = document.getElementsByTagName('script')[0];
-						firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
+						self.loadGapi('crouton.initMap');
 					}
 
 					if (self.config['on_complete'] != null && isFunction(self.config['on_complete'])) {
@@ -13811,13 +14234,118 @@ Crouton.prototype.render = function(callback) {
 	});
 };
 
-Crouton.prototype.initMap = function() {
+Crouton.prototype.mapSearchClickMode = function() {
 	var self = this;
-	var map = new google.maps.Map(document.getElementById('bmlt-map'), {
-		zoom: 3
+	self.mapClickSearchMode = true;
+	self.map.setOptions({
+		draggableCursor: 'crosshair',
+		zoomControl: false,
+		gestureHandling: 'none'
+	});
+};
+
+Crouton.prototype.mapSearchPanZoomMode = function() {
+	var self = this;
+	self.mapClickSearchMode = false;
+	self.map.setOptions({
+		draggableCursor: 'default',
+		zoomControl: true,
+		gestureHandling: 'auto'
+	});
+};
+
+Crouton.prototype.mapSearchNearMeMode = function() {
+	var self = this;
+	self.mapSearchPanZoomMode();
+	jQuery("#panzoom").prop("checked", true);
+	self.getCurrentLocation(function(position) {
+		self.searchByCoordinates(position.coords.latitude, position.coords.longitude);
+	});
+};
+
+Crouton.prototype.mapSearchTextMode = function(location) {
+	var self = this;
+	self.mapSearchPanZoomMode();
+	jQuery("#panzoom").prop("checked", true);
+	if (location !== undefined && location !== null && location !== "") {
+		self.geocoder.geocode({'address': location}, function (results, status) {
+			if (status === 'OK') {
+				self.searchByCoordinates(results[0].geometry.location.lat(), results[0].geometry.location.lng());
+			} else {
+				console.log('Geocode was not successful for the following reason: ' + status);
+			}
+		});
+	}
+};
+
+Crouton.prototype.renderMap = function() {
+	var self = this;
+	jQuery("#bmlt-tabs").before("<div id='bmlt-map' class='bmlt-map'></div>");
+
+	self.geocoder = new google.maps.Geocoder();
+	self.map = new google.maps.Map(document.getElementById('bmlt-map'), {
+		zoom: self.config['map_search']['zoom'] || 10,
+		center: {
+			lat: self.config['map_search']['latitude'],
+			lng: self.config['map_search']['longitude'],
+		},
+		mapTypeControl: false,
 	});
 
-	jQuery("#bmlt-map").removeClass("hide");
+	var controlDiv = document.createElement('div');
+
+	// Set CSS for the control border
+	var controlUI = document.createElement('div');
+	controlUI.className = 'mapcontrolcontainer';
+	controlUI.title = 'Click to recenter the map';
+	controlDiv.appendChild(controlUI);
+
+	// Set CSS for the control interior
+	var clickSearch = document.createElement('div');
+	clickSearch.className = 'mapcontrols';
+	clickSearch.innerHTML = '<label for="nearme" class="mapcontrolslabel"><input type="radio" id="nearme" name="mapcontrols"> ' + self.localization.getWord('near_me') + '</label><label for="textsearch" class="mapcontrolslabel"><input type="radio" id="textsearch" name="mapcontrols"> ' + self.localization.getWord('text_search') + '</label><label for="clicksearch" class="mapcontrolslabel"><input type="radio" id="clicksearch" name="mapcontrols"> ' + self.localization.getWord('click_search') + '</label><label for="panzoom" class="mapcontrolslabel"><input type="radio" id="panzoom" name="mapcontrols" checked> ' + self.localization.getWord('pan_and_zoom') + '</label>';
+	controlUI.appendChild(clickSearch);
+	controlDiv.index = 1;
+
+	google.maps.event.addDomListener(clickSearch, 'click', function() {
+		var controlsButtonSelections = jQuery("input:radio[name='mapcontrols']:checked").attr("id");
+		if (controlsButtonSelections === "textsearch") {
+			self.mapSearchTextMode(prompt("Enter a location or postal code:"));
+		} else if (controlsButtonSelections === "nearme") {
+			self.mapSearchNearMeMode();
+		} else if (controlsButtonSelections === "clicksearch") {
+			self.mapSearchClickMode();
+		} else if (controlsButtonSelections === "panzoom") {
+			self.mapSearchPanZoomMode();
+		}
+	});
+
+	self.map.controls[google.maps.ControlPosition.TOP_LEFT].push(controlDiv);
+	self.map.addListener('click', function (data) {
+		if (self.mapClickSearchMode) {
+			self.mapSearchPanZoomMode();
+			jQuery("#panzoom").prop("checked", true);
+			self.searchByCoordinates(data.latLng.lat(), data.latLng.lng());
+		}
+	});
+
+	if (self.config['map_search']['auto']) {
+		self.mapSearchNearMeMode();
+	} else if (self.config['map_search']['location'] !== null) {
+		self.mapSearchTextMode(self.config['map_search']['location']);
+	}
+};
+
+Crouton.prototype.initMap = function(callback) {
+	var self = this;
+	if (self.map == null) {
+		jQuery("#bmlt-tabs").before("<div id='bmlt-map' class='bmlt-map'></div>");
+		self.map = new google.maps.Map(document.getElementById('bmlt-map'), {
+			zoom: 3,
+		});
+	}
+
+ 	jQuery("#bmlt-map").removeClass("hide");
 	var bounds = new google.maps.LatLngBounds();
 	// We go through all the results, and get the "spread" from them.
 	for (var c = 0; c < self.meetingData.length; c++) {
@@ -13827,21 +14355,28 @@ Crouton.prototype.initMap = function() {
 		bounds.extend(new google.maps.LatLng(lat, lng));
 	}
 	// We now have the full rectangle of our meeting search results. Scale the map to fit them.
-	map.fitBounds(bounds);
-
-	var clusterMarker = [];
+	self.map.fitBounds(bounds);
 
 	var infoWindow = new google.maps.InfoWindow();
 
 	// Create OverlappingMarkerSpiderfier instance
-	var oms = new OverlappingMarkerSpiderfier(map, {markersWontMove: true, markersWontHide: true});
+	self.oms = new OverlappingMarkerSpiderfier(self.map, {
+		markersWontMove: true,
+		markersWontHide: true,
+	});
 
-	oms.addListener('format', function (marker, status) {
-		var iconURL = status == OverlappingMarkerSpiderfier.markerStatus.SPIDERFIED ? self.config['template_path'] + '/NAMarkerR.png' :
-			status == OverlappingMarkerSpiderfier.markerStatus.SPIDERFIABLE ? self.config['template_path'] + '/NAMarkerB.png' :
-				status == OverlappingMarkerSpiderfier.markerStatus.UNSPIDERFIED ? self.config['template_path'] + '/NAMarkerB.png' :
-					status == OverlappingMarkerSpiderfier.markerStatus.UNSPIDERFIABLE ? self.config['template_path'] + '/NAMarkerR.png' :
-						null;
+	self.oms.addListener('format', function (marker, status) {
+		var iconURL;
+		if (status === OverlappingMarkerSpiderfier.markerStatus.SPIDERFIED
+			|| status === OverlappingMarkerSpiderfier.markerStatus.SPIDERFIABLE
+			|| status === OverlappingMarkerSpiderfier.markerStatus.UNSPIDERFIED) {
+			iconURL = self.config['template_path'] + '/NAMarkerR.png';
+		} else if (status === OverlappingMarkerSpiderfier.markerStatus.UNSPIDERFIABLE) {
+			iconURL = self.config['template_path'] + '/NAMarkerB.png';
+		} else {
+			iconURL = null;
+		}
+
 		var iconSize = new google.maps.Size(22, 32);
 		marker.setIcon({
 			url: iconURL,
@@ -13850,11 +14385,20 @@ Crouton.prototype.initMap = function() {
 		});
 	});
 
+	self.map.addListener('zoom_changed', function() {
+		self.map.addListener('idle', function() {
+			var spidered = self.oms.markersNearAnyOtherMarker();
+			for (var i = 0; i < spidered.length; i ++) {
+				spidered[i].icon.url = self.config['template_path'] + '/NAMarkerR.png';
+			}
+		});
+	});
 
 	// This is necessary to make the Spiderfy work
-	oms.addListener('click', function (marker) {
+	self.oms.addListener('click', function (marker) {
+		marker.zIndex = 999;
 		infoWindow.setContent(marker.desc);
-		infoWindow.open(map, marker);
+		infoWindow.open(self.map, marker);
 	});
 	// Add some markers to the map.
 	// Note: The code uses the JavaScript Array.prototype.map() method to
@@ -13906,27 +14450,34 @@ Crouton.prototype.initMap = function() {
 		var latLng = {"lat": parseFloat(location.latitude), "lng": parseFloat(location.longitude)};
 
 		var marker = new google.maps.Marker({
-			position: latLng,
-			map: map
+			position: latLng
 		});
 
-		// needed to make Spiderfy work
-		oms.addMarker(marker);
+		marker['id'] = location['id_bigint'];
+		marker['day_id'] = location['weekday_tinyint'];
 
-		// needed to cluster marker
-		clusterMarker.push(marker);
+		self.addToMapObjectCollection(marker);
+		self.oms.addMarker(marker);
+
+		self.map_clusters.push(marker);
 		google.maps.event.addListener(marker, 'click', function (evt) {
+			jQuery(".bmlt-data-row > td").removeClass("rowHighlight");
+			jQuery("#meeting-data-row-" + marker['id'] + " > td").addClass("rowHighlight");
+			self.dayTab(marker['day_id']);
 			infoWindow.setContent(marker_html);
-			infoWindow.open(map, marker);
+			infoWindow.open(self.map, marker);
 		});
 		return marker;
 	});
 
 	// Add a marker clusterer to manage the markers.
-	new MarkerClusterer(map, clusterMarker, {
+	self.markerClusterer = new MarkerClusterer(self.map, self.map_clusters, {
 		imagePath: self.config['template_path'] + '/m',
-		maxZoom: self.config['map_max_zoom']
+		maxZoom: self.config['map_max_zoom'],
+		zoomOnClick: false
 	});
+
+	if (callback !== undefined && isFunction(callback)) callback();
 };
 
 crouton_Handlebars.registerHelper('getDayOfTheWeek', function(day_id) {
@@ -14615,24 +15166,13 @@ Array.prototype.sortByKey = function (key) {
 }(this));
 
 /**
- * @name MarkerClusterer for Google Maps v3
- * @version version 1.0.1
- * @author Luke Mahe
- * @fileoverview
- * The library creates and manages per-zoom-level clusters for large amounts of
- * markers.
- * <br/>
- * This is a v3 implementation of the
- * <a href="http://gmaps-utility-library-dev.googlecode.com/svn/tags/markerclusterer/"
- * >v2 MarkerClusterer</a>.
- */
-
-/**
+ * Copyright 2019 Google LLC. All Rights Reserved.
+ *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  *
- *     http://www.apache.org/licenses/LICENSE-2.0
+ *      http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -14641,6 +15181,13 @@ Array.prototype.sortByKey = function (key) {
  * limitations under the License.
  */
 
+/**
+ * @name MarkerClusterer for Google Maps v3
+ * @author Luke Mahe
+ * @fileoverview
+ * The library creates and manages per-zoom-level clusters for large amounts of
+ * markers.
+ */
 
 /**
  * A Marker Clusterer that clusters markers.
@@ -14654,12 +15201,21 @@ Array.prototype.sortByKey = function (key) {
  *                cluster.
  *     'zoomOnClick': (boolean) Whether the default behaviour of clicking on a
  *                    cluster is to zoom into it.
+ *     'imagePath': (string) The base URL where the images representing
+ *                  clusters will be found. The full URL will be:
+ *                  {imagePath}[1-5].{imageExtension}
+ *                  Default: '../images/m'.
+ *     'imageExtension': (string) The suffix for images URL representing
+ *                       clusters will be found. See _imagePath_ for details.
+ *                       Default: 'png'.
  *     'averageCenter': (boolean) Whether the center of each cluster should be
  *                      the average of all markers in the cluster.
  *     'minimumClusterSize': (number) The minimum number of markers to be in a
  *                           cluster before the markers are hidden and a count
  *                           is shown.
- *     'styles': (object) An object that has style properties:
+ *     'zIndex': (number) the z-index of a cluster.
+ *               Default: google.maps.Marker.MAX_ZINDEX + 1
+ *     'styles': (Array.<Object>) An Array of single object that has style properties for all cluster:
  *       'url': (string) The image url.
  *       'height': (number) The image height.
  *       'width': (number) The image width.
@@ -14670,745 +15226,740 @@ Array.prototype.sortByKey = function (key) {
  * @constructor
  * @extends google.maps.OverlayView
  */
-function MarkerClusterer(map, opt_markers, opt_options) {
-  // MarkerClusterer implements google.maps.OverlayView interface. We use the
-  // extend function to extend MarkerClusterer with google.maps.OverlayView
-  // because it might not always be available when the code is defined so we
-  // look for it at the last possible moment. If it doesn't exist now then
-  // there is no point going ahead :)
-  this.extend(MarkerClusterer, google.maps.OverlayView);
-  this.map_ = map;
 
-  /**
-   * @type {Array.<google.maps.Marker>}
-   * @private
-   */
-  this.markers_ = [];
+class MarkerClusterer {
+	constructor(map, opt_markers, opt_options) {
+		this.extend(MarkerClusterer, google.maps.OverlayView);
+		this.map_ = map;
 
-  /**
-   *  @type {Array.<Cluster>}
-   */
-  this.clusters_ = [];
+		/**
+		 * The marker cluster image path.
+		 *
+		 * @type {string}
+		 * @private
+		 */
+		this.MARKER_CLUSTER_IMAGE_PATH_ = "../images/m";
 
-  this.sizes = [53, 56, 66, 78, 90];
+		/**
+		 * The marker cluster image path.
+		 *
+		 * @type {string}
+		 * @private
+		 */
+		this.MARKER_CLUSTER_IMAGE_EXTENSION_ = "png";
+		/**
+		 * @type {Array.<google.maps.Marker>}
+		 * @private
+		 */
+		this.markers_ = [];
 
-  /**
-   * @private
-   */
-  this.styles_ = [];
+		/**
+		 *  @type {Array.<Cluster>}
+		 */
+		this.clusters_ = [];
 
-  /**
-   * @type {boolean}
-   * @private
-   */
-  this.ready_ = false;
+		this.sizes = [53, 56, 66, 78, 90];
 
-  var options = opt_options || {};
+		/**
+		 * @type {Array.<Object>}
+		 * @private
+		 */
+		this.styles_ = [];
 
-  /**
-   * @type {number}
-   * @private
-   */
-  this.gridSize_ = options['gridSize'] || 60;
+		/**
+		 * @type {boolean}
+		 * @private
+		 */
+		this.ready_ = false;
 
-  /**
-   * @private
-   */
-  this.minClusterSize_ = options['minimumClusterSize'] || 2;
+		var options = opt_options || {};
 
+		/**
+		 * @type {number}
+		 */
+		this.zIndex_ = options["zIndex"] || google.maps.Marker.MAX_ZINDEX + 1;
 
-  /**
-   * @type {?number}
-   * @private
-   */
-  this.maxZoom_ = options['maxZoom'] || null;
+		/**
+		 * @type {number}
+		 * @private
+		 */
+		this.gridSize_ = options["gridSize"] || 60;
 
-  this.styles_ = options['styles'] || [];
+		/**
+		 * @private
+		 */
+		this.minClusterSize_ = options["minimumClusterSize"] || 2;
 
-  /**
-   * @type {string}
-   * @private
-   */
-  this.imagePath_ = options['imagePath'] ||
-      this.MARKER_CLUSTER_IMAGE_PATH_;
+		/**
+		 * @type {?number}
+		 * @private
+		 */
+		this.maxZoom_ = options["maxZoom"] || null;
 
-  /**
-   * @type {string}
-   * @private
-   */
-  this.imageExtension_ = options['imageExtension'] ||
-      this.MARKER_CLUSTER_IMAGE_EXTENSION_;
+		this.styles_ = options["styles"] || [];
 
-  /**
-   * @type {boolean}
-   * @private
-   */
-  this.zoomOnClick_ = true;
+		/**
+		 * @type {string}
+		 * @private
+		 */
+		this.imagePath_ = options["imagePath"] || this.MARKER_CLUSTER_IMAGE_PATH_;
 
-  if (options['zoomOnClick'] != undefined) {
-    this.zoomOnClick_ = options['zoomOnClick'];
-  }
+		/**
+		 * @type {string}
+		 * @private
+		 */
+		this.imageExtension_ =
+			options["imageExtension"] || this.MARKER_CLUSTER_IMAGE_EXTENSION_;
 
-  /**
-   * @type {boolean}
-   * @private
-   */
-  this.averageCenter_ = false;
+		/**
+		 * @type {boolean}
+		 * @private
+		 */
+		this.zoomOnClick_ = true;
 
-  if (options['averageCenter'] != undefined) {
-    this.averageCenter_ = options['averageCenter'];
-  }
+		if (options["zoomOnClick"] != undefined) {
+			this.zoomOnClick_ = options["zoomOnClick"];
+		}
 
-  this.setupStyles_();
+		/**
+		 * @type {boolean}
+		 * @private
+		 */
+		this.averageCenter_ = false;
 
-  this.setMap(map);
+		if (options["averageCenter"] != undefined) {
+			this.averageCenter_ = options["averageCenter"];
+		}
 
-  /**
-   * @type {number}
-   * @private
-   */
-  this.prevZoom_ = this.map_.getZoom();
+		this.setupStyles_();
 
-  // Add the map event listeners
-  var that = this;
-  google.maps.event.addListener(this.map_, 'zoom_changed', function() {
-    // Determines map type and prevent illegal zoom levels
-    var zoom = that.map_.getZoom();
-    var minZoom = that.map_.minZoom || 0;
-    var maxZoom = Math.min(that.map_.maxZoom || 100,
-                         that.map_.mapTypes[that.map_.getMapTypeId()].maxZoom);
-    zoom = Math.min(Math.max(zoom,minZoom),maxZoom);
+		this.setMap(map);
 
-    if (that.prevZoom_ != zoom) {
-      that.prevZoom_ = zoom;
-      that.resetViewport();
-    }
-  });
+		/**
+		 * @type {number}
+		 * @private
+		 */
+		this.prevZoom_ = this.map_.getZoom();
 
-  google.maps.event.addListener(this.map_, 'idle', function() {
-    that.redraw();
-  });
+		// Add the map event listeners
+		var that = this;
+		google.maps.event.addListener(this.map_, "zoom_changed", function() {
+			// Determines map type and prevent illegal zoom levels
+			var zoom = that.map_.getZoom();
+			var minZoom = that.map_.minZoom || 0;
+			var maxZoom = Math.min(
+				that.map_.maxZoom || 100,
+				that.map_.mapTypes[that.map_.getMapTypeId()].maxZoom
+			);
+			zoom = Math.min(Math.max(zoom, minZoom), maxZoom);
 
-  // Finally, add the markers
-  if (opt_markers && (opt_markers.length || Object.keys(opt_markers).length)) {
-    this.addMarkers(opt_markers, false);
-  }
+			if (that.prevZoom_ != zoom) {
+				that.prevZoom_ = zoom;
+				that.resetViewport();
+			}
+		});
+
+		google.maps.event.addListener(this.map_, "idle", function() {
+			that.redraw();
+		});
+
+		// Finally, add the markers
+		if (
+			opt_markers &&
+			(opt_markers.length || Object.keys(opt_markers).length)
+		) {
+			this.addMarkers(opt_markers, false);
+		}
+	}
+
+	/**
+	 * Extends a objects prototype by anothers.
+	 *
+	 * @param {Object} obj1 The object to be extended.
+	 * @param {Object} obj2 The object to extend with.
+	 * @return {Object} The new extended object.
+	 * @ignore
+	 */
+	extend(obj1, obj2) {
+		return function(object) {
+			for (var property in object.prototype) {
+				this.prototype[property] = object.prototype[property];
+			}
+			return this;
+		}.apply(obj1, [obj2]);
+	}
+
+	/**
+	 * Implementaion of the interface method.
+	 * @ignore
+	 */
+	onAdd() {
+		this.setReady_(true);
+	}
+
+	/**
+	 * Implementaion of the interface method.
+	 * @ignore
+	 */
+	draw() {}
+
+	/**
+	 * Sets up the styles object.
+	 *
+	 * @private
+	 */
+	setupStyles_() {
+		if (this.styles_.length) {
+			return;
+		}
+
+		for (var i = 0, size; (size = this.sizes[i]); i++) {
+			this.styles_.push({
+				url: this.imagePath_ + (i + 1) + "." + this.imageExtension_,
+				height: size,
+				width: size
+			});
+		}
+	}
+
+	/**
+	 *  Fit the map to the bounds of the markers in the clusterer.
+	 */
+	fitMapToMarkers() {
+		var markers = this.getMarkers();
+		var bounds = new google.maps.LatLngBounds();
+		for (var i = 0, marker; (marker = markers[i]); i++) {
+			bounds.extend(marker.getPosition());
+		}
+
+		this.map_.fitBounds(bounds);
+	}
+
+	/**
+	 * @param {number} zIndex
+	 */
+	setZIndex(zIndex) {
+		this.zIndex_ = zIndex;
+	}
+
+	/**
+	 * @return {number}
+	 */
+	getZIndex() {
+		return this.zIndex_;
+	}
+
+	/**
+	 *  Sets the styles.
+	 *
+	 *  @param {Object} styles The style to set.
+	 */
+	setStyles(styles) {
+		this.styles_ = styles;
+	}
+
+	/**
+	 *  Gets the styles.
+	 *
+	 *  @return {Object} The styles object.
+	 */
+	getStyles() {
+		return this.styles_;
+	}
+
+	/**
+	 * Whether zoom on click is set.
+	 *
+	 * @return {boolean} True if zoomOnClick_ is set.
+	 */
+	isZoomOnClick() {
+		return this.zoomOnClick_;
+	}
+
+	/**
+	 * Whether average center is set.
+	 *
+	 * @return {boolean} True if averageCenter_ is set.
+	 */
+	isAverageCenter() {
+		return this.averageCenter_;
+	}
+
+	/**
+	 *  Returns the array of markers in the clusterer.
+	 *
+	 *  @return {Array.<google.maps.Marker>} The markers.
+	 */
+	getMarkers() {
+		return this.markers_;
+	}
+
+	/**
+	 *  Returns the number of markers in the clusterer
+	 *
+	 *  @return {Number} The number of markers.
+	 */
+	getTotalMarkers() {
+		return this.markers_.length;
+	}
+
+	/**
+	 *  Sets the max zoom for the clusterer.
+	 *
+	 *  @param {number} maxZoom The max zoom level.
+	 */
+	setMaxZoom(maxZoom) {
+		this.maxZoom_ = maxZoom;
+	}
+
+	/**
+	 *  Gets the max zoom for the clusterer.
+	 *
+	 *  @return {number} The max zoom level.
+	 */
+	getMaxZoom() {
+		return this.maxZoom_;
+	}
+
+	/**
+	 *  The function for calculating the cluster icon image.
+	 *
+	 *  @param {Array.<google.maps.Marker>} markers The markers in the clusterer.
+	 *  @param {number} numStyles The number of styles available.
+	 *  @return {Object} A object properties: 'text' (string) and 'index' (number).
+	 *  @private
+	 */
+	calculator_(markers, numStyles) {
+		var index = 0;
+		var count = markers.length;
+		var dv = count;
+		while (dv !== 0) {
+			dv = parseInt(dv / 10, 10);
+			index++;
+		}
+
+		index = Math.min(index, numStyles);
+		return {
+			text: count,
+			index: index
+		};
+	}
+
+	/**
+	 * Set the calculator function.
+	 *
+	 * @param {function(Array, number)} calculator The function to set as the
+	 *     calculator. The function should return a object properties:
+	 *     'text' (string) and 'index' (number).
+	 *
+	 */
+	setCalculator(calculator) {
+		this.calculator_ = calculator;
+	}
+
+	/**
+	 * Get the calculator function.
+	 *
+	 * @return {function(Array, number)} the calculator function.
+	 */
+	getCalculator() {
+		return this.calculator_;
+	}
+
+	/**
+	 * Add an array of markers to the clusterer.
+	 *
+	 * @param {Array.<google.maps.Marker>} markers The markers to add.
+	 * @param {boolean=} opt_nodraw Whether to redraw the clusters.
+	 */
+	addMarkers(markers, opt_nodraw) {
+		if (markers.length) {
+			for (let i = 0, marker; (marker = markers[i]); i++) {
+				this.pushMarkerTo_(marker);
+			}
+		} else if (Object.keys(markers).length) {
+			for (let marker in markers) {
+				this.pushMarkerTo_(markers[marker]);
+			}
+		}
+		if (!opt_nodraw) {
+			this.redraw();
+		}
+	}
+
+	/**
+	 * Pushes a marker to the clusterer.
+	 *
+	 * @param {google.maps.Marker} marker The marker to add.
+	 * @private
+	 */
+	pushMarkerTo_(marker) {
+		marker.isAdded = false;
+		if (marker["draggable"]) {
+			// If the marker is draggable add a listener so we update the clusters on
+			// the drag end.
+			var that = this;
+			google.maps.event.addListener(marker, "dragend", function() {
+				marker.isAdded = false;
+				that.repaint();
+			});
+		}
+		this.markers_.push(marker);
+	}
+
+	/**
+	 * Adds a marker to the clusterer and redraws if needed.
+	 *
+	 * @param {google.maps.Marker} marker The marker to add.
+	 * @param {boolean=} opt_nodraw Whether to redraw the clusters.
+	 */
+	addMarker(marker, opt_nodraw) {
+		this.pushMarkerTo_(marker);
+		if (!opt_nodraw) {
+			this.redraw();
+		}
+	}
+
+	/**
+	 * Removes a marker and returns true if removed, false if not
+	 *
+	 * @param {google.maps.Marker} marker The marker to remove
+	 * @return {boolean} Whether the marker was removed or not
+	 * @private
+	 */
+	removeMarker_(marker) {
+		var index = -1;
+		if (this.markers_.indexOf) {
+			index = this.markers_.indexOf(marker);
+		} else {
+			for (var i = 0, m; (m = this.markers_[i]); i++) {
+				if (m == marker) {
+					index = i;
+					break;
+				}
+			}
+		}
+
+		if (index == -1) {
+			// Marker is not in our list of markers.
+			return false;
+		}
+
+		marker.setMap(null);
+
+		this.markers_.splice(index, 1);
+
+		return true;
+	}
+
+	/**
+	 * Remove a marker from the cluster.
+	 *
+	 * @param {google.maps.Marker} marker The marker to remove.
+	 * @param {boolean=} opt_nodraw Optional boolean to force no redraw.
+	 * @return {boolean} True if the marker was removed.
+	 */
+	removeMarker(marker, opt_nodraw) {
+		var removed = this.removeMarker_(marker);
+
+		if (!opt_nodraw && removed) {
+			this.resetViewport();
+			this.redraw();
+			return true;
+		} else {
+			return false;
+		}
+	}
+
+	/**
+	 * Removes an array of markers from the cluster.
+	 *
+	 * @param {Array.<google.maps.Marker>} markers The markers to remove.
+	 * @param {boolean=} opt_nodraw Optional boolean to force no redraw.
+	 */
+	removeMarkers(markers, opt_nodraw) {
+		// create a local copy of markers if required
+		// (removeMarker_ modifies the getMarkers() array in place)
+		var markersCopy = markers === this.getMarkers() ? markers.slice() : markers;
+		var removed = false;
+
+		for (var i = 0, marker; (marker = markersCopy[i]); i++) {
+			var r = this.removeMarker_(marker);
+			removed = removed || r;
+		}
+
+		if (!opt_nodraw && removed) {
+			this.resetViewport();
+			this.redraw();
+			return true;
+		}
+	}
+
+	/**
+	 * Sets the clusterer's ready state.
+	 *
+	 * @param {boolean} ready The state.
+	 * @private
+	 */
+	setReady_(ready) {
+		if (!this.ready_) {
+			this.ready_ = ready;
+			this.createClusters_();
+		}
+	}
+
+	/**
+	 * Returns the number of clusters in the clusterer.
+	 *
+	 * @return {number} The number of clusters.
+	 */
+	getTotalClusters() {
+		return this.clusters_.length;
+	}
+
+	/**
+	 * Returns the google map that the clusterer is associated with.
+	 *
+	 * @return {google.maps.Map} The map.
+	 */
+	getMap() {
+		return this.map_;
+	}
+
+	/**
+	 * Sets the google map that the clusterer is associated with.
+	 *
+	 * @param {google.maps.Map} map The map.
+	 */
+	setMap(map) {
+		this.map_ = map;
+	}
+
+	/**
+	 * Returns the size of the grid.
+	 *
+	 * @return {number} The grid size.
+	 */
+	getGridSize() {
+		return this.gridSize_;
+	}
+
+	/**
+	 * Sets the size of the grid.
+	 *
+	 * @param {number} size The grid size.
+	 */
+	setGridSize(size) {
+		this.gridSize_ = size;
+	}
+
+	/**
+	 * Returns the min cluster size.
+	 *
+	 * @return {number} The grid size.
+	 */
+	getMinClusterSize() {
+		return this.minClusterSize_;
+	}
+
+	/**
+	 * Sets the min cluster size.
+	 *
+	 * @param {number} size The grid size.
+	 */
+	setMinClusterSize(size) {
+		this.minClusterSize_ = size;
+	}
+
+	/**
+	 * Extends a bounds object by the grid size.
+	 *
+	 * @param {google.maps.LatLngBounds} bounds The bounds to extend.
+	 * @return {google.maps.LatLngBounds} The extended bounds.
+	 */
+	getExtendedBounds(bounds) {
+		var projection = this.getProjection();
+
+		// Turn the bounds into latlng.
+		var tr = new google.maps.LatLng(
+			bounds.getNorthEast().lat(),
+			bounds.getNorthEast().lng()
+		);
+		var bl = new google.maps.LatLng(
+			bounds.getSouthWest().lat(),
+			bounds.getSouthWest().lng()
+		);
+
+		// Convert the points to pixels and the extend out by the grid size.
+		var trPix = projection.fromLatLngToDivPixel(tr);
+		trPix.x += this.gridSize_;
+		trPix.y -= this.gridSize_;
+
+		var blPix = projection.fromLatLngToDivPixel(bl);
+		blPix.x -= this.gridSize_;
+		blPix.y += this.gridSize_;
+
+		// Convert the pixel points back to LatLng
+		var ne = projection.fromDivPixelToLatLng(trPix);
+		var sw = projection.fromDivPixelToLatLng(blPix);
+
+		// Extend the bounds to contain the new bounds.
+		bounds.extend(ne);
+		bounds.extend(sw);
+
+		return bounds;
+	}
+
+	/**
+	 * Determins if a marker is contained in a bounds.
+	 *
+	 * @param {google.maps.Marker} marker The marker to check.
+	 * @param {google.maps.LatLngBounds} bounds The bounds to check against.
+	 * @return {boolean} True if the marker is in the bounds.
+	 * @private
+	 */
+	isMarkerInBounds_(marker, bounds) {
+		return bounds.contains(marker.getPosition());
+	}
+
+	/**
+	 * Clears all clusters and markers from the clusterer.
+	 */
+	clearMarkers() {
+		this.resetViewport(true);
+
+		// Set the markers a empty array.
+		this.markers_ = [];
+	}
+
+	/**
+	 * Clears all existing clusters and recreates them.
+	 * @param {boolean} opt_hide To also hide the marker.
+	 */
+	resetViewport(opt_hide) {
+		// Remove all the clusters
+		for (let i = 0, cluster; (cluster = this.clusters_[i]); i++) {
+			cluster.remove();
+		}
+
+		// Reset the markers to not be added and to be invisible.
+		for (let i = 0, marker; (marker = this.markers_[i]); i++) {
+			marker.isAdded = false;
+			if (opt_hide) {
+				marker.setMap(null);
+			}
+		}
+
+		this.clusters_ = [];
+	}
+
+	/**
+	 *
+	 */
+	repaint() {
+		var oldClusters = this.clusters_.slice();
+		this.clusters_.length = 0;
+		this.resetViewport();
+		this.redraw();
+
+		// Remove the old clusters.
+		// Do it in a timeout so the other clusters have been drawn first.
+		setTimeout(function() {
+			for (var i = 0, cluster; (cluster = oldClusters[i]); i++) {
+				cluster.remove();
+			}
+		}, 0);
+	}
+
+	/**
+	 * Redraws the clusters.
+	 */
+	redraw() {
+		this.createClusters_();
+	}
+
+	/**
+	 * Calculates the distance between two latlng locations in km.
+	 * @see http://www.movable-type.co.uk/scripts/latlong.html
+	 *
+	 * @param {google.maps.LatLng} p1 The first lat lng point.
+	 * @param {google.maps.LatLng} p2 The second lat lng point.
+	 * @return {number} The distance between the two points in km.
+	 * @private
+	 */
+	distanceBetweenPoints_(p1, p2) {
+		if (!p1 || !p2) {
+			return 0;
+		}
+
+		var R = 6371; // Radius of the Earth in km
+		var dLat = ((p2.lat() - p1.lat()) * Math.PI) / 180;
+		var dLon = ((p2.lng() - p1.lng()) * Math.PI) / 180;
+		var a =
+			Math.sin(dLat / 2) * Math.sin(dLat / 2) +
+			Math.cos((p1.lat() * Math.PI) / 180) *
+			Math.cos((p2.lat() * Math.PI) / 180) *
+			Math.sin(dLon / 2) *
+			Math.sin(dLon / 2);
+		var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+		var d = R * c;
+		return d;
+	}
+
+	/**
+	 * Add a marker to a cluster, or creates a new cluster.
+	 *
+	 * @param {google.maps.Marker} marker The marker to add.
+	 * @private
+	 */
+	addToClosestCluster_(marker) {
+		var distance = 40000; // Some large number
+		var clusterToAddTo = null;
+		for (var i = 0, cluster; (cluster = this.clusters_[i]); i++) {
+			var center = cluster.getCenter();
+			if (center) {
+				var d = this.distanceBetweenPoints_(center, marker.getPosition());
+				if (d < distance) {
+					distance = d;
+					clusterToAddTo = cluster;
+				}
+			}
+		}
+
+		if (clusterToAddTo && clusterToAddTo.isMarkerInClusterBounds(marker)) {
+			clusterToAddTo.addMarker(marker);
+		} else {
+			var newCluster = new Cluster(this);
+			newCluster.addMarker(marker);
+			this.clusters_.push(newCluster);
+		}
+	}
+
+	/**
+	 * Creates the clusters.
+	 *
+	 * @private
+	 */
+	createClusters_() {
+		if (!this.ready_) {
+			return;
+		}
+
+		// Get our current map view bounds.
+		// Create a new bounds object so we don't affect the map.
+		var mapBounds = new google.maps.LatLngBounds(
+			this.map_.getBounds().getSouthWest(),
+			this.map_.getBounds().getNorthEast()
+		);
+		var bounds = this.getExtendedBounds(mapBounds);
+
+		for (var i = 0, marker; (marker = this.markers_[i]); i++) {
+			if (!marker.isAdded && this.isMarkerInBounds_(marker, bounds)) {
+				this.addToClosestCluster_(marker);
+			}
+		}
+	}
 }
-
-
-/**
- * The marker cluster image path.
- *
- * @type {string}
- * @private
- */
-MarkerClusterer.prototype.MARKER_CLUSTER_IMAGE_PATH_ = '../images/m';
-
-
-/**
- * The marker cluster image path.
- *
- * @type {string}
- * @private
- */
-MarkerClusterer.prototype.MARKER_CLUSTER_IMAGE_EXTENSION_ = 'png';
-
-
-/**
- * Extends a objects prototype by anothers.
- *
- * @param {Object} obj1 The object to be extended.
- * @param {Object} obj2 The object to extend with.
- * @return {Object} The new extended object.
- * @ignore
- */
-MarkerClusterer.prototype.extend = function(obj1, obj2) {
-  return (function(object) {
-    for (var property in object.prototype) {
-      this.prototype[property] = object.prototype[property];
-    }
-    return this;
-  }).apply(obj1, [obj2]);
-};
-
-
-/**
- * Implementaion of the interface method.
- * @ignore
- */
-MarkerClusterer.prototype.onAdd = function() {
-  this.setReady_(true);
-};
-
-/**
- * Implementaion of the interface method.
- * @ignore
- */
-MarkerClusterer.prototype.draw = function() {};
-
-/**
- * Sets up the styles object.
- *
- * @private
- */
-MarkerClusterer.prototype.setupStyles_ = function() {
-  if (this.styles_.length) {
-    return;
-  }
-
-  for (var i = 0, size; size = this.sizes[i]; i++) {
-    this.styles_.push({
-      url: this.imagePath_ + (i + 1) + '.' + this.imageExtension_,
-      height: size,
-      width: size
-    });
-  }
-};
-
-/**
- *  Fit the map to the bounds of the markers in the clusterer.
- */
-MarkerClusterer.prototype.fitMapToMarkers = function() {
-  var markers = this.getMarkers();
-  var bounds = new google.maps.LatLngBounds();
-  for (var i = 0, marker; marker = markers[i]; i++) {
-    bounds.extend(marker.getPosition());
-  }
-
-  this.map_.fitBounds(bounds);
-};
-
-
-/**
- *  Sets the styles.
- *
- *  @param {Object} styles The style to set.
- */
-MarkerClusterer.prototype.setStyles = function(styles) {
-  this.styles_ = styles;
-};
-
-
-/**
- *  Gets the styles.
- *
- *  @return {Object} The styles object.
- */
-MarkerClusterer.prototype.getStyles = function() {
-  return this.styles_;
-};
-
-
-/**
- * Whether zoom on click is set.
- *
- * @return {boolean} True if zoomOnClick_ is set.
- */
-MarkerClusterer.prototype.isZoomOnClick = function() {
-  return this.zoomOnClick_;
-};
-
-/**
- * Whether average center is set.
- *
- * @return {boolean} True if averageCenter_ is set.
- */
-MarkerClusterer.prototype.isAverageCenter = function() {
-  return this.averageCenter_;
-};
-
-
-/**
- *  Returns the array of markers in the clusterer.
- *
- *  @return {Array.<google.maps.Marker>} The markers.
- */
-MarkerClusterer.prototype.getMarkers = function() {
-  return this.markers_;
-};
-
-
-/**
- *  Returns the number of markers in the clusterer
- *
- *  @return {Number} The number of markers.
- */
-MarkerClusterer.prototype.getTotalMarkers = function() {
-  return this.markers_.length;
-};
-
-
-/**
- *  Sets the max zoom for the clusterer.
- *
- *  @param {number} maxZoom The max zoom level.
- */
-MarkerClusterer.prototype.setMaxZoom = function(maxZoom) {
-  this.maxZoom_ = maxZoom;
-};
-
-
-/**
- *  Gets the max zoom for the clusterer.
- *
- *  @return {number} The max zoom level.
- */
-MarkerClusterer.prototype.getMaxZoom = function() {
-  return this.maxZoom_;
-};
-
-
-/**
- *  The function for calculating the cluster icon image.
- *
- *  @param {Array.<google.maps.Marker>} markers The markers in the clusterer.
- *  @param {number} numStyles The number of styles available.
- *  @return {Object} A object properties: 'text' (string) and 'index' (number).
- *  @private
- */
-MarkerClusterer.prototype.calculator_ = function(markers, numStyles) {
-  var index = 0;
-  var count = markers.length;
-  var dv = count;
-  while (dv !== 0) {
-    dv = parseInt(dv / 10, 10);
-    index++;
-  }
-
-  index = Math.min(index, numStyles);
-  return {
-    text: count,
-    index: index
-  };
-};
-
-
-/**
- * Set the calculator function.
- *
- * @param {function(Array, number)} calculator The function to set as the
- *     calculator. The function should return a object properties:
- *     'text' (string) and 'index' (number).
- *
- */
-MarkerClusterer.prototype.setCalculator = function(calculator) {
-  this.calculator_ = calculator;
-};
-
-
-/**
- * Get the calculator function.
- *
- * @return {function(Array, number)} the calculator function.
- */
-MarkerClusterer.prototype.getCalculator = function() {
-  return this.calculator_;
-};
-
-
-/**
- * Add an array of markers to the clusterer.
- *
- * @param {Array.<google.maps.Marker>} markers The markers to add.
- * @param {boolean=} opt_nodraw Whether to redraw the clusters.
- */
-MarkerClusterer.prototype.addMarkers = function(markers, opt_nodraw) {
-  if (markers.length) {
-    for (var i = 0, marker; marker = markers[i]; i++) {
-      this.pushMarkerTo_(marker);
-    }
-  } else if (Object.keys(markers).length) {
-    for (var marker in markers) {
-      this.pushMarkerTo_(markers[marker]);
-    }
-  }
-  if (!opt_nodraw) {
-    this.redraw();
-  }
-};
-
-
-/**
- * Pushes a marker to the clusterer.
- *
- * @param {google.maps.Marker} marker The marker to add.
- * @private
- */
-MarkerClusterer.prototype.pushMarkerTo_ = function(marker) {
-  marker.isAdded = false;
-  if (marker['draggable']) {
-    // If the marker is draggable add a listener so we update the clusters on
-    // the drag end.
-    var that = this;
-    google.maps.event.addListener(marker, 'dragend', function() {
-      marker.isAdded = false;
-      that.repaint();
-    });
-  }
-  this.markers_.push(marker);
-};
-
-
-/**
- * Adds a marker to the clusterer and redraws if needed.
- *
- * @param {google.maps.Marker} marker The marker to add.
- * @param {boolean=} opt_nodraw Whether to redraw the clusters.
- */
-MarkerClusterer.prototype.addMarker = function(marker, opt_nodraw) {
-  this.pushMarkerTo_(marker);
-  if (!opt_nodraw) {
-    this.redraw();
-  }
-};
-
-
-/**
- * Removes a marker and returns true if removed, false if not
- *
- * @param {google.maps.Marker} marker The marker to remove
- * @return {boolean} Whether the marker was removed or not
- * @private
- */
-MarkerClusterer.prototype.removeMarker_ = function(marker) {
-  var index = -1;
-  if (this.markers_.indexOf) {
-    index = this.markers_.indexOf(marker);
-  } else {
-    for (var i = 0, m; m = this.markers_[i]; i++) {
-      if (m == marker) {
-        index = i;
-        break;
-      }
-    }
-  }
-
-  if (index == -1) {
-    // Marker is not in our list of markers.
-    return false;
-  }
-
-  marker.setMap(null);
-
-  this.markers_.splice(index, 1);
-
-  return true;
-};
-
-
-/**
- * Remove a marker from the cluster.
- *
- * @param {google.maps.Marker} marker The marker to remove.
- * @param {boolean=} opt_nodraw Optional boolean to force no redraw.
- * @return {boolean} True if the marker was removed.
- */
-MarkerClusterer.prototype.removeMarker = function(marker, opt_nodraw) {
-  var removed = this.removeMarker_(marker);
-
-  if (!opt_nodraw && removed) {
-    this.resetViewport();
-    this.redraw();
-    return true;
-  } else {
-   return false;
-  }
-};
-
-
-/**
- * Removes an array of markers from the cluster.
- *
- * @param {Array.<google.maps.Marker>} markers The markers to remove.
- * @param {boolean=} opt_nodraw Optional boolean to force no redraw.
- */
-MarkerClusterer.prototype.removeMarkers = function(markers, opt_nodraw) {
-  var removed = false;
-
-  for (var i = 0, marker; marker = markers[i]; i++) {
-    var r = this.removeMarker_(marker);
-    removed = removed || r;
-  }
-
-  if (!opt_nodraw && removed) {
-    this.resetViewport();
-    this.redraw();
-    return true;
-  }
-};
-
-
-/**
- * Sets the clusterer's ready state.
- *
- * @param {boolean} ready The state.
- * @private
- */
-MarkerClusterer.prototype.setReady_ = function(ready) {
-  if (!this.ready_) {
-    this.ready_ = ready;
-    this.createClusters_();
-  }
-};
-
-
-/**
- * Returns the number of clusters in the clusterer.
- *
- * @return {number} The number of clusters.
- */
-MarkerClusterer.prototype.getTotalClusters = function() {
-  return this.clusters_.length;
-};
-
-
-/**
- * Returns the google map that the clusterer is associated with.
- *
- * @return {google.maps.Map} The map.
- */
-MarkerClusterer.prototype.getMap = function() {
-  return this.map_;
-};
-
-
-/**
- * Sets the google map that the clusterer is associated with.
- *
- * @param {google.maps.Map} map The map.
- */
-MarkerClusterer.prototype.setMap = function(map) {
-  this.map_ = map;
-};
-
-
-/**
- * Returns the size of the grid.
- *
- * @return {number} The grid size.
- */
-MarkerClusterer.prototype.getGridSize = function() {
-  return this.gridSize_;
-};
-
-
-/**
- * Sets the size of the grid.
- *
- * @param {number} size The grid size.
- */
-MarkerClusterer.prototype.setGridSize = function(size) {
-  this.gridSize_ = size;
-};
-
-
-/**
- * Returns the min cluster size.
- *
- * @return {number} The grid size.
- */
-MarkerClusterer.prototype.getMinClusterSize = function() {
-  return this.minClusterSize_;
-};
-
-/**
- * Sets the min cluster size.
- *
- * @param {number} size The grid size.
- */
-MarkerClusterer.prototype.setMinClusterSize = function(size) {
-  this.minClusterSize_ = size;
-};
-
-
-/**
- * Extends a bounds object by the grid size.
- *
- * @param {google.maps.LatLngBounds} bounds The bounds to extend.
- * @return {google.maps.LatLngBounds} The extended bounds.
- */
-MarkerClusterer.prototype.getExtendedBounds = function(bounds) {
-  var projection = this.getProjection();
-
-  // Turn the bounds into latlng.
-  var tr = new google.maps.LatLng(bounds.getNorthEast().lat(),
-      bounds.getNorthEast().lng());
-  var bl = new google.maps.LatLng(bounds.getSouthWest().lat(),
-      bounds.getSouthWest().lng());
-
-  // Convert the points to pixels and the extend out by the grid size.
-  var trPix = projection.fromLatLngToDivPixel(tr);
-  trPix.x += this.gridSize_;
-  trPix.y -= this.gridSize_;
-
-  var blPix = projection.fromLatLngToDivPixel(bl);
-  blPix.x -= this.gridSize_;
-  blPix.y += this.gridSize_;
-
-  // Convert the pixel points back to LatLng
-  var ne = projection.fromDivPixelToLatLng(trPix);
-  var sw = projection.fromDivPixelToLatLng(blPix);
-
-  // Extend the bounds to contain the new bounds.
-  bounds.extend(ne);
-  bounds.extend(sw);
-
-  return bounds;
-};
-
-
-/**
- * Determins if a marker is contained in a bounds.
- *
- * @param {google.maps.Marker} marker The marker to check.
- * @param {google.maps.LatLngBounds} bounds The bounds to check against.
- * @return {boolean} True if the marker is in the bounds.
- * @private
- */
-MarkerClusterer.prototype.isMarkerInBounds_ = function(marker, bounds) {
-  return bounds.contains(marker.getPosition());
-};
-
-
-/**
- * Clears all clusters and markers from the clusterer.
- */
-MarkerClusterer.prototype.clearMarkers = function() {
-  this.resetViewport(true);
-
-  // Set the markers a empty array.
-  this.markers_ = [];
-};
-
-
-/**
- * Clears all existing clusters and recreates them.
- * @param {boolean} opt_hide To also hide the marker.
- */
-MarkerClusterer.prototype.resetViewport = function(opt_hide) {
-  // Remove all the clusters
-  for (var i = 0, cluster; cluster = this.clusters_[i]; i++) {
-    cluster.remove();
-  }
-
-  // Reset the markers to not be added and to be invisible.
-  for (var i = 0, marker; marker = this.markers_[i]; i++) {
-    marker.isAdded = false;
-    if (opt_hide) {
-      marker.setMap(null);
-    }
-  }
-
-  this.clusters_ = [];
-};
-
-/**
- *
- */
-MarkerClusterer.prototype.repaint = function() {
-  var oldClusters = this.clusters_.slice();
-  this.clusters_.length = 0;
-  this.resetViewport();
-  this.redraw();
-
-  // Remove the old clusters.
-  // Do it in a timeout so the other clusters have been drawn first.
-  window.setTimeout(function() {
-    for (var i = 0, cluster; cluster = oldClusters[i]; i++) {
-      cluster.remove();
-    }
-  }, 0);
-};
-
-
-/**
- * Redraws the clusters.
- */
-MarkerClusterer.prototype.redraw = function() {
-  this.createClusters_();
-};
-
-
-/**
- * Calculates the distance between two latlng locations in km.
- * @see http://www.movable-type.co.uk/scripts/latlong.html
- *
- * @param {google.maps.LatLng} p1 The first lat lng point.
- * @param {google.maps.LatLng} p2 The second lat lng point.
- * @return {number} The distance between the two points in km.
- * @private
-*/
-MarkerClusterer.prototype.distanceBetweenPoints_ = function(p1, p2) {
-  if (!p1 || !p2) {
-    return 0;
-  }
-
-  var R = 6371; // Radius of the Earth in km
-  var dLat = (p2.lat() - p1.lat()) * Math.PI / 180;
-  var dLon = (p2.lng() - p1.lng()) * Math.PI / 180;
-  var a = Math.sin(dLat / 2) * Math.sin(dLat / 2) +
-    Math.cos(p1.lat() * Math.PI / 180) * Math.cos(p2.lat() * Math.PI / 180) *
-    Math.sin(dLon / 2) * Math.sin(dLon / 2);
-  var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
-  var d = R * c;
-  return d;
-};
-
-
-/**
- * Add a marker to a cluster, or creates a new cluster.
- *
- * @param {google.maps.Marker} marker The marker to add.
- * @private
- */
-MarkerClusterer.prototype.addToClosestCluster_ = function(marker) {
-  var distance = 40000; // Some large number
-  var clusterToAddTo = null;
-  var pos = marker.getPosition();
-  for (var i = 0, cluster; cluster = this.clusters_[i]; i++) {
-    var center = cluster.getCenter();
-    if (center) {
-      var d = this.distanceBetweenPoints_(center, marker.getPosition());
-      if (d < distance) {
-        distance = d;
-        clusterToAddTo = cluster;
-      }
-    }
-  }
-
-  if (clusterToAddTo && clusterToAddTo.isMarkerInClusterBounds(marker)) {
-    clusterToAddTo.addMarker(marker);
-  } else {
-    var cluster = new Cluster(this);
-    cluster.addMarker(marker);
-    this.clusters_.push(cluster);
-  }
-};
-
-
-/**
- * Creates the clusters.
- *
- * @private
- */
-MarkerClusterer.prototype.createClusters_ = function() {
-  if (!this.ready_) {
-    return;
-  }
-
-  // Get our current map view bounds.
-  // Create a new bounds object so we don't affect the map.
-  var mapBounds = new google.maps.LatLngBounds(this.map_.getBounds().getSouthWest(),
-      this.map_.getBounds().getNorthEast());
-  var bounds = this.getExtendedBounds(mapBounds);
-
-  for (var i = 0, marker; marker = this.markers_[i]; i++) {
-    if (!marker.isAdded && this.isMarkerInBounds_(marker, bounds)) {
-      this.addToClosestCluster_(marker);
-    }
-  }
-};
-
 
 /**
  * A cluster that contains markers.
@@ -15418,213 +15969,208 @@ MarkerClusterer.prototype.createClusters_ = function() {
  * @constructor
  * @ignore
  */
-function Cluster(markerClusterer) {
-  this.markerClusterer_ = markerClusterer;
-  this.map_ = markerClusterer.getMap();
-  this.gridSize_ = markerClusterer.getGridSize();
-  this.minClusterSize_ = markerClusterer.getMinClusterSize();
-  this.averageCenter_ = markerClusterer.isAverageCenter();
-  this.center_ = null;
-  this.markers_ = [];
-  this.bounds_ = null;
-  this.clusterIcon_ = new ClusterIcon(this, markerClusterer.getStyles(),
-      markerClusterer.getGridSize());
+class Cluster {
+	constructor(markerClusterer) {
+		this.markerClusterer_ = markerClusterer;
+		this.map_ = markerClusterer.getMap();
+		this.gridSize_ = markerClusterer.getGridSize();
+		this.minClusterSize_ = markerClusterer.getMinClusterSize();
+		this.averageCenter_ = markerClusterer.isAverageCenter();
+		this.center_ = null;
+		this.markers_ = [];
+		this.bounds_ = null;
+		this.clusterIcon_ = new ClusterIcon(
+			this,
+			markerClusterer.getStyles(),
+			markerClusterer.getGridSize()
+		);
+	}
+
+	/**
+	 * Determins if a marker is already added to the cluster.
+	 *
+	 * @param {google.maps.Marker} marker The marker to check.
+	 * @return {boolean} True if the marker is already added.
+	 */
+	isMarkerAlreadyAdded(marker) {
+		if (this.markers_.indexOf) {
+			return this.markers_.indexOf(marker) != -1;
+		} else {
+			for (var i = 0, m; (m = this.markers_[i]); i++) {
+				if (m == marker) {
+					return true;
+				}
+			}
+		}
+		return false;
+	}
+
+	/**
+	 * Add a marker the cluster.
+	 *
+	 * @param {google.maps.Marker} marker The marker to add.
+	 * @return {boolean} True if the marker was added.
+	 */
+	addMarker(marker) {
+		if (this.isMarkerAlreadyAdded(marker)) {
+			return false;
+		}
+
+		if (!this.center_) {
+			this.center_ = marker.getPosition();
+			this.calculateBounds_();
+		} else {
+			if (this.averageCenter_) {
+				var l = this.markers_.length + 1;
+				var lat =
+					(this.center_.lat() * (l - 1) + marker.getPosition().lat()) / l;
+				var lng =
+					(this.center_.lng() * (l - 1) + marker.getPosition().lng()) / l;
+				this.center_ = new google.maps.LatLng(lat, lng);
+				this.calculateBounds_();
+			}
+		}
+
+		marker.isAdded = true;
+		this.markers_.push(marker);
+
+		var len = this.markers_.length;
+		if (len < this.minClusterSize_ && marker.getMap() != this.map_) {
+			// Min cluster size not reached so show the marker.
+			marker.setMap(this.map_);
+		}
+
+		if (len == this.minClusterSize_) {
+			// Hide the markers that were showing.
+			for (var i = 0; i < len; i++) {
+				this.markers_[i].setMap(null);
+			}
+		}
+
+		if (len >= this.minClusterSize_) {
+			marker.setMap(null);
+		}
+
+		this.updateIcon();
+		return true;
+	}
+
+	/**
+	 * Returns the marker clusterer that the cluster is associated with.
+	 *
+	 * @return {MarkerClusterer} The associated marker clusterer.
+	 */
+	getMarkerClusterer() {
+		return this.markerClusterer_;
+	}
+
+	/**
+	 * Returns the bounds of the cluster.
+	 *
+	 * @return {google.maps.LatLngBounds} the cluster bounds.
+	 */
+	getBounds() {
+		var bounds = new google.maps.LatLngBounds(this.center_, this.center_);
+		var markers = this.getMarkers();
+		for (var i = 0, marker; (marker = markers[i]); i++) {
+			bounds.extend(marker.getPosition());
+		}
+		return bounds;
+	}
+
+	/**
+	 * Removes the cluster
+	 */
+	remove() {
+		this.clusterIcon_.remove();
+		this.markers_.length = 0;
+		delete this.markers_;
+	}
+
+	/**
+	 * Returns the number of markers in the cluster.
+	 *
+	 * @return {number} The number of markers in the cluster.
+	 */
+	getSize() {
+		return this.markers_.length;
+	}
+
+	/**
+	 * Returns a list of the markers in the cluster.
+	 *
+	 * @return {Array.<google.maps.Marker>} The markers in the cluster.
+	 */
+	getMarkers() {
+		return this.markers_;
+	}
+
+	/**
+	 * Returns the center of the cluster.
+	 *
+	 * @return {google.maps.LatLng} The cluster center.
+	 */
+	getCenter() {
+		return this.center_;
+	}
+
+	/**
+	 * Calculated the extended bounds of the cluster with the grid.
+	 *
+	 * @private
+	 */
+	calculateBounds_() {
+		var bounds = new google.maps.LatLngBounds(this.center_, this.center_);
+		this.bounds_ = this.markerClusterer_.getExtendedBounds(bounds);
+	}
+
+	/**
+	 * Determines if a marker lies in the clusters bounds.
+	 *
+	 * @param {google.maps.Marker} marker The marker to check.
+	 * @return {boolean} True if the marker lies in the bounds.
+	 */
+	isMarkerInClusterBounds(marker) {
+		return this.bounds_.contains(marker.getPosition());
+	}
+
+	/**
+	 * Returns the map that the cluster is associated with.
+	 *
+	 * @return {google.maps.Map} The map.
+	 */
+	getMap() {
+		return this.map_;
+	}
+
+	/**
+	 * Updates the cluster icon
+	 */
+	updateIcon() {
+		var zoom = this.map_.getZoom();
+		var mz = this.markerClusterer_.getMaxZoom();
+
+		if (mz && zoom > mz) {
+			// The zoom is greater than our max zoom so show all the markers in cluster.
+			for (var i = 0, marker; (marker = this.markers_[i]); i++) {
+				marker.setMap(this.map_);
+			}
+			return;
+		}
+
+		if (this.markers_.length < this.minClusterSize_) {
+			// Min cluster size not yet reached.
+			this.clusterIcon_.hide();
+			return;
+		}
+
+		var numStyles = this.markerClusterer_.getStyles().length;
+		var sums = this.markerClusterer_.getCalculator()(this.markers_, numStyles);
+		this.clusterIcon_.setCenter(this.center_);
+		this.clusterIcon_.setSums(sums);
+		this.clusterIcon_.show();
+	}
 }
-
-/**
- * Determins if a marker is already added to the cluster.
- *
- * @param {google.maps.Marker} marker The marker to check.
- * @return {boolean} True if the marker is already added.
- */
-Cluster.prototype.isMarkerAlreadyAdded = function(marker) {
-  if (this.markers_.indexOf) {
-    return this.markers_.indexOf(marker) != -1;
-  } else {
-    for (var i = 0, m; m = this.markers_[i]; i++) {
-      if (m == marker) {
-        return true;
-      }
-    }
-  }
-  return false;
-};
-
-
-/**
- * Add a marker the cluster.
- *
- * @param {google.maps.Marker} marker The marker to add.
- * @return {boolean} True if the marker was added.
- */
-Cluster.prototype.addMarker = function(marker) {
-  if (this.isMarkerAlreadyAdded(marker)) {
-    return false;
-  }
-
-  if (!this.center_) {
-    this.center_ = marker.getPosition();
-    this.calculateBounds_();
-  } else {
-    if (this.averageCenter_) {
-      var l = this.markers_.length + 1;
-      var lat = (this.center_.lat() * (l-1) + marker.getPosition().lat()) / l;
-      var lng = (this.center_.lng() * (l-1) + marker.getPosition().lng()) / l;
-      this.center_ = new google.maps.LatLng(lat, lng);
-      this.calculateBounds_();
-    }
-  }
-
-  marker.isAdded = true;
-  this.markers_.push(marker);
-
-  var len = this.markers_.length;
-  if (len < this.minClusterSize_ && marker.getMap() != this.map_) {
-    // Min cluster size not reached so show the marker.
-    marker.setMap(this.map_);
-  }
-
-  if (len == this.minClusterSize_) {
-    // Hide the markers that were showing.
-    for (var i = 0; i < len; i++) {
-      this.markers_[i].setMap(null);
-    }
-  }
-
-  if (len >= this.minClusterSize_) {
-    marker.setMap(null);
-  }
-
-  this.updateIcon();
-  return true;
-};
-
-
-/**
- * Returns the marker clusterer that the cluster is associated with.
- *
- * @return {MarkerClusterer} The associated marker clusterer.
- */
-Cluster.prototype.getMarkerClusterer = function() {
-  return this.markerClusterer_;
-};
-
-
-/**
- * Returns the bounds of the cluster.
- *
- * @return {google.maps.LatLngBounds} the cluster bounds.
- */
-Cluster.prototype.getBounds = function() {
-  var bounds = new google.maps.LatLngBounds(this.center_, this.center_);
-  var markers = this.getMarkers();
-  for (var i = 0, marker; marker = markers[i]; i++) {
-    bounds.extend(marker.getPosition());
-  }
-  return bounds;
-};
-
-
-/**
- * Removes the cluster
- */
-Cluster.prototype.remove = function() {
-  this.clusterIcon_.remove();
-  this.markers_.length = 0;
-  delete this.markers_;
-};
-
-
-/**
- * Returns the center of the cluster.
- *
- * @return {number} The cluster center.
- */
-Cluster.prototype.getSize = function() {
-  return this.markers_.length;
-};
-
-
-/**
- * Returns the center of the cluster.
- *
- * @return {Array.<google.maps.Marker>} The cluster center.
- */
-Cluster.prototype.getMarkers = function() {
-  return this.markers_;
-};
-
-
-/**
- * Returns the center of the cluster.
- *
- * @return {google.maps.LatLng} The cluster center.
- */
-Cluster.prototype.getCenter = function() {
-  return this.center_;
-};
-
-
-/**
- * Calculated the extended bounds of the cluster with the grid.
- *
- * @private
- */
-Cluster.prototype.calculateBounds_ = function() {
-  var bounds = new google.maps.LatLngBounds(this.center_, this.center_);
-  this.bounds_ = this.markerClusterer_.getExtendedBounds(bounds);
-};
-
-
-/**
- * Determines if a marker lies in the clusters bounds.
- *
- * @param {google.maps.Marker} marker The marker to check.
- * @return {boolean} True if the marker lies in the bounds.
- */
-Cluster.prototype.isMarkerInClusterBounds = function(marker) {
-  return this.bounds_.contains(marker.getPosition());
-};
-
-
-/**
- * Returns the map that the cluster is associated with.
- *
- * @return {google.maps.Map} The map.
- */
-Cluster.prototype.getMap = function() {
-  return this.map_;
-};
-
-
-/**
- * Updates the cluster icon
- */
-Cluster.prototype.updateIcon = function() {
-  var zoom = this.map_.getZoom();
-  var mz = this.markerClusterer_.getMaxZoom();
-
-  if (mz && zoom > mz) {
-    // The zoom is greater than our max zoom so show all the markers in cluster.
-    for (var i = 0, marker; marker = this.markers_[i]; i++) {
-      marker.setMap(this.map_);
-    }
-    return;
-  }
-
-  if (this.markers_.length < this.minClusterSize_) {
-    // Min cluster size not yet reached.
-    this.clusterIcon_.hide();
-    return;
-  }
-
-  var numStyles = this.markerClusterer_.getStyles().length;
-  var sums = this.markerClusterer_.getCalculator()(this.markers_, numStyles);
-  this.clusterIcon_.setCenter(this.center_);
-  this.clusterIcon_.setSums(sums);
-  this.clusterIcon_.show();
-};
-
 
 /**
  * A cluster icon
@@ -15643,246 +16189,936 @@ Cluster.prototype.updateIcon = function() {
  * @extends google.maps.OverlayView
  * @ignore
  */
-function ClusterIcon(cluster, styles, opt_padding) {
-  cluster.getMarkerClusterer().extend(ClusterIcon, google.maps.OverlayView);
+class ClusterIcon {
+	constructor(cluster, styles, opt_padding) {
+		cluster.getMarkerClusterer().extend(ClusterIcon, google.maps.OverlayView);
 
-  this.styles_ = styles;
-  this.padding_ = opt_padding || 0;
-  this.cluster_ = cluster;
-  this.center_ = null;
-  this.map_ = cluster.getMap();
-  this.div_ = null;
-  this.sums_ = null;
-  this.visible_ = false;
+		this.styles_ = styles;
+		this.padding_ = opt_padding || 0;
+		this.cluster_ = cluster;
+		this.center_ = null;
+		this.map_ = cluster.getMap();
+		this.div_ = null;
+		this.sums_ = null;
+		this.visible_ = false;
 
-  this.setMap(this.map_);
+		this.setMap(this.map_);
+	}
+
+	/**
+	 * Triggers the clusterclick event and zoom's if the option is set.
+	 */
+	triggerClusterClick() {
+		var clusterBounds = this.cluster_.getBounds();
+		var markerClusterer = this.cluster_.getMarkerClusterer();
+
+		// Trigger the clusterclick event.
+		google.maps.event.trigger(
+			markerClusterer.map_,
+			"clusterclick",
+			this.cluster_
+		);
+
+		if (markerClusterer.isZoomOnClick()) {
+			// Zoom into the cluster.
+			this.map_.fitBounds(clusterBounds);
+			this.map_.setCenter(clusterBounds.getCenter());
+		}
+	}
+
+	/**
+	 * Adding the cluster icon to the dom.
+	 * @ignore
+	 */
+	onAdd() {
+		this.div_ = document.createElement("DIV");
+		if (this.visible_) {
+			var pos = this.getPosFromLatLng_(this.center_);
+			this.div_.style.cssText = this.createCss(pos);
+			this.div_.innerHTML = this.sums_.text;
+		}
+
+		var panes = this.getPanes();
+		panes.overlayMouseTarget.appendChild(this.div_);
+
+		var that = this;
+		google.maps.event.addDomListener(this.div_, "click", function() {
+			that.triggerClusterClick();
+		});
+	}
+
+	/**
+	 * Returns the position to place the div dending on the latlng.
+	 *
+	 * @param {google.maps.LatLng} latlng The position in latlng.
+	 * @return {google.maps.Point} The position in pixels.
+	 * @private
+	 */
+	getPosFromLatLng_(latlng) {
+		var pos = this.getProjection().fromLatLngToDivPixel(latlng);
+		pos.x -= parseInt(this.width_ / 2, 10);
+		pos.y -= parseInt(this.height_ / 2, 10);
+		return pos;
+	}
+
+	/**
+	 * Draw the icon.
+	 * @ignore
+	 */
+	draw() {
+		if (this.visible_) {
+			var pos = this.getPosFromLatLng_(this.center_);
+			this.div_.style.top = pos.y + "px";
+			this.div_.style.left = pos.x + "px";
+		}
+	}
+
+	/**
+	 * Hide the icon.
+	 */
+	hide() {
+		if (this.div_) {
+			this.div_.style.display = "none";
+		}
+		this.visible_ = false;
+	}
+
+	/**
+	 * Position and show the icon.
+	 */
+	show() {
+		if (this.div_) {
+			var pos = this.getPosFromLatLng_(this.center_);
+			this.div_.style.cssText = this.createCss(pos);
+			this.div_.style.display = "";
+		}
+		this.visible_ = true;
+	}
+
+	/**
+	 * Remove the icon from the map
+	 */
+	remove() {
+		this.setMap(null);
+	}
+
+	/**
+	 * Implementation of the onRemove interface.
+	 * @ignore
+	 */
+	onRemove() {
+		if (this.div_ && this.div_.parentNode) {
+			this.hide();
+			this.div_.parentNode.removeChild(this.div_);
+			this.div_ = null;
+		}
+	}
+
+	/**
+	 * Set the sums of the icon.
+	 *
+	 * @param {Object} sums The sums containing:
+	 *   'text': (string) The text to display in the icon.
+	 *   'index': (number) The style index of the icon.
+	 */
+	setSums(sums) {
+		this.sums_ = sums;
+		this.text_ = sums.text;
+		this.index_ = sums.index;
+		if (this.div_) {
+			this.div_.innerHTML = sums.text;
+		}
+
+		this.useStyle();
+	}
+
+	/**
+	 * Sets the icon to the the styles.
+	 */
+	useStyle() {
+		var index = Math.max(0, this.sums_.index - 1);
+		index = Math.min(this.styles_.length - 1, index);
+		var style = this.styles_[index];
+		this.url_ = style["url"];
+		this.height_ = style["height"];
+		this.width_ = style["width"];
+		this.textColor_ = style["textColor"];
+		this.anchor_ = style["anchor"];
+		this.textSize_ = style["textSize"];
+		this.backgroundPosition_ = style["backgroundPosition"];
+	}
+
+	/**
+	 * Sets the center of the icon.
+	 *
+	 * @param {google.maps.LatLng} center The latlng to set as the center.
+	 */
+	setCenter(center) {
+		this.center_ = center;
+	}
+
+	/**
+	 * Create the css text based on the position of the icon.
+	 *
+	 * @param {google.maps.Point} pos The position.
+	 * @return {string} The css style text.
+	 */
+	createCss(pos) {
+		var style = [];
+		style.push("z-index:" + this.cluster_.markerClusterer_.getZIndex() + ";");
+		style.push("background-image:url(" + this.url_ + ");");
+		var backgroundPosition = this.backgroundPosition_
+			? this.backgroundPosition_
+			: "0 0";
+		style.push("background-position:" + backgroundPosition + ";");
+
+		if (typeof this.anchor_ === "object") {
+			if (
+				typeof this.anchor_[0] === "number" &&
+				this.anchor_[0] > 0 &&
+				this.anchor_[0] < this.height_
+			) {
+				style.push(
+					"height:" +
+					(this.height_ - this.anchor_[0]) +
+					"px; padding-top:" +
+					this.anchor_[0] +
+					"px;"
+				);
+			} else {
+				style.push(
+					"height:" + this.height_ + "px; line-height:" + this.height_ + "px;"
+				);
+			}
+			if (
+				typeof this.anchor_[1] === "number" &&
+				this.anchor_[1] > 0 &&
+				this.anchor_[1] < this.width_
+			) {
+				style.push(
+					"width:" +
+					(this.width_ - this.anchor_[1]) +
+					"px; padding-left:" +
+					this.anchor_[1] +
+					"px;"
+				);
+			} else {
+				style.push("width:" + this.width_ + "px; text-align:center;");
+			}
+		} else {
+			style.push(
+				"height:" +
+				this.height_ +
+				"px; line-height:" +
+				this.height_ +
+				"px; width:" +
+				this.width_ +
+				"px; text-align:center;"
+			);
+		}
+
+		var txtColor = this.textColor_ ? this.textColor_ : "black";
+		var txtSize = this.textSize_ ? this.textSize_ : 11;
+
+		style.push(
+			"cursor:pointer; top:" +
+			pos.y +
+			"px; left:" +
+			pos.x +
+			"px; color:" +
+			txtColor +
+			"; position:absolute; font-size:" +
+			txtSize +
+			"px; font-family:Arial,sans-serif; font-weight:bold"
+		);
+		return style.join("");
+	}
 }
 
+// Generated by CoffeeScript 1.12.2
 
-/**
- * Triggers the clusterclick event and zoom's if the option is set.
- */
-ClusterIcon.prototype.triggerClusterClick = function() {
-  var markerClusterer = this.cluster_.getMarkerClusterer();
-
-  // Trigger the clusterclick event.
-  google.maps.event.trigger(markerClusterer, 'clusterclick', this.cluster_);
-
-  if (markerClusterer.isZoomOnClick()) {
-    // Zoom into the cluster.
-    this.map_.fitBounds(this.cluster_.getBounds());
-  }
-};
-
-
-/**
- * Adding the cluster icon to the dom.
- * @ignore
- */
-ClusterIcon.prototype.onAdd = function() {
-  this.div_ = document.createElement('DIV');
-  if (this.visible_) {
-    var pos = this.getPosFromLatLng_(this.center_);
-    this.div_.style.cssText = this.createCss(pos);
-    this.div_.innerHTML = this.sums_.text;
-  }
-
-  var panes = this.getPanes();
-  panes.overlayMouseTarget.appendChild(this.div_);
-
-  var that = this;
-  google.maps.event.addDomListener(this.div_, 'click', function() {
-    that.triggerClusterClick();
-  });
-};
-
-
-/**
- * Returns the position to place the div dending on the latlng.
- *
- * @param {google.maps.LatLng} latlng The position in latlng.
- * @return {google.maps.Point} The position in pixels.
- * @private
- */
-ClusterIcon.prototype.getPosFromLatLng_ = function(latlng) {
-  var pos = this.getProjection().fromLatLngToDivPixel(latlng);
-  pos.x -= parseInt(this.width_ / 2, 10);
-  pos.y -= parseInt(this.height_ / 2, 10);
-  return pos;
-};
-
-
-/**
- * Draw the icon.
- * @ignore
- */
-ClusterIcon.prototype.draw = function() {
-  if (this.visible_) {
-    var pos = this.getPosFromLatLng_(this.center_);
-    this.div_.style.top = pos.y + 'px';
-    this.div_.style.left = pos.x + 'px';
-  }
-};
-
-
-/**
- * Hide the icon.
- */
-ClusterIcon.prototype.hide = function() {
-  if (this.div_) {
-    this.div_.style.display = 'none';
-  }
-  this.visible_ = false;
-};
-
-
-/**
- * Position and show the icon.
- */
-ClusterIcon.prototype.show = function() {
-  if (this.div_) {
-    var pos = this.getPosFromLatLng_(this.center_);
-    this.div_.style.cssText = this.createCss(pos);
-    this.div_.style.display = '';
-  }
-  this.visible_ = true;
-};
-
-
-/**
- * Remove the icon from the map
- */
-ClusterIcon.prototype.remove = function() {
-  this.setMap(null);
-};
-
-
-/**
- * Implementation of the onRemove interface.
- * @ignore
- */
-ClusterIcon.prototype.onRemove = function() {
-  if (this.div_ && this.div_.parentNode) {
-    this.hide();
-    this.div_.parentNode.removeChild(this.div_);
-    this.div_ = null;
-  }
-};
-
-
-/**
- * Set the sums of the icon.
- *
- * @param {Object} sums The sums containing:
- *   'text': (string) The text to display in the icon.
- *   'index': (number) The style index of the icon.
- */
-ClusterIcon.prototype.setSums = function(sums) {
-  this.sums_ = sums;
-  this.text_ = sums.text;
-  this.index_ = sums.index;
-  if (this.div_) {
-    this.div_.innerHTML = sums.text;
-  }
-
-  this.useStyle();
-};
-
-
-/**
- * Sets the icon to the the styles.
- */
-ClusterIcon.prototype.useStyle = function() {
-  var index = Math.max(0, this.sums_.index - 1);
-  index = Math.min(this.styles_.length - 1, index);
-  var style = this.styles_[index];
-  this.url_ = style['url'];
-  this.height_ = style['height'];
-  this.width_ = style['width'];
-  this.textColor_ = style['textColor'];
-  this.anchor_ = style['anchor'];
-  this.textSize_ = style['textSize'];
-  this.backgroundPosition_ = style['backgroundPosition'];
-};
-
-
-/**
- * Sets the center of the icon.
- *
- * @param {google.maps.LatLng} center The latlng to set as the center.
- */
-ClusterIcon.prototype.setCenter = function(center) {
-  this.center_ = center;
-};
-
-
-/**
- * Create the css text based on the position of the icon.
- *
- * @param {google.maps.Point} pos The position.
- * @return {string} The css style text.
- */
-ClusterIcon.prototype.createCss = function(pos) {
-  var style = [];
-  style.push('background-image:url(' + this.url_ + ');');
-  var backgroundPosition = this.backgroundPosition_ ? this.backgroundPosition_ : '0 0';
-  style.push('background-position:' + backgroundPosition + ';');
-
-  if (typeof this.anchor_ === 'object') {
-    if (typeof this.anchor_[0] === 'number' && this.anchor_[0] > 0 &&
-        this.anchor_[0] < this.height_) {
-      style.push('height:' + (this.height_ - this.anchor_[0]) +
-          'px; padding-top:' + this.anchor_[0] + 'px;');
-    } else {
-      style.push('height:' + this.height_ + 'px; line-height:' + this.height_ +
-          'px;');
-    }
-    if (typeof this.anchor_[1] === 'number' && this.anchor_[1] > 0 &&
-        this.anchor_[1] < this.width_) {
-      style.push('width:' + (this.width_ - this.anchor_[1]) +
-          'px; padding-left:' + this.anchor_[1] + 'px;');
-    } else {
-      style.push('width:' + this.width_ + 'px; text-align:center;');
-    }
-  } else {
-    style.push('height:' + this.height_ + 'px; line-height:' +
-        this.height_ + 'px; width:' + this.width_ + 'px; text-align:center;');
-  }
-
-  var txtColor = this.textColor_ ? this.textColor_ : 'black';
-  var txtSize = this.textSize_ ? this.textSize_ : 11;
-
-  style.push('cursor:pointer; top:' + pos.y + 'px; left:' +
-      pos.x + 'px; color:' + txtColor + '; position:absolute; font-size:' +
-      txtSize + 'px; font-family:Arial,sans-serif; font-weight:bold');
-  return style.join('');
-};
-
-/*
- OverlappingMarkerSpiderfier
+/** @preserve OverlappingMarkerSpiderfier
 https://github.com/jawj/OverlappingMarkerSpiderfier
 Copyright (c) 2011 - 2017 George MacKerron
 Released under the MIT licence: http://opensource.org/licenses/mit-license
 Note: The Google Maps API v3 must be included *before* this code
-*/
-(function(){var m,t,w,y,u,z={}.hasOwnProperty,A=[].slice;this.OverlappingMarkerSpiderfier=function(){function r(a,d){var b,f,e;this.map=a;null==d&&(d={});null==this.constructor.N&&(this.constructor.N=!0,h=google.maps,l=h.event,p=h.MapTypeId,c.keepSpiderfied=!1,c.ignoreMapClick=!1,c.markersWontHide=!1,c.markersWontMove=!1,c.basicFormatEvents=!1,c.nearbyDistance=20,c.circleSpiralSwitchover=9,c.circleFootSeparation=23,c.circleStartAngle=x/12,c.spiralFootSeparation=26,c.spiralLengthStart=11,c.spiralLengthFactor=
-4,c.spiderfiedZIndex=h.Marker.MAX_ZINDEX+2E4,c.highlightedLegZIndex=h.Marker.MAX_ZINDEX+1E4,c.usualLegZIndex=h.Marker.MAX_ZINDEX+1,c.legWeight=1.5,c.legColors={usual:{},highlighted:{}},e=c.legColors.usual,f=c.legColors.highlighted,e[p.HYBRID]=e[p.SATELLITE]="#fff",f[p.HYBRID]=f[p.SATELLITE]="#f00",e[p.TERRAIN]=e[p.ROADMAP]="#444",f[p.TERRAIN]=f[p.ROADMAP]="#f00",this.constructor.j=function(a){return this.setMap(a)},this.constructor.j.prototype=new h.OverlayView,this.constructor.j.prototype.draw=function(){});
-for(b in d)z.call(d,b)&&(f=d[b],this[b]=f);this.g=new this.constructor.j(this.map);this.C();this.c={};this.B=this.l=null;this.addListener("click",function(a,b){return l.trigger(a,"spider_click",b)});this.addListener("format",function(a,b){return l.trigger(a,"spider_format",b)});this.ignoreMapClick||l.addListener(this.map,"click",function(a){return function(){return a.unspiderfy()}}(this));l.addListener(this.map,"maptypeid_changed",function(a){return function(){return a.unspiderfy()}}(this));l.addListener(this.map,
-"zoom_changed",function(a){return function(){a.unspiderfy();if(!a.basicFormatEvents)return a.h()}}(this))}var l,h,m,v,p,c,t,x,u;c=r.prototype;t=[r,c];m=0;for(v=t.length;m<v;m++)u=t[m],u.VERSION="1.0.3";x=2*Math.PI;h=l=p=null;r.markerStatus={SPIDERFIED:"SPIDERFIED",SPIDERFIABLE:"SPIDERFIABLE",UNSPIDERFIABLE:"UNSPIDERFIABLE",UNSPIDERFIED:"UNSPIDERFIED"};c.C=function(){this.a=[];this.s=[]};c.addMarker=function(a,d){a.setMap(this.map);return this.trackMarker(a,d)};c.trackMarker=function(a,d){var b;if(null!=
-a._oms)return this;a._oms=!0;b=[l.addListener(a,"click",function(b){return function(d){return b.V(a,d)}}(this))];this.markersWontHide||b.push(l.addListener(a,"visible_changed",function(b){return function(){return b.D(a,!1)}}(this)));this.markersWontMove||b.push(l.addListener(a,"position_changed",function(b){return function(){return b.D(a,!0)}}(this)));null!=d&&b.push(l.addListener(a,"spider_click",d));this.s.push(b);this.a.push(a);this.basicFormatEvents?this.trigger("format",a,this.constructor.markerStatus.UNSPIDERFIED):
-(this.trigger("format",a,this.constructor.markerStatus.UNSPIDERFIABLE),this.h());return this};c.D=function(a,d){if(!this.J&&!this.K)return null==a._omsData||!d&&a.getVisible()||this.unspiderfy(d?a:null),this.h()};c.getMarkers=function(){return this.a.slice(0)};c.removeMarker=function(a){this.forgetMarker(a);return a.setMap(null)};c.forgetMarker=function(a){var d,b,f,e,g;null!=a._omsData&&this.unspiderfy();d=this.A(this.a,a);if(0>d)return this;g=this.s.splice(d,1)[0];b=0;for(f=g.length;b<f;b++)e=g[b],
-l.removeListener(e);delete a._oms;this.a.splice(d,1);this.h();return this};c.removeAllMarkers=c.clearMarkers=function(){var a,d,b,f;f=this.getMarkers();this.forgetAllMarkers();a=0;for(d=f.length;a<d;a++)b=f[a],b.setMap(null);return this};c.forgetAllMarkers=function(){var a,d,b,f,e,g,c,q;this.unspiderfy();q=this.a;a=d=0;for(b=q.length;d<b;a=++d){g=q[a];e=this.s[a];c=0;for(a=e.length;c<a;c++)f=e[c],l.removeListener(f);delete g._oms}this.C();return this};c.addListener=function(a,d){var b;(null!=(b=this.c)[a]?
-b[a]:b[a]=[]).push(d);return this};c.removeListener=function(a,d){var b;b=this.A(this.c[a],d);0>b||this.c[a].splice(b,1);return this};c.clearListeners=function(a){this.c[a]=[];return this};c.trigger=function(){var a,d,b,f,e,g;d=arguments[0];a=2<=arguments.length?A.call(arguments,1):[];d=null!=(b=this.c[d])?b:[];g=[];f=0;for(e=d.length;f<e;f++)b=d[f],g.push(b.apply(null,a));return g};c.L=function(a,d){var b,f,e,g,c;g=this.circleFootSeparation*(2+a)/x;f=x/a;c=[];for(b=e=0;0<=a?e<a:e>a;b=0<=a?++e:--e)b=
-this.circleStartAngle+b*f,c.push(new h.Point(d.x+g*Math.cos(b),d.y+g*Math.sin(b)));return c};c.M=function(a,d){var b,f,e,c,k;c=this.spiralLengthStart;b=0;k=[];for(f=e=0;0<=a?e<a:e>a;f=0<=a?++e:--e)b+=this.spiralFootSeparation/c+5E-4*f,f=new h.Point(d.x+c*Math.cos(b),d.y+c*Math.sin(b)),c+=x*this.spiralLengthFactor/b,k.push(f);return k};c.V=function(a,d){var b,f,e,c,k,q,n,l,h;(q=null!=a._omsData)&&this.keepSpiderfied||this.unspiderfy();if(q||this.map.getStreetView().getVisible()||"GoogleEarthAPI"===
-this.map.getMapTypeId())return this.trigger("click",a,d);q=[];n=[];b=this.nearbyDistance;l=b*b;k=this.f(a.position);h=this.a;b=0;for(f=h.length;b<f;b++)e=h[b],null!=e.map&&e.getVisible()&&(c=this.f(e.position),this.i(c,k)<l?q.push({R:e,G:c}):n.push(e));return 1===q.length?this.trigger("click",a,d):this.W(q,n)};c.markersNearMarker=function(a,d){var b,f,e,c,k,q,n,l,h,m;null==d&&(d=!1);if(null==this.g.getProjection())throw"Must wait for 'idle' event on map before calling markersNearMarker";b=this.nearbyDistance;
-n=b*b;k=this.f(a.position);q=[];l=this.a;b=0;for(f=l.length;b<f&&!(e=l[b],e!==a&&null!=e.map&&e.getVisible()&&(c=this.f(null!=(h=null!=(m=e._omsData)?m.v:void 0)?h:e.position),this.i(c,k)<n&&(q.push(e),d)));b++);return q};c.F=function(){var a,d,b,f,e,c,k,l,n,h,m;if(null==this.g.getProjection())throw"Must wait for 'idle' event on map before calling markersNearAnyOtherMarker";n=this.nearbyDistance;n*=n;var p;e=this.a;p=[];h=0;for(d=e.length;h<d;h++)f=e[h],p.push({H:this.f(null!=(a=null!=(b=f._omsData)?
-b.v:void 0)?a:f.position),b:!1});h=this.a;a=b=0;for(f=h.length;b<f;a=++b)if(d=h[a],null!=d.getMap()&&d.getVisible()&&(c=p[a],!c.b))for(m=this.a,d=l=0,e=m.length;l<e;d=++l)if(k=m[d],d!==a&&null!=k.getMap()&&k.getVisible()&&(k=p[d],(!(d<a)||k.b)&&this.i(c.H,k.H)<n)){c.b=k.b=!0;break}return p};c.markersNearAnyOtherMarker=function(){var a,d,b,c,e,g,k;e=this.F();g=this.a;k=[];a=d=0;for(b=g.length;d<b;a=++d)c=g[a],e[a].b&&k.push(c);return k};c.setImmediate=function(a){return window.setTimeout(a,0)};c.h=
-function(){if(!this.basicFormatEvents&&null==this.l)return this.l=this.setImmediate(function(a){return function(){a.l=null;return null!=a.g.getProjection()?a.w():null!=a.B?void 0:a.B=l.addListenerOnce(a.map,"idle",function(){return a.w()})}}(this))};c.w=function(){var a,d,b,c,e,g,k;if(this.basicFormatEvents){e=[];d=0;for(b=markers.length;d<b;d++)c=markers[d],a=null!=c._omsData?"SPIDERFIED":"UNSPIDERFIED",e.push(this.trigger("format",c,this.constructor.markerStatus[a]));return e}e=this.F();g=this.a;
-k=[];a=b=0;for(d=g.length;b<d;a=++b)c=g[a],a=null!=c._omsData?"SPIDERFIED":e[a].b?"SPIDERFIABLE":"UNSPIDERFIABLE",k.push(this.trigger("format",c,this.constructor.markerStatus[a]));return k};c.P=function(a){return{m:function(d){return function(){return a._omsData.o.setOptions({strokeColor:d.legColors.highlighted[d.map.mapTypeId],zIndex:d.highlightedLegZIndex})}}(this),u:function(d){return function(){return a._omsData.o.setOptions({strokeColor:d.legColors.usual[d.map.mapTypeId],zIndex:d.usualLegZIndex})}}(this)}};
-c.W=function(a,d){var b,c,e,g,k,q,n,m,p,r;this.J=!0;r=a.length;b=this.T(function(){var b,d,c;c=[];b=0;for(d=a.length;b<d;b++)m=a[b],c.push(m.G);return c}());g=r>=this.circleSpiralSwitchover?this.M(r,b).reverse():this.L(r,b);b=function(){var b,d,f;f=[];b=0;for(d=g.length;b<d;b++)e=g[b],c=this.U(e),p=this.S(a,function(a){return function(b){return a.i(b.G,e)}}(this)),n=p.R,q=new h.Polyline({map:this.map,path:[n.position,c],strokeColor:this.legColors.usual[this.map.mapTypeId],strokeWeight:this.legWeight,
-zIndex:this.usualLegZIndex}),n._omsData={v:n.getPosition(),X:n.getZIndex(),o:q},this.legColors.highlighted[this.map.mapTypeId]!==this.legColors.usual[this.map.mapTypeId]&&(k=this.P(n),n._omsData.O={m:l.addListener(n,"mouseover",k.m),u:l.addListener(n,"mouseout",k.u)}),this.trigger("format",n,this.constructor.markerStatus.SPIDERFIED),n.setPosition(c),n.setZIndex(Math.round(this.spiderfiedZIndex+e.y)),f.push(n);return f}.call(this);delete this.J;this.I=!0;return this.trigger("spiderfy",b,d)};c.unspiderfy=
-function(a){var d,b,c,e,g,k,h;null==a&&(a=null);if(null==this.I)return this;this.K=!0;h=[];g=[];k=this.a;d=0;for(b=k.length;d<b;d++)e=k[d],null!=e._omsData?(e._omsData.o.setMap(null),e!==a&&e.setPosition(e._omsData.v),e.setZIndex(e._omsData.X),c=e._omsData.O,null!=c&&(l.removeListener(c.m),l.removeListener(c.u)),delete e._omsData,e!==a&&(c=this.basicFormatEvents?"UNSPIDERFIED":"SPIDERFIABLE",this.trigger("format",e,this.constructor.markerStatus[c])),h.push(e)):g.push(e);delete this.K;delete this.I;
-this.trigger("unspiderfy",h,g);return this};c.i=function(a,d){var b,c;b=a.x-d.x;c=a.y-d.y;return b*b+c*c};c.T=function(a){var c,b,f,e,g;c=e=g=0;for(b=a.length;c<b;c++)f=a[c],e+=f.x,g+=f.y;a=a.length;return new h.Point(e/a,g/a)};c.f=function(a){return this.g.getProjection().fromLatLngToDivPixel(a)};c.U=function(a){return this.g.getProjection().fromDivPixelToLatLng(a)};c.S=function(a,c){var b,d,e,g,k,h;e=k=0;for(h=a.length;k<h;e=++k)if(g=a[e],g=c(g),"undefined"===typeof b||null===b||g<d)d=g,b=e;return a.splice(b,
-1)[0]};c.A=function(a,c){var b,d,e,g;if(null!=a.indexOf)return a.indexOf(c);b=d=0;for(e=a.length;d<e;b=++d)if(g=a[b],g===c)return b;return-1};return r}();t=/(\?.*(&|&amp;)|\?)spiderfier_callback=(\w+)/;m=document.currentScript;null==m&&(m=function(){var m,l,h,w,v;h=document.getElementsByTagName("script");v=[];m=0;for(l=h.length;m<l;m++)u=h[m],null!=(w=u.getAttribute("src"))&&w.match(t)&&v.push(u);return v}()[0]);if(null!=m&&(m=null!=(w=m.getAttribute("src"))?null!=(y=w.match(t))?y[3]:void 0:void 0)&&
-"function"===typeof window[m])window[m]();"function"===typeof window.spiderfier_callback&&window.spiderfier_callback()}).call(this);
-/* Thu 11 May 2017 09:00:27 BST */
+ */
+
+(function() {
+	var callbackName, callbackRegEx, ref, ref1, scriptTag, tag,
+		hasProp = {}.hasOwnProperty,
+		slice = [].slice;
+
+	this['OverlappingMarkerSpiderfier'] = (function() {
+		var ge, gm, j, len, mt, p, ref, twoPi, x;
+
+		p = _Class.prototype;
+
+		ref = [_Class, p];
+		for (j = 0, len = ref.length; j < len; j++) {
+			x = ref[j];
+			x['VERSION'] = '1.0.3';
+		}
+
+		twoPi = Math.PI * 2;
+
+		gm = ge = mt = null;
+
+		_Class['markerStatus'] = {
+			'SPIDERFIED': 'SPIDERFIED',
+			'SPIDERFIABLE': 'SPIDERFIABLE',
+			'UNSPIDERFIABLE': 'UNSPIDERFIABLE',
+			'UNSPIDERFIED': 'UNSPIDERFIED'
+		};
+
+		function _Class(map1, opts) {
+			var k, lcH, lcU, v;
+			this.map = map1;
+			if (opts == null) {
+				opts = {};
+			}
+			if (this.constructor.hasInitialized == null) {
+				this.constructor.hasInitialized = true;
+				gm = google.maps;
+				ge = gm.event;
+				mt = gm.MapTypeId;
+				p['keepSpiderfied'] = false;
+				p['ignoreMapClick'] = false;
+				p['markersWontHide'] = false;
+				p['markersWontMove'] = false;
+				p['basicFormatEvents'] = false;
+				p['nearbyDistance'] = 20;
+				p['circleSpiralSwitchover'] = 9;
+				p['circleFootSeparation'] = 23;
+				p['circleStartAngle'] = twoPi / 12;
+				p['spiralFootSeparation'] = 26;
+				p['spiralLengthStart'] = 11;
+				p['spiralLengthFactor'] = 4;
+				p['spiderfiedZIndex'] = gm.Marker.MAX_ZINDEX + 20000;
+				p['highlightedLegZIndex'] = gm.Marker.MAX_ZINDEX + 10000;
+				p['usualLegZIndex'] = gm.Marker.MAX_ZINDEX + 1;
+				p['legWeight'] = 1.5;
+				p['legColors'] = {
+					'usual': {},
+					'highlighted': {}
+				};
+				lcU = p['legColors']['usual'];
+				lcH = p['legColors']['highlighted'];
+				lcU[mt.HYBRID] = lcU[mt.SATELLITE] = '#fff';
+				lcH[mt.HYBRID] = lcH[mt.SATELLITE] = '#f00';
+				lcU[mt.TERRAIN] = lcU[mt.ROADMAP] = '#444';
+				lcH[mt.TERRAIN] = lcH[mt.ROADMAP] = '#f00';
+				this.constructor.ProjHelper = function(map) {
+					return this.setMap(map);
+				};
+				this.constructor.ProjHelper.prototype = new gm.OverlayView();
+				this.constructor.ProjHelper.prototype['draw'] = function() {};
+			}
+			for (k in opts) {
+				if (!hasProp.call(opts, k)) continue;
+				v = opts[k];
+				this[k] = v;
+			}
+			this.projHelper = new this.constructor.ProjHelper(this.map);
+			this.initMarkerArrays();
+			this.listeners = {};
+			this.formatIdleListener = this.formatTimeoutId = null;
+			this.addListener('click', function(marker, e) {
+				return ge.trigger(marker, 'spider_click', e);
+			});
+			this.addListener('format', function(marker, status) {
+				return ge.trigger(marker, 'spider_format', status);
+			});
+			if (!this['ignoreMapClick']) {
+				ge.addListener(this.map, 'click', (function(_this) {
+					return function() {
+						return _this['unspiderfy']();
+					};
+				})(this));
+			}
+			ge.addListener(this.map, 'maptypeid_changed', (function(_this) {
+				return function() {
+					return _this['unspiderfy']();
+				};
+			})(this));
+			ge.addListener(this.map, 'zoom_changed', (function(_this) {
+				return function() {
+					_this['unspiderfy']();
+					if (!_this['basicFormatEvents']) {
+						return _this.formatMarkers();
+					}
+				};
+			})(this));
+		}
+
+		p.initMarkerArrays = function() {
+			this.markers = [];
+			return this.markerListenerRefs = [];
+		};
+
+		p['addMarker'] = function(marker, spiderClickHandler) {
+			marker.setMap(this.map);
+			return this['trackMarker'](marker, spiderClickHandler);
+		};
+
+		p['trackMarker'] = function(marker, spiderClickHandler) {
+			var listenerRefs;
+			if (marker['_oms'] != null) {
+				return this;
+			}
+			marker['_oms'] = true;
+			listenerRefs = [
+				ge.addListener(marker, 'click', (function(_this) {
+					return function(e) {
+						return _this.spiderListener(marker, e);
+					};
+				})(this))
+			];
+			if (!this['markersWontHide']) {
+				listenerRefs.push(ge.addListener(marker, 'visible_changed', (function(_this) {
+					return function() {
+						return _this.markerChangeListener(marker, false);
+					};
+				})(this)));
+			}
+			if (!this['markersWontMove']) {
+				listenerRefs.push(ge.addListener(marker, 'position_changed', (function(_this) {
+					return function() {
+						return _this.markerChangeListener(marker, true);
+					};
+				})(this)));
+			}
+			if (spiderClickHandler != null) {
+				listenerRefs.push(ge.addListener(marker, 'spider_click', spiderClickHandler));
+			}
+			this.markerListenerRefs.push(listenerRefs);
+			this.markers.push(marker);
+			if (this['basicFormatEvents']) {
+				this.trigger('format', marker, this.constructor['markerStatus']['UNSPIDERFIED']);
+			} else {
+				this.trigger('format', marker, this.constructor['markerStatus']['UNSPIDERFIABLE']);
+				this.formatMarkers();
+			}
+			return this;
+		};
+
+		p.markerChangeListener = function(marker, positionChanged) {
+			if (this.spiderfying || this.unspiderfying) {
+				return;
+			}
+			if ((marker['_omsData'] != null) && (positionChanged || !marker.getVisible())) {
+				this['unspiderfy'](positionChanged ? marker : null);
+			}
+			return this.formatMarkers();
+		};
+
+		p['getMarkers'] = function() {
+			return this.markers.slice(0);
+		};
+
+		p['removeMarker'] = function(marker) {
+			this['forgetMarker'](marker);
+			return marker.setMap(null);
+		};
+
+		p['forgetMarker'] = function(marker) {
+			var i, l, len1, listenerRef, listenerRefs;
+			if (marker['_omsData'] != null) {
+				this['unspiderfy']();
+			}
+			i = this.arrIndexOf(this.markers, marker);
+			if (i < 0) {
+				return this;
+			}
+			listenerRefs = this.markerListenerRefs.splice(i, 1)[0];
+			for (l = 0, len1 = listenerRefs.length; l < len1; l++) {
+				listenerRef = listenerRefs[l];
+				ge.removeListener(listenerRef);
+			}
+			delete marker['_oms'];
+			this.markers.splice(i, 1);
+			this.formatMarkers();
+			return this;
+		};
+
+		p['removeAllMarkers'] = p['clearMarkers'] = function() {
+			var l, len1, marker, markers;
+			markers = this['getMarkers']();
+			this['forgetAllMarkers']();
+			for (l = 0, len1 = markers.length; l < len1; l++) {
+				marker = markers[l];
+				marker.setMap(null);
+			}
+			return this;
+		};
+
+		p['forgetAllMarkers'] = function() {
+			var i, l, len1, len2, listenerRef, listenerRefs, marker, n, ref1;
+			this['unspiderfy']();
+			ref1 = this.markers;
+			for (i = l = 0, len1 = ref1.length; l < len1; i = ++l) {
+				marker = ref1[i];
+				listenerRefs = this.markerListenerRefs[i];
+				for (n = 0, len2 = listenerRefs.length; n < len2; n++) {
+					listenerRef = listenerRefs[n];
+					ge.removeListener(listenerRef);
+				}
+				delete marker['_oms'];
+			}
+			this.initMarkerArrays();
+			return this;
+		};
+
+		p['addListener'] = function(eventName, func) {
+			var base;
+			((base = this.listeners)[eventName] != null ? base[eventName] : base[eventName] = []).push(func);
+			return this;
+		};
+
+		p['removeListener'] = function(eventName, func) {
+			var i;
+			i = this.arrIndexOf(this.listeners[eventName], func);
+			if (!(i < 0)) {
+				this.listeners[eventName].splice(i, 1);
+			}
+			return this;
+		};
+
+		p['clearListeners'] = function(eventName) {
+			this.listeners[eventName] = [];
+			return this;
+		};
+
+		p.trigger = function() {
+			var args, eventName, func, l, len1, ref1, ref2, results;
+			eventName = arguments[0], args = 2 <= arguments.length ? slice.call(arguments, 1) : [];
+			ref2 = (ref1 = this.listeners[eventName]) != null ? ref1 : [];
+			results = [];
+			for (l = 0, len1 = ref2.length; l < len1; l++) {
+				func = ref2[l];
+				results.push(func.apply(null, args));
+			}
+			return results;
+		};
+
+		p.generatePtsCircle = function(count, centerPt) {
+			var angle, angleStep, circumference, i, l, legLength, ref1, results;
+			circumference = this['circleFootSeparation'] * (2 + count);
+			legLength = circumference / twoPi;
+			angleStep = twoPi / count;
+			results = [];
+			for (i = l = 0, ref1 = count; 0 <= ref1 ? l < ref1 : l > ref1; i = 0 <= ref1 ? ++l : --l) {
+				angle = this['circleStartAngle'] + i * angleStep;
+				results.push(new gm.Point(centerPt.x + legLength * Math.cos(angle), centerPt.y + legLength * Math.sin(angle)));
+			}
+			return results;
+		};
+
+		p.generatePtsSpiral = function(count, centerPt) {
+			var angle, i, l, legLength, pt, ref1, results;
+			legLength = this['spiralLengthStart'];
+			angle = 0;
+			results = [];
+			for (i = l = 0, ref1 = count; 0 <= ref1 ? l < ref1 : l > ref1; i = 0 <= ref1 ? ++l : --l) {
+				angle += this['spiralFootSeparation'] / legLength + i * 0.0005;
+				pt = new gm.Point(centerPt.x + legLength * Math.cos(angle), centerPt.y + legLength * Math.sin(angle));
+				legLength += twoPi * this['spiralLengthFactor'] / angle;
+				results.push(pt);
+			}
+			return results;
+		};
+
+		p.spiderListener = function(marker, e) {
+			var l, len1, m, mPt, markerPt, markerSpiderfied, nDist, nearbyMarkerData, nonNearbyMarkers, pxSq, ref1;
+			markerSpiderfied = marker['_omsData'] != null;
+			if (!(markerSpiderfied && this['keepSpiderfied'])) {
+				this['unspiderfy']();
+			}
+			if (markerSpiderfied || this.map.getStreetView().getVisible() || this.map.getMapTypeId() === 'GoogleEarthAPI') {
+				return this.trigger('click', marker, e);
+			} else {
+				nearbyMarkerData = [];
+				nonNearbyMarkers = [];
+				nDist = this['nearbyDistance'];
+				pxSq = nDist * nDist;
+				markerPt = this.llToPt(marker.position);
+				ref1 = this.markers;
+				for (l = 0, len1 = ref1.length; l < len1; l++) {
+					m = ref1[l];
+					if (!((m.map != null) && m.getVisible())) {
+						continue;
+					}
+					mPt = this.llToPt(m.position);
+					if (this.ptDistanceSq(mPt, markerPt) < pxSq) {
+						nearbyMarkerData.push({
+							marker: m,
+							markerPt: mPt
+						});
+					} else {
+						nonNearbyMarkers.push(m);
+					}
+				}
+				if (nearbyMarkerData.length === 1) {
+					return this.trigger('click', marker, e);
+				} else {
+					return this.spiderfy(nearbyMarkerData, nonNearbyMarkers);
+				}
+			}
+		};
+
+		p['markersNearMarker'] = function(marker, firstOnly) {
+			var l, len1, m, mPt, markerPt, markers, nDist, pxSq, ref1, ref2, ref3;
+			if (firstOnly == null) {
+				firstOnly = false;
+			}
+			if (this.projHelper.getProjection() == null) {
+				throw "Must wait for 'idle' event on map before calling markersNearMarker";
+			}
+			nDist = this['nearbyDistance'];
+			pxSq = nDist * nDist;
+			markerPt = this.llToPt(marker.position);
+			markers = [];
+			ref1 = this.markers;
+			for (l = 0, len1 = ref1.length; l < len1; l++) {
+				m = ref1[l];
+				if (m === marker || (m.map == null) || !m.getVisible()) {
+					continue;
+				}
+				mPt = this.llToPt((ref2 = (ref3 = m['_omsData']) != null ? ref3.usualPosition : void 0) != null ? ref2 : m.position);
+				if (this.ptDistanceSq(mPt, markerPt) < pxSq) {
+					markers.push(m);
+					if (firstOnly) {
+						break;
+					}
+				}
+			}
+			return markers;
+		};
+
+		p.markerProximityData = function() {
+			var i1, i2, l, len1, len2, m, m1, m1Data, m2, m2Data, mData, n, nDist, pxSq, ref1, ref2;
+			if (this.projHelper.getProjection() == null) {
+				throw "Must wait for 'idle' event on map before calling markersNearAnyOtherMarker";
+			}
+			nDist = this['nearbyDistance'];
+			pxSq = nDist * nDist;
+			mData = (function() {
+				var l, len1, ref1, ref2, ref3, results;
+				ref1 = this.markers;
+				results = [];
+				for (l = 0, len1 = ref1.length; l < len1; l++) {
+					m = ref1[l];
+					results.push({
+						pt: this.llToPt((ref2 = (ref3 = m['_omsData']) != null ? ref3.usualPosition : void 0) != null ? ref2 : m.position),
+						willSpiderfy: false
+					});
+				}
+				return results;
+			}).call(this);
+			ref1 = this.markers;
+			for (i1 = l = 0, len1 = ref1.length; l < len1; i1 = ++l) {
+				m1 = ref1[i1];
+				if (!((m1.getMap() != null) && m1.getVisible())) {
+					continue;
+				}
+				m1Data = mData[i1];
+				if (m1Data.willSpiderfy) {
+					continue;
+				}
+				ref2 = this.markers;
+				for (i2 = n = 0, len2 = ref2.length; n < len2; i2 = ++n) {
+					m2 = ref2[i2];
+					if (i2 === i1) {
+						continue;
+					}
+					if (!((m2.getMap() != null) && m2.getVisible())) {
+						continue;
+					}
+					m2Data = mData[i2];
+					if (i2 < i1 && !m2Data.willSpiderfy) {
+						continue;
+					}
+					if (this.ptDistanceSq(m1Data.pt, m2Data.pt) < pxSq) {
+						m1Data.willSpiderfy = m2Data.willSpiderfy = true;
+						break;
+					}
+				}
+			}
+			return mData;
+		};
+
+		p['markersNearAnyOtherMarker'] = function() {
+			var i, l, len1, m, mData, ref1, results;
+			mData = this.markerProximityData();
+			ref1 = this.markers;
+			results = [];
+			for (i = l = 0, len1 = ref1.length; l < len1; i = ++l) {
+				m = ref1[i];
+				if (mData[i].willSpiderfy) {
+					results.push(m);
+				}
+			}
+			return results;
+		};
+
+		p.setImmediate = function(func) {
+			return window.setTimeout(func, 0);
+		};
+
+		p.formatMarkers = function() {
+			if (this['basicFormatEvents']) {
+				return;
+			}
+			if (this.formatTimeoutId != null) {
+				return;
+			}
+			return this.formatTimeoutId = this.setImmediate((function(_this) {
+				return function() {
+					_this.formatTimeoutId = null;
+					if (_this.projHelper.getProjection() != null) {
+						return _this._formatMarkers();
+					} else {
+						if (_this.formatIdleListener != null) {
+							return;
+						}
+						return _this.formatIdleListener = ge.addListenerOnce(_this.map, 'idle', function() {
+							return _this._formatMarkers();
+						});
+					}
+				};
+			})(this));
+		};
+
+		p._formatMarkers = function() {
+			var i, l, len1, len2, marker, n, proximities, ref1, results, results1, status;
+			if (this['basicFormatEvents']) {
+				results = [];
+				for (l = 0, len1 = markers.length; l < len1; l++) {
+					marker = markers[l];
+					status = marker['_omsData'] != null ? 'SPIDERFIED' : 'UNSPIDERFIED';
+					results.push(this.trigger('format', marker, this.constructor['markerStatus'][status]));
+				}
+				return results;
+			} else {
+				proximities = this.markerProximityData();
+				ref1 = this.markers;
+				results1 = [];
+				for (i = n = 0, len2 = ref1.length; n < len2; i = ++n) {
+					marker = ref1[i];
+					status = marker['_omsData'] != null ? 'SPIDERFIED' : proximities[i].willSpiderfy ? 'SPIDERFIABLE' : 'UNSPIDERFIABLE';
+					results1.push(this.trigger('format', marker, this.constructor['markerStatus'][status]));
+				}
+				return results1;
+			}
+		};
+
+		p.makeHighlightListenerFuncs = function(marker) {
+			return {
+				highlight: (function(_this) {
+					return function() {
+						return marker['_omsData'].leg.setOptions({
+							strokeColor: _this['legColors']['highlighted'][_this.map.mapTypeId],
+							zIndex: _this['highlightedLegZIndex']
+						});
+					};
+				})(this),
+				unhighlight: (function(_this) {
+					return function() {
+						return marker['_omsData'].leg.setOptions({
+							strokeColor: _this['legColors']['usual'][_this.map.mapTypeId],
+							zIndex: _this['usualLegZIndex']
+						});
+					};
+				})(this)
+			};
+		};
+
+		p.spiderfy = function(markerData, nonNearbyMarkers) {
+			var bodyPt, footLl, footPt, footPts, highlightListenerFuncs, leg, marker, md, nearestMarkerDatum, numFeet, spiderfiedMarkers;
+			this.spiderfying = true;
+			numFeet = markerData.length;
+			bodyPt = this.ptAverage((function() {
+				var l, len1, results;
+				results = [];
+				for (l = 0, len1 = markerData.length; l < len1; l++) {
+					md = markerData[l];
+					results.push(md.markerPt);
+				}
+				return results;
+			})());
+			footPts = numFeet >= this['circleSpiralSwitchover'] ? this.generatePtsSpiral(numFeet, bodyPt).reverse() : this.generatePtsCircle(numFeet, bodyPt);
+			spiderfiedMarkers = (function() {
+				var l, len1, results;
+				results = [];
+				for (l = 0, len1 = footPts.length; l < len1; l++) {
+					footPt = footPts[l];
+					footLl = this.ptToLl(footPt);
+					nearestMarkerDatum = this.minExtract(markerData, (function(_this) {
+						return function(md) {
+							return _this.ptDistanceSq(md.markerPt, footPt);
+						};
+					})(this));
+					marker = nearestMarkerDatum.marker;
+					leg = new gm.Polyline({
+						map: this.map,
+						path: [marker.position, footLl],
+						strokeColor: this['legColors']['usual'][this.map.mapTypeId],
+						strokeWeight: this['legWeight'],
+						zIndex: this['usualLegZIndex']
+					});
+					marker['_omsData'] = {
+						usualPosition: marker.getPosition(),
+						usualZIndex: marker.getZIndex(),
+						leg: leg
+					};
+					if (this['legColors']['highlighted'][this.map.mapTypeId] !== this['legColors']['usual'][this.map.mapTypeId]) {
+						highlightListenerFuncs = this.makeHighlightListenerFuncs(marker);
+						marker['_omsData'].hightlightListeners = {
+							highlight: ge.addListener(marker, 'mouseover', highlightListenerFuncs.highlight),
+							unhighlight: ge.addListener(marker, 'mouseout', highlightListenerFuncs.unhighlight)
+						};
+					}
+					this.trigger('format', marker, this.constructor['markerStatus']['SPIDERFIED']);
+					marker.setPosition(footLl);
+					marker.setZIndex(Math.round(this['spiderfiedZIndex'] + footPt.y));
+					results.push(marker);
+				}
+				return results;
+			}).call(this);
+			delete this.spiderfying;
+			this.spiderfied = true;
+			return this.trigger('spiderfy', spiderfiedMarkers, nonNearbyMarkers);
+		};
+
+		p['unspiderfy'] = function(markerNotToMove) {
+			var l, len1, listeners, marker, nonNearbyMarkers, ref1, status, unspiderfiedMarkers;
+			if (markerNotToMove == null) {
+				markerNotToMove = null;
+			}
+			if (this.spiderfied == null) {
+				return this;
+			}
+			this.unspiderfying = true;
+			unspiderfiedMarkers = [];
+			nonNearbyMarkers = [];
+			ref1 = this.markers;
+			for (l = 0, len1 = ref1.length; l < len1; l++) {
+				marker = ref1[l];
+				if (marker['_omsData'] != null) {
+					marker['_omsData'].leg.setMap(null);
+					if (marker !== markerNotToMove) {
+						marker.setPosition(marker['_omsData'].usualPosition);
+					}
+					marker.setZIndex(marker['_omsData'].usualZIndex);
+					listeners = marker['_omsData'].hightlightListeners;
+					if (listeners != null) {
+						ge.removeListener(listeners.highlight);
+						ge.removeListener(listeners.unhighlight);
+					}
+					delete marker['_omsData'];
+					if (marker !== markerNotToMove) {
+						status = this['basicFormatEvents'] ? 'UNSPIDERFIED' : 'SPIDERFIABLE';
+						this.trigger('format', marker, this.constructor['markerStatus'][status]);
+					}
+					unspiderfiedMarkers.push(marker);
+				} else {
+					nonNearbyMarkers.push(marker);
+				}
+			}
+			delete this.unspiderfying;
+			delete this.spiderfied;
+			this.trigger('unspiderfy', unspiderfiedMarkers, nonNearbyMarkers);
+			return this;
+		};
+
+		p.ptDistanceSq = function(pt1, pt2) {
+			var dx, dy;
+			dx = pt1.x - pt2.x;
+			dy = pt1.y - pt2.y;
+			return dx * dx + dy * dy;
+		};
+
+		p.ptAverage = function(pts) {
+			var l, len1, numPts, pt, sumX, sumY;
+			sumX = sumY = 0;
+			for (l = 0, len1 = pts.length; l < len1; l++) {
+				pt = pts[l];
+				sumX += pt.x;
+				sumY += pt.y;
+			}
+			numPts = pts.length;
+			return new gm.Point(sumX / numPts, sumY / numPts);
+		};
+
+		p.llToPt = function(ll) {
+			return this.projHelper.getProjection().fromLatLngToDivPixel(ll);
+		};
+
+		p.ptToLl = function(pt) {
+			return this.projHelper.getProjection().fromDivPixelToLatLng(pt);
+		};
+
+		p.minExtract = function(set, func) {
+			var bestIndex, bestVal, index, item, l, len1, val;
+			for (index = l = 0, len1 = set.length; l < len1; index = ++l) {
+				item = set[index];
+				val = func(item);
+				if ((typeof bestIndex === "undefined" || bestIndex === null) || val < bestVal) {
+					bestVal = val;
+					bestIndex = index;
+				}
+			}
+			return set.splice(bestIndex, 1)[0];
+		};
+
+		p.arrIndexOf = function(arr, obj) {
+			var i, l, len1, o;
+			if (arr.indexOf != null) {
+				return arr.indexOf(obj);
+			}
+			for (i = l = 0, len1 = arr.length; l < len1; i = ++l) {
+				o = arr[i];
+				if (o === obj) {
+					return i;
+				}
+			}
+			return -1;
+		};
+
+		return _Class;
+
+	})();
+
+	callbackRegEx = /(\?.*(&|&amp;)|\?)spiderfier_callback=(\w+)/;
+
+	scriptTag = document.currentScript;
+
+	if (scriptTag == null) {
+		scriptTag = ((function() {
+			var j, len, ref, ref1, results;
+			ref = document.getElementsByTagName('script');
+			results = [];
+			for (j = 0, len = ref.length; j < len; j++) {
+				tag = ref[j];
+				if ((ref1 = tag.getAttribute('src')) != null ? ref1.match(callbackRegEx) : void 0) {
+					results.push(tag);
+				}
+			}
+			return results;
+		})())[0];
+	}
+
+	if (scriptTag != null) {
+		callbackName = (ref = scriptTag.getAttribute('src')) != null ? (ref1 = ref.match(callbackRegEx)) != null ? ref1[3] : void 0 : void 0;
+		if (callbackName) {
+			if (typeof window[callbackName] === "function") {
+				window[callbackName]();
+			}
+		}
+	}
+
+	if (typeof window['spiderfier_callback'] === "function") {
+		window['spiderfier_callback']();
+	}
+
+}).call(this);

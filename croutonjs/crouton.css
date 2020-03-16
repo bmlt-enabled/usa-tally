@@ -255,6 +255,11 @@ span.bmlt_tabs_group_count {
 	margin-left: 2px;
 }
 
+#bmlt-tabs .rowHighlight {
+	background-color: #DB4865;
+	color: black;
+}
+
 #bmlt-tabs .bmlt-header {
 	padding: 4px 0 0 4px;
 	background-color: #35414F;
@@ -548,4 +553,26 @@ table.tablesaw {
 	.tablesaw-stack td .tablesaw-cell-label,.tablesaw-stack th .tablesaw-cell-label {
 		display: none !important;
 	}
+}
+
+.mapcontrolslabel {
+	font-size: 12px;
+	cursor: pointer;
+	margin: 5px;
+	text-align: left;
+	display: block;
+}
+
+.mapcontrolcontainer {
+	background-color: #fff;
+	border: 2px solid #fff;
+	cursor: pointer;
+	margin-top: 10px;
+	margin-left: 10px;
+}
+
+.mapcontrols {
+	color: rgb(25,25,25);
+	font-family: Roboto,Arial,sans-serif;
+	font-size: 12px;
 }
