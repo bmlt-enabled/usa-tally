@@ -101,7 +101,7 @@
 
     function getTomatoData() {
         $.ajaxSetup({timeout:30000});
-        $.getJSON(useTomatoStub ? "tally/tomatoStub.json" : "https://tomato.bmltenabled.org/rest/v1/servicebodies", function (data) {
+        $.getJSON(useTomatoStub ? "tally/tomatoStub.json" : "https://tomato.bmltenabled.org/rest/v1/servicebodies/", function (data) {
             tomatoResults = data['results'];
             $.getJSON(useTomatoStub ? "tally/serviceBodiesDetailsStub.json" : "https://tomato.bmltenabled.org/main_server/client_interface/json/?switcher=GetServiceBodies", function(data) {
                 serviceBodiesDetails = data;
