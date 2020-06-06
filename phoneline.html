@@ -103,20 +103,25 @@
         }
     }
 
-    function getServiceBodiesFromTomato(page, callback) {
+    function getServiceBodiesFromTomato(page, payload, callback) {
+        if (payload == null) {
+            payload = []
+        }
+
         $.getJSON(useTomatoStub ? "tally/tomatoStub.json" : "https://tomato.bmltenabled.org/rest/v1/servicebodies/?page=" + page, function (data) {
-            tomatoResults = tomatoResults.concat(data['results']);
+            payload = payload.concat(data['results']);
             if (data['next'] !== null) {
-                getServiceBodiesFromTomato(++page, callback)
+                getServiceBodiesFromTomato(++page, payload, callback)
             } else {
-                callback();
+                callback(payload);
             }
         });
     }
 
     function getTomatoData() {
         $.ajaxSetup({timeout:30000});
-        getServiceBodiesFromTomato(1, function() {
+        getServiceBodiesFromTomato(1, null, function(data) {
+            tomatoResults = data;
             $.getJSON(useTomatoStub ? "tally/serviceBodiesDetailsStub.json" : "https://tomato.bmltenabled.org/main_server/client_interface/json/?switcher=GetServiceBodies", function(data) {
                 serviceBodiesDetails = data;
                 tallyHtml = "<table border='1'><tr><th>TomatoId</th><th>Parent</th><th>Service Body</th><th>Phone Number</th><th>Meetings</th></tr>";
