@@ -19,9 +19,9 @@
         "count": 112,
         "name": "Alaska",
         "tomatoIds": [
-            ""
+            "https://tomato.bmltenabled.org/rest/v1/servicebodies/1806/"
         ],
-        "complete": false
+        "complete": true
     },
     {
         "count": 404,
@@ -64,7 +64,7 @@
             "https://tomato.bmltenabled.org/rest/v1/servicebodies/1578/",
             "https://tomato.bmltenabled.org/rest/v1/servicebodies/1579/"
         ],
-        "complete": false
+        "complete": true
     },
     {
         "count": 213,
@@ -353,7 +353,8 @@
             "https://tomato.bmltenabled.org/rest/v1/servicebodies/373/",
             "https://tomato.bmltenabled.org/rest/v1/servicebodies/374/",
             "https://tomato.bmltenabled.org/rest/v1/servicebodies/1384/",
-            "https://tomato.bmltenabled.org/rest/v1/servicebodies/1580/"
+            "https://tomato.bmltenabled.org/rest/v1/servicebodies/1580/",
+            "https://tomato.bmltenabled.org/rest/v1/servicebodies/1853/"
         ],
         "complete": false
     },
@@ -402,7 +403,7 @@
         "count": 500,
         "name": "Pacific Cascade",
         "tomatoIds": [
-            ""
+            "https://tomato.bmltenabled.org/rest/v1/servicebodies/1855/"
         ],
         "complete": false
     },
@@ -498,9 +499,9 @@
         "count": 650,
         "name": "Tri-State",
         "tomatoIds": [
-            "https://tomato.bmltenabled.org/rest/v1/servicebodies/1300/"
+            "https://tomato.bmltenabled.org/rest/v1/servicebodies/1904/"
         ],
-        "complete": false
+        "complete": true
     },
     {
         "count": 84,
@@ -538,7 +539,7 @@
         "count": 910,
         "name": "Washington/Northern Idaho",
         "tomatoIds": [
-            ""
+            "https://tomato.bmltenabled.org/rest/v1/servicebodies/1813/"
         ],
         "complete": false
     },
