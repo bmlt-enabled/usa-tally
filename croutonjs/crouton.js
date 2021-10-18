@@ -12858,6 +12858,12 @@ function CroutonLocalization(language) {
 			"click_search": "Click Search",
 			"pan_and_zoom": "Pan + Zoom",
 			"languages": "Languages",
+			"venue_types": "Venue Types",
+			"venue_type_choices": {
+				IN_PERSON: "In Person",
+				VIRTUAL: "Virtual",
+			},
+			"share": "share",
 		},
 		"de-DE":{
 			"days_of_the_week": ["", "Sonntag", "Montag", "Dienstag", "Mittwoch", "Donnerstag", "Frietag", "Samstag"],
@@ -12872,152 +12878,18 @@ function CroutonLocalization(language) {
 			"postal_codes": "PLZ",
 			"formats": "Formate",
 			"map": "Karte",
-			"neighborhood": "Neighborhood",
-			"near_me": "Near Me",
-			"text_search": "Text Search",
-			"click_search": "Click Search",
-			"pan_and_zoom": "Pan + Zoom",
-			"languages": "Languages",
-		},
-		"en-US": {
-			"days_of_the_week" : ["", "Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"],
-			"weekday" : "Weekday",
-			"city" : "City",
-			"cities" : "Cities",
-			"groups" : "Groups",
-			"areas" : "Areas",
-			"locations" : "Locations",
-			"counties" : "Counties",
-			"states" : "States",
-			"postal_codes" : "Zips",
-			"formats" : "Formats",
-			"map" : "Map",
-			"neighborhood": "Neighborhood",
-			"near_me": "Near Me",
-			"text_search": "Text Search",
-			"click_search": "Click Search",
-			"pan_and_zoom": "Pan + Zoom",
-			"languages": "Languages",
-		},
-		"en-CA": {
-			"days_of_the_week" : ["", "Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"],
-			"weekday" : "Weekday",
-			"city" : "City",
-			"cities" : "Cities",
-			"groups" : "Groups",
-			"areas" : "Areas",
-			"locations" : "Locations",
-			"counties" : "Counties",
-			"states" : "Provinces",
-			"postal_codes" : "Postal Codes",
-			"formats" : "Formats",
-			"map" : "Map",
-			"neighborhood": "Neighborhood",
-			"near_me": "Near Me",
-			"text_search": "Text Search",
-			"click_search": "Click Search",
-			"pan_and_zoom": "Pan + Zoom",
-			"languages": "Languages",
-		},
-		"fa-IR": {
-			"days_of_the_week" : ["", 'یَکشَنب', 'دوشَنبه', 'سه‌شنبه', 'چهار شنبه', 'پَنج شَنبه', 'جُمعه', 'شَنبه'],
-			"weekday" : "روز هفته",
-			"city" : "شهر",
-			"cities" : "شهرها",
-			"groups" : "گروه ها",
-			"areas" : "نواحی",
-			"locations" : "آدرسها",
-			"counties" : "بخشها",
-			"states" : "ایالات",
-			"postal_codes":"کد پستی",
-			"formats" : "فورمت ها",
-			"map" : "نقشه",
-			"neighborhood": "Neighborhood",
-			"near_me": "Near Me",
-			"text_search": "Text Search",
-			"click_search": "Click Search",
-			"pan_and_zoom": "Pan + Zoom",
-			"languages": "Languages",
-		},
-		"fr-CA": {
-			"days_of_the_week" : ["", "Dimanche", "Lundi", "Mardi", "Mercredi", "Jeudi", "Vendredi", "Samedi"],
-			"weekday" : "Journée",
-			"city" : "Ville",
-			"cities" : "Villes",
-			"groups" : "Groupes",
-			"areas" : "CSL",
-			"locations" : "Emplacements",
-			"counties" : "Régions",
-			"states" : "Provinces",
-			"postal_codes" : "Codes postaux",
-			"formats" : "Formats",
-			"map" : "Carte",
-			"neighborhood": "Neighborhood",
-			"near_me": "Near Me",
-			"text_search": "Text Search",
-			"click_search": "Click Search",
-			"pan_and_zoom": "Pan + Zoom",
-			"languages": "Languages",
-		},
-		"it-IT": {
-			"days_of_the_week" : ["", "Domenica", " Lunedì", "Martedì", "Mercoledì", "Giovedì", "Venerdì", "Sabato"],
-			"weekday" : "Giorno",
-			"city" : "Città",
-			"cities" : "Città",
-			"groups" : "Gruppi",
-			"areas" : "Aree",
-			"locations" : "Località",
-			"counties" : "Province",
-			"states" : "Regioni",
-			"postal_codes" : "CAP",
-			"formats" : "Formati",
-			"map" : "Mappa",
-			"neighborhood": "Neighborhood",
-			"near_me": "Near Me",
-			"text_search": "Text Search",
-			"click_search": "Click Search",
-			"pan_and_zoom": "Pan + Zoom",
-			"languages": "Languages",
-		},
-		"es-US": {
-			"days_of_the_week" : ["", "Domingo", " Lunes", "Martes", "Miércoles", "Jueves", "Viernes", "Sábado"],
-			"weekday" : "Día de la semana",
-			"city" : "Ciudad",
-			"cities" : "Ciudades",
-			"groups" : "Grupos",
-			"areas" : "Areas",
-			"locations" : "Ubicaciones",
-			"counties" : "Condados",
-			"states" : "Estados",
-			"postal_codes" : "Codiagos postales",
-			"formats" : "Formatos",
-			"map" : "Mapa",
-			"neighborhood": "Neighborhood",
-			"near_me": "Near Me",
-			"text_search": "Text Search",
-			"click_search": "Click Search",
-			"pan_and_zoom": "Pan + Zoom",
-			"languages": "Languages",
-		},
-		"en-NZ": {
-			"days_of_the_week" : ["", "Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"],
-			"weekday" : "Weekday",
-			"city" : "City",
-			"cities" : "Cities",
-			"groups" : "Groups",
-			"areas" : "Areas",
-			"locations" : "Locations",
-			"counties" : "Counties",
-			"states" : "States",
-			"postal_codes" : "Postcodes",
-			"formats" : "Formats",
-			"map" : "Map",
-			"neighborhood": "Neighborhood",
-			"near_me": "Near Me",
-			"text_search": "Text Search",
-			"click_search": "Click Search",
-			"pan_and_zoom": "Pan + Zoom",
-			"languages": "Languages",
+			"neighborhood": "Nachbarschaft",
+			"near_me": "In meiner Nähe",
+			"text_search": "Textsuche",
+			"click_search": "Klicksuche",
+			"pan_and_zoom": "Schwenken + Zoomen",
+			"languages": "Sprachen",
+			"venue_types": "Treffpunktarten",
+			"venue_type_choices": {
+				IN_PERSON: "Präsens-Meetings",
+				VIRTUAL: "Online-Meetings",
+			},
+			"share": "Teilen",
 		},
 		"en-AU": {
 			"days_of_the_week" : ["", "Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"],
@@ -13038,6 +12910,64 @@ function CroutonLocalization(language) {
 			"click_search": "Click Search",
 			"pan_and_zoom": "Pan + Zoom",
 			"languages": "Languages",
+			"venue_types": "Venue Types",
+			"venue_type_choices": {
+				IN_PERSON: "In Person",
+				VIRTUAL: "Virtual",
+			},
+			"share": "share",
+		},
+		"en-CA": {
+			"days_of_the_week" : ["", "Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"],
+			"weekday" : "Weekday",
+			"city" : "City",
+			"cities" : "Cities",
+			"groups" : "Groups",
+			"areas" : "Areas",
+			"locations" : "Locations",
+			"counties" : "Counties",
+			"states" : "Provinces",
+			"postal_codes" : "Postal Codes",
+			"formats" : "Formats",
+			"map" : "Map",
+			"neighborhood": "Neighborhood",
+			"near_me": "Near Me",
+			"text_search": "Text Search",
+			"click_search": "Click Search",
+			"pan_and_zoom": "Pan + Zoom",
+			"languages": "Languages",
+			"venue_types": "Venue Types",
+			"venue_type_choices": {
+				IN_PERSON: "In Person",
+				VIRTUAL: "Virtual",
+			},
+			"share": "share",
+		},
+		"en-NZ": {
+			"days_of_the_week" : ["", "Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"],
+			"weekday" : "Weekday",
+			"city" : "City",
+			"cities" : "Cities",
+			"groups" : "Groups",
+			"areas" : "Areas",
+			"locations" : "Locations",
+			"counties" : "Counties",
+			"states" : "States",
+			"postal_codes" : "Postcodes",
+			"formats" : "Formats",
+			"map" : "Map",
+			"neighborhood": "Neighborhood",
+			"near_me": "Near Me",
+			"text_search": "Text Search",
+			"click_search": "Click Search",
+			"pan_and_zoom": "Pan + Zoom",
+			"languages": "Languages",
+			"venue_types": "Venue Types",
+			"venue_type_choices": {
+				IN_PERSON: "In Person",
+				VIRTUAL: "Virtual",
+			},
+			"share": "share",
 		},
 		"en-UK": {
 			"days_of_the_week" : ["", "Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"],
@@ -13058,6 +12988,168 @@ function CroutonLocalization(language) {
 			"click_search": "Click Search",
 			"pan_and_zoom": "Pan + Zoom",
 			"languages": "Languages",
+			"venue_types": "Venue Types",
+			"venue_type_choices": {
+				IN_PERSON: "In Person",
+				VIRTUAL: "Virtual",
+			},
+			"share": "share",
+		},
+		"en-US": {
+			"days_of_the_week" : ["", "Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"],
+			"weekday" : "Weekday",
+			"city" : "City",
+			"cities" : "Cities",
+			"groups" : "Groups",
+			"areas" : "Areas",
+			"locations" : "Locations",
+			"counties" : "Counties",
+			"states" : "States",
+			"postal_codes" : "Zips",
+			"formats" : "Formats",
+			"map" : "Map",
+			"neighborhood": "Neighborhood",
+			"near_me": "Near Me",
+			"text_search": "Text Search",
+			"click_search": "Click Search",
+			"pan_and_zoom": "Pan + Zoom",
+			"languages": "Languages",
+			"venue_types": "Venue Types",
+			"venue_type_choices": {
+				IN_PERSON: "In Person",
+				VIRTUAL: "Virtual",
+			},
+			"share": "share",
+		},
+		"es-US": {
+			"days_of_the_week" : ["", "Domingo", " Lunes", "Martes", "Miércoles", "Jueves", "Viernes", "Sábado"],
+			"weekday" : "Día de la semana",
+			"city" : "Ciudad",
+			"cities" : "Ciudades",
+			"groups" : "Grupos",
+			"areas" : "Areas",
+			"locations" : "Ubicaciones",
+			"counties" : "Condados",
+			"states" : "Estados",
+			"postal_codes" : "Codiagos postales",
+			"formats" : "Formatos",
+			"map" : "Mapa",
+			"neighborhood": "Neighborhood",
+			"near_me": "Near Me",
+			"text_search": "Text Search",
+			"click_search": "Click Search",
+			"pan_and_zoom": "Pan + Zoom",
+			"languages": "Languages",
+			"venue_types": "Venue Types",
+			"venue_type_choices": {
+				IN_PERSON: "In Person",
+				VIRTUAL: "Virtual",
+			},
+			"share": "share",
+		},
+		"fa-IR": {
+			"days_of_the_week" : ["", 'یَکشَنب', 'دوشَنبه', 'سه‌شنبه', 'چهار شنبه', 'پَنج شَنبه', 'جُمعه', 'شَنبه'],
+			"weekday" : "روز هفته",
+			"city" : "شهر",
+			"cities" : "شهرها",
+			"groups" : "گروه ها",
+			"areas" : "نواحی",
+			"locations" : "آدرسها",
+			"counties" : "بخشها",
+			"states" : "ایالات",
+			"postal_codes":"کد پستی",
+			"formats" : "فورمت ها",
+			"map" : "نقشه",
+			"neighborhood": "Neighborhood",
+			"near_me": "Near Me",
+			"text_search": "Text Search",
+			"click_search": "Click Search",
+			"pan_and_zoom": "Pan + Zoom",
+			"languages": "Languages",
+			"venue_types": "Venue Types",
+			"venue_type_choices": {
+				IN_PERSON: "In Person",
+				VIRTUAL: "Virtual",
+			},
+			"share": "share",
+		},
+		"fr-CA": {
+			"days_of_the_week" : ["", "Dimanche", "Lundi", "Mardi", "Mercredi", "Jeudi", "Vendredi", "Samedi"],
+			"weekday" : "Journée",
+			"city" : "Ville",
+			"cities" : "Villes",
+			"groups" : "Groupes",
+			"areas" : "CSL",
+			"locations" : "Emplacements",
+			"counties" : "Régions",
+			"states" : "Provinces",
+			"postal_codes" : "Codes postaux",
+			"formats" : "Formats",
+			"map" : "Carte",
+			"neighborhood": "Neighborhood",
+			"near_me": "Near Me",
+			"text_search": "Text Search",
+			"click_search": "Click Search",
+			"pan_and_zoom": "Pan + Zoom",
+			"languages": "Languages",
+			"venue_types": "Venue Types",
+			"venue_type_choices": {
+				IN_PERSON: "In Person",
+				VIRTUAL: "Virtual",
+			},
+			"share": "share",
+		},
+		"it-IT": {
+			"days_of_the_week" : ["", "Domenica", " Lunedì", "Martedì", "Mercoledì", "Giovedì", "Venerdì", "Sabato"],
+			"weekday" : "Giorno",
+			"city" : "Città",
+			"cities" : "Città",
+			"groups" : "Gruppi",
+			"areas" : "Aree",
+			"locations" : "Località",
+			"counties" : "Province",
+			"states" : "Regioni",
+			"postal_codes" : "CAP",
+			"formats" : "Formati",
+			"map" : "Mappa",
+			"neighborhood": "Neighborhood",
+			"near_me": "Near Me",
+			"text_search": "Text Search",
+			"click_search": "Click Search",
+			"pan_and_zoom": "Pan + Zoom",
+			"languages": "Languages",
+			"venue_types": "Venue Types",
+			"venue_type_choices": {
+				IN_PERSON: "In Person",
+				VIRTUAL: "Virtual",
+			},
+			"share": "Condividi"
+		},
+		"nl-NL": {
+			"days_of_the_week" : ["", "Zondag", "Maandag", "Dinsdag", "Woensdag", "Donderdag", "Vrijdag", "Zaterdag"],
+			"weekday" : "Dag van de week",
+			"city" : "Stad",
+			"cities" : "Steden",
+			"groups" : "Groepen",
+			"areas" : "Gebieden",
+			"locations" : "Locaties",
+			"counties" : "Landen",
+			"states" : "Provincies",
+			"postal_codes" : "Postcodes",
+			"formats" : "Formats",
+			"map" : "Kaart",
+			"neighborhood": "Buurt",
+			"near_me": "Bij mij in de buurt",
+			"text_search": "Zoek op tekst",
+			"click_search": "Klik om te zoeken",
+			"pan_and_zoom": "Pan + Zoom",
+			"languages": "Talen",
+			"venue_types": "Soorten locaties",
+			"venue_type_choices": {
+				IN_PERSON: "Fysiek",
+				VIRTUAL: "Online",
+			},
+			"share": "share",
 		},
 		"pl-PL": {
 			"days_of_the_week" : ["", "Niedziela", "Poniedziałek", "Wtorek", "Środa", "Czwartek", "Piątek", "Sobota"],
@@ -13072,12 +13164,18 @@ function CroutonLocalization(language) {
 			"postal_codes" : "Kody pocztowe",
 			"formats" : "Formaty",
 			"map" : "Mapa",
-			"neighborhood": "Neighborhood",
-			"near_me": "Near Me",
-			"text_search": "Text Search",
-			"click_search": "Click Search",
-			"pan_and_zoom": "Pan + Zoom",
-			"languages": "Languages",
+			"neighborhood": "Sąsiedztwo",
+			"near_me": "Blisko Mnie",
+			"text_search": "Wpisz",
+			"click_search": "Kliknij na mapie",
+			"pan_and_zoom": "Przesuń powiększ",
+			"languages": "Języki",
+			"venue_types": "Venue Types",
+			"venue_type_choices": {
+				IN_PERSON: "In Person",
+				VIRTUAL: "Virtual",
+			},
+			"share": "share",
 		},
 		"pt-BR": {
 			"days_of_the_week" : ["", "Domingo", "Segunda-feira", "Terça-feira", "Quarta-feira", "Quinta-feira", "Sexta-feira", "Sábado"],
@@ -13094,10 +13192,42 @@ function CroutonLocalization(language) {
 			"map" : "Mapa",
 			"neighborhood": "Bairro",
 			"near_me": "Minha Localização",
-			"text_search": "Buscar por Texto",
+			"text_search": "digite um endereço",
 			"click_search": "Clique no local",
 			"pan_and_zoom": "Panorâmico + Zoom",
-			"languages": "Languages",
+			"languages": "Idiomas",
+			"venue_types": "tipos de reunião",
+			"venue_type_choices": {
+				IN_PERSON: "Presencial",
+				VIRTUAL: "Virtual",
+			},
+			"share": "Compartilhar",
+		},
+		"ru-RU": {
+			"days_of_the_week" : ["", "Воскресенье", "Понедельник", "Вторник", "Среда", "Четверг", "Пятница", "Суббота"],
+			"weekday" : "будний день",
+			"city" : "Город",
+			"cities" : "Города",
+			"groups" : "Группы",
+			"areas" : "Зоны",
+			"locations" : "Локации",
+			"counties" : "Страны",
+			"states" : "Штаты",
+			"postal_codes" : "Индексы (почтовые)",
+			"formats" : "Форматы",
+			"map" : "Карта",
+			"neighborhood": "Соседство",
+			"near_me": "Около меня",
+			"text_search": "Поиск текста",
+			"click_search": "Нажмите Поиск",
+			"pan_and_zoom": "Pan + Zoom",
+			"languages": "Языки",
+			"venue_types": "Venue Types",
+			"venue_type_choices": {
+				IN_PERSON: "In Person",
+				VIRTUAL: "Virtual",
+			},
+			"share": "share",
 		},
 		"sv-SE": {
 			"days_of_the_week" : ["", "Söndag", "Måndag", "Tisdag", "Onsdag", "Torsdag", "Fredag", "Lördag"],
@@ -13118,26 +13248,12 @@ function CroutonLocalization(language) {
 			"click_search": "Sök",
 			"pan_and_zoom": "Panorera + Zooma",
 			"languages": "Språk",
-		},
-		"ru-RU": {
-			"days_of_the_week" : ["", "Воскресенье", "Понедельник", "Вторник", "Среда", "Четверг", "Пятница", "Суббота"],
-			"weekday" : "будний день",
-			"city" : "Город",
-			"cities" : "Города",
-			"groups" : "Группы",
-			"areas" : "Зоны",
-			"locations" : "Локации",
-			"counties" : "Страны",
-			"states" : "Штаты",
-			"postal_codes" : "Индексы (почтовые)",
-			"formats" : "Форматы",
-			"map" : "Карта",
-			"neighborhood": "Соседство",
-			"near_me": "Около меня",
-			"text_search": "Поиск текста",
-			"click_search": "Нажмите Поиск",
-			"pan_and_zoom": "Pan + Zoom",
-			"languages": "Языки"
+			"venue_types": "Venue Types",
+			"venue_type_choices": {
+				IN_PERSON: "In Person",
+				VIRTUAL: "Virtual",
+			},
+			"share": "share",
 		}
 	};
 }
@@ -13150,337 +13266,697 @@ CroutonLocalization.prototype.getWord = function(word) {
 	return words[this.language][word.toLowerCase()];
 };
 
+CroutonLocalization.prototype.getVenueType = function(type) {
+	return words[this.language]['venue_type_choices'][type];
+}
+
 this["hbs_Crouton"] = this["hbs_Crouton"] || {};
 this["hbs_Crouton"]["templates"] = this["hbs_Crouton"]["templates"] || {};
 this["hbs_Crouton"]["templates"]["byday"] = Handlebars.template({"1":function(container,depth0,helpers,partials,data) {
-    var stack1, alias1=container.lambda, alias2=container.escapeExpression;
+    var stack1, lookupProperty = container.lookupProperty || function(parent, propertyName) {
+        if (Object.prototype.hasOwnProperty.call(parent, propertyName)) {
+          return parent[propertyName];
+        }
+        return undefined
+    };
 
   return "            <tbody class=\"bmlt-data-rows h-"
-    + alias2(alias1((depth0 != null ? depth0.day : depth0), depth0))
-    + "\">\n            <tr class=\"meeting-header\">\n                <td colspan=\"3\">"
-    + alias2(alias1((depth0 != null ? depth0.day : depth0), depth0))
-    + "</td>\n            </tr>\n"
-    + ((stack1 = container.invokePartial(partials.meetings,(depth0 != null ? depth0.meetings : depth0),{"name":"meetings","data":data,"indent":"            ","helpers":helpers,"partials":partials,"decorators":container.decorators})) != null ? stack1 : "")
+    + container.escapeExpression(container.lambda((depth0 != null ? lookupProperty(depth0,"day") : depth0), depth0))
+    + "\">\n"
+    + ((stack1 = lookupProperty(helpers,"unless").call(depth0 != null ? depth0 : (container.nullContext || {}),(depth0 != null ? lookupProperty(depth0,"hide") : depth0),{"name":"unless","hash":{},"fn":container.program(2, data, 0),"inverse":container.noop,"data":data,"loc":{"start":{"line":5,"column":3},"end":{"line":11,"column":14}}})) != null ? stack1 : "")
+    + "\n"
+    + ((stack1 = container.invokePartial(lookupProperty(partials,"meetings"),(depth0 != null ? lookupProperty(depth0,"meetings") : depth0),{"name":"meetings","data":data,"indent":"            ","helpers":helpers,"partials":partials,"decorators":container.decorators})) != null ? stack1 : "")
     + "            </tbody>\n";
+},"2":function(container,depth0,helpers,partials,data) {
+    var stack1, lookupProperty = container.lookupProperty || function(parent, propertyName) {
+        if (Object.prototype.hasOwnProperty.call(parent, propertyName)) {
+          return parent[propertyName];
+        }
+        return undefined
+    };
+
+  return ((stack1 = (lookupProperty(helpers,"greaterThan")||(depth0 && lookupProperty(depth0,"greaterThan"))||container.hooks.helperMissing).call(depth0 != null ? depth0 : (container.nullContext || {}),((stack1 = (depth0 != null ? lookupProperty(depth0,"meetings") : depth0)) != null ? lookupProperty(stack1,"length") : stack1),0,{"name":"greaterThan","hash":{},"fn":container.program(3, data, 0),"inverse":container.noop,"data":data,"loc":{"start":{"line":6,"column":4},"end":{"line":10,"column":20}}})) != null ? stack1 : "");
+},"3":function(container,depth0,helpers,partials,data) {
+    var lookupProperty = container.lookupProperty || function(parent, propertyName) {
+        if (Object.prototype.hasOwnProperty.call(parent, propertyName)) {
+          return parent[propertyName];
+        }
+        return undefined
+    };
+
+  return "					<tr class=\"meeting-header\">\n						<td colspan=\"3\">"
+    + container.escapeExpression(container.lambda((depth0 != null ? lookupProperty(depth0,"day") : depth0), depth0))
+    + "</td>\n					</tr>\n";
 },"compiler":[8,">= 4.3.0"],"main":function(container,depth0,helpers,partials,data) {
-    var stack1;
+    var stack1, lookupProperty = container.lookupProperty || function(parent, propertyName) {
+        if (Object.prototype.hasOwnProperty.call(parent, propertyName)) {
+          return parent[propertyName];
+        }
+        return undefined
+    };
 
   return "<div id=\"bmlt-table-div\">\n    <table class='bmlt-table table table-striped table-hover table-bordered tablesaw tablesaw-stack'>\n"
-    + ((stack1 = helpers.each.call(depth0 != null ? depth0 : (container.nullContext || {}),depth0,{"name":"each","hash":{},"fn":container.program(1, data, 0),"inverse":container.noop,"data":data,"loc":{"start":{"line":3,"column":8},"end":{"line":10,"column":17}}})) != null ? stack1 : "")
+    + ((stack1 = lookupProperty(helpers,"each").call(depth0 != null ? depth0 : (container.nullContext || {}),depth0,{"name":"each","hash":{},"fn":container.program(1, data, 0),"inverse":container.noop,"data":data,"loc":{"start":{"line":3,"column":8},"end":{"line":15,"column":17}}})) != null ? stack1 : "")
     + "    </table>\n</div>\n";
 },"usePartial":true,"useData":true});
 this["hbs_Crouton"]["templates"]["byfield"] = Handlebars.template({"1":function(container,depth0,helpers,partials,data) {
-    var stack1, helper;
+    var stack1, helper, lookupProperty = container.lookupProperty || function(parent, propertyName) {
+        if (Object.prototype.hasOwnProperty.call(parent, propertyName)) {
+          return parent[propertyName];
+        }
+        return undefined
+    };
 
   return "			<tr class=\"meeting-header\">\n				<td colspan=\"3\">"
-    + container.escapeExpression(((helper = (helper = helpers.key || (data && data.key)) != null ? helper : container.hooks.helperMissing),(typeof helper === "function" ? helper.call(depth0 != null ? depth0 : (container.nullContext || {}),{"name":"key","hash":{},"data":data,"loc":{"start":{"line":6,"column":20},"end":{"line":6,"column":28}}}) : helper)))
+    + container.escapeExpression(((helper = (helper = lookupProperty(helpers,"key") || (data && lookupProperty(data,"key"))) != null ? helper : container.hooks.helperMissing),(typeof helper === "function" ? helper.call(depth0 != null ? depth0 : (container.nullContext || {}),{"name":"key","hash":{},"data":data,"loc":{"start":{"line":6,"column":20},"end":{"line":6,"column":28}}}) : helper)))
     + "</td>\n			</tr>\n"
-    + ((stack1 = container.invokePartial(partials.meetings,depth0,{"name":"meetings","data":data,"indent":"\t\t\t","helpers":helpers,"partials":partials,"decorators":container.decorators})) != null ? stack1 : "");
+    + ((stack1 = container.invokePartial(lookupProperty(partials,"meetings"),depth0,{"name":"meetings","data":data,"indent":"\t\t\t","helpers":helpers,"partials":partials,"decorators":container.decorators})) != null ? stack1 : "");
 },"compiler":[8,">= 4.3.0"],"main":function(container,depth0,helpers,partials,data) {
-    var stack1;
+    var stack1, lookupProperty = container.lookupProperty || function(parent, propertyName) {
+        if (Object.prototype.hasOwnProperty.call(parent, propertyName)) {
+          return parent[propertyName];
+        }
+        return undefined
+    };
 
   return "<div id=\"bmlt-table-div\">\n	<table class='bmlt-table table table-striped table-hover table-bordered tablesaw tablesaw-stack'>\n		<tbody>\n"
-    + ((stack1 = helpers.each.call(depth0 != null ? depth0 : (container.nullContext || {}),depth0,{"name":"each","hash":{},"fn":container.program(1, data, 0),"inverse":container.noop,"data":data,"loc":{"start":{"line":4,"column":2},"end":{"line":9,"column":11}}})) != null ? stack1 : "")
+    + ((stack1 = lookupProperty(helpers,"each").call(depth0 != null ? depth0 : (container.nullContext || {}),depth0,{"name":"each","hash":{},"fn":container.program(1, data, 0),"inverse":container.noop,"data":data,"loc":{"start":{"line":4,"column":2},"end":{"line":9,"column":11}}})) != null ? stack1 : "")
     + "		</tbody>\n	</table>\n</div>\n";
 },"usePartial":true,"useData":true});
 this["hbs_Crouton"]["templates"]["header"] = Handlebars.template({"1":function(container,depth0,helpers,partials,data) {
-    var stack1, alias1=depth0 != null ? depth0 : (container.nullContext || {});
+    var stack1, alias1=depth0 != null ? depth0 : (container.nullContext || {}), lookupProperty = container.lookupProperty || function(parent, propertyName) {
+        if (Object.prototype.hasOwnProperty.call(parent, propertyName)) {
+          return parent[propertyName];
+        }
+        return undefined
+    };
 
-  return ((stack1 = helpers["if"].call(alias1,((stack1 = (depth0 != null ? depth0.config : depth0)) != null ? stack1.include_weekday_button : stack1),{"name":"if","hash":{},"fn":container.program(2, data, 0),"inverse":container.noop,"data":data,"loc":{"start":{"line":2,"column":4},"end":{"line":4,"column":11}}})) != null ? stack1 : "")
-    + ((stack1 = helpers.each.call(alias1,((stack1 = (depth0 != null ? depth0.config : depth0)) != null ? stack1.button_filters : stack1),{"name":"each","hash":{},"fn":container.program(4, data, 0),"inverse":container.noop,"data":data,"loc":{"start":{"line":5,"column":4},"end":{"line":7,"column":13}}})) != null ? stack1 : "")
+  return ((stack1 = lookupProperty(helpers,"if").call(alias1,((stack1 = (depth0 != null ? lookupProperty(depth0,"config") : depth0)) != null ? lookupProperty(stack1,"include_weekday_button") : stack1),{"name":"if","hash":{},"fn":container.program(2, data, 0),"inverse":container.noop,"data":data,"loc":{"start":{"line":2,"column":4},"end":{"line":4,"column":11}}})) != null ? stack1 : "")
+    + ((stack1 = lookupProperty(helpers,"each").call(alias1,((stack1 = (depth0 != null ? lookupProperty(depth0,"config") : depth0)) != null ? lookupProperty(stack1,"button_filters") : stack1),{"name":"each","hash":{},"fn":container.program(4, data, 0),"inverse":container.noop,"data":data,"loc":{"start":{"line":5,"column":4},"end":{"line":7,"column":13}}})) != null ? stack1 : "")
     + "\n"
-    + ((stack1 = helpers["if"].call(alias1,((stack1 = (depth0 != null ? depth0.config : depth0)) != null ? stack1.has_cities : stack1),{"name":"if","hash":{},"fn":container.program(6, data, 0),"inverse":container.noop,"data":data,"loc":{"start":{"line":9,"column":4},"end":{"line":18,"column":11}}})) != null ? stack1 : "")
+    + ((stack1 = lookupProperty(helpers,"if").call(alias1,((stack1 = (depth0 != null ? lookupProperty(depth0,"config") : depth0)) != null ? lookupProperty(stack1,"has_cities") : stack1),{"name":"if","hash":{},"fn":container.program(6, data, 0),"inverse":container.noop,"data":data,"loc":{"start":{"line":9,"column":4},"end":{"line":18,"column":11}}})) != null ? stack1 : "")
     + "\n"
-    + ((stack1 = helpers["if"].call(alias1,((stack1 = (depth0 != null ? depth0.config : depth0)) != null ? stack1.has_groups : stack1),{"name":"if","hash":{},"fn":container.program(9, data, 0),"inverse":container.noop,"data":data,"loc":{"start":{"line":20,"column":4},"end":{"line":29,"column":11}}})) != null ? stack1 : "")
+    + ((stack1 = lookupProperty(helpers,"if").call(alias1,((stack1 = (depth0 != null ? lookupProperty(depth0,"config") : depth0)) != null ? lookupProperty(stack1,"has_groups") : stack1),{"name":"if","hash":{},"fn":container.program(9, data, 0),"inverse":container.noop,"data":data,"loc":{"start":{"line":20,"column":4},"end":{"line":29,"column":11}}})) != null ? stack1 : "")
     + "\n"
-    + ((stack1 = helpers["if"].call(alias1,((stack1 = (depth0 != null ? depth0.config : depth0)) != null ? stack1.has_areas : stack1),{"name":"if","hash":{},"fn":container.program(11, data, 0),"inverse":container.noop,"data":data,"loc":{"start":{"line":31,"column":4},"end":{"line":40,"column":11}}})) != null ? stack1 : "")
+    + ((stack1 = lookupProperty(helpers,"if").call(alias1,((stack1 = (depth0 != null ? lookupProperty(depth0,"config") : depth0)) != null ? lookupProperty(stack1,"has_venues") : stack1),{"name":"if","hash":{},"fn":container.program(11, data, 0),"inverse":container.noop,"data":data,"loc":{"start":{"line":31,"column":1},"end":{"line":40,"column":8}}})) != null ? stack1 : "")
     + "\n"
-    + ((stack1 = helpers["if"].call(alias1,((stack1 = (depth0 != null ? depth0.config : depth0)) != null ? stack1.has_locations : stack1),{"name":"if","hash":{},"fn":container.program(14, data, 0),"inverse":container.noop,"data":data,"loc":{"start":{"line":42,"column":4},"end":{"line":51,"column":11}}})) != null ? stack1 : "")
+    + ((stack1 = lookupProperty(helpers,"if").call(alias1,((stack1 = (depth0 != null ? lookupProperty(depth0,"config") : depth0)) != null ? lookupProperty(stack1,"has_areas") : stack1),{"name":"if","hash":{},"fn":container.program(14, data, 0),"inverse":container.noop,"data":data,"loc":{"start":{"line":42,"column":4},"end":{"line":51,"column":11}}})) != null ? stack1 : "")
     + "\n"
-    + ((stack1 = helpers["if"].call(alias1,((stack1 = (depth0 != null ? depth0.config : depth0)) != null ? stack1.has_sub_province : stack1),{"name":"if","hash":{},"fn":container.program(16, data, 0),"inverse":container.noop,"data":data,"loc":{"start":{"line":53,"column":4},"end":{"line":62,"column":11}}})) != null ? stack1 : "")
+    + ((stack1 = lookupProperty(helpers,"if").call(alias1,((stack1 = (depth0 != null ? lookupProperty(depth0,"config") : depth0)) != null ? lookupProperty(stack1,"has_locations") : stack1),{"name":"if","hash":{},"fn":container.program(17, data, 0),"inverse":container.noop,"data":data,"loc":{"start":{"line":53,"column":4},"end":{"line":62,"column":11}}})) != null ? stack1 : "")
     + "\n"
-    + ((stack1 = helpers["if"].call(alias1,((stack1 = (depth0 != null ? depth0.config : depth0)) != null ? stack1.has_neighborhoods : stack1),{"name":"if","hash":{},"fn":container.program(18, data, 0),"inverse":container.noop,"data":data,"loc":{"start":{"line":64,"column":1},"end":{"line":73,"column":8}}})) != null ? stack1 : "")
+    + ((stack1 = lookupProperty(helpers,"if").call(alias1,((stack1 = (depth0 != null ? lookupProperty(depth0,"config") : depth0)) != null ? lookupProperty(stack1,"has_sub_province") : stack1),{"name":"if","hash":{},"fn":container.program(19, data, 0),"inverse":container.noop,"data":data,"loc":{"start":{"line":64,"column":4},"end":{"line":73,"column":11}}})) != null ? stack1 : "")
     + "\n"
-    + ((stack1 = helpers["if"].call(alias1,((stack1 = (depth0 != null ? depth0.config : depth0)) != null ? stack1.has_states : stack1),{"name":"if","hash":{},"fn":container.program(20, data, 0),"inverse":container.noop,"data":data,"loc":{"start":{"line":75,"column":4},"end":{"line":84,"column":11}}})) != null ? stack1 : "")
+    + ((stack1 = lookupProperty(helpers,"if").call(alias1,((stack1 = (depth0 != null ? lookupProperty(depth0,"config") : depth0)) != null ? lookupProperty(stack1,"has_neighborhoods") : stack1),{"name":"if","hash":{},"fn":container.program(21, data, 0),"inverse":container.noop,"data":data,"loc":{"start":{"line":75,"column":1},"end":{"line":84,"column":8}}})) != null ? stack1 : "")
     + "\n"
-    + ((stack1 = helpers["if"].call(alias1,((stack1 = (depth0 != null ? depth0.config : depth0)) != null ? stack1.has_zip_codes : stack1),{"name":"if","hash":{},"fn":container.program(22, data, 0),"inverse":container.noop,"data":data,"loc":{"start":{"line":86,"column":4},"end":{"line":95,"column":11}}})) != null ? stack1 : "")
+    + ((stack1 = lookupProperty(helpers,"if").call(alias1,((stack1 = (depth0 != null ? lookupProperty(depth0,"config") : depth0)) != null ? lookupProperty(stack1,"has_states") : stack1),{"name":"if","hash":{},"fn":container.program(23, data, 0),"inverse":container.noop,"data":data,"loc":{"start":{"line":86,"column":4},"end":{"line":95,"column":11}}})) != null ? stack1 : "")
     + "\n"
-    + ((stack1 = helpers["if"].call(alias1,((stack1 = (depth0 != null ? depth0.config : depth0)) != null ? stack1.has_formats : stack1),{"name":"if","hash":{},"fn":container.program(24, data, 0),"inverse":container.noop,"data":data,"loc":{"start":{"line":97,"column":4},"end":{"line":106,"column":11}}})) != null ? stack1 : "")
+    + ((stack1 = lookupProperty(helpers,"if").call(alias1,((stack1 = (depth0 != null ? lookupProperty(depth0,"config") : depth0)) != null ? lookupProperty(stack1,"has_zip_codes") : stack1),{"name":"if","hash":{},"fn":container.program(25, data, 0),"inverse":container.noop,"data":data,"loc":{"start":{"line":97,"column":4},"end":{"line":106,"column":11}}})) != null ? stack1 : "")
     + "\n"
-    + ((stack1 = helpers["if"].call(alias1,((stack1 = (depth0 != null ? depth0.config : depth0)) != null ? stack1.has_languages : stack1),{"name":"if","hash":{},"fn":container.program(27, data, 0),"inverse":container.noop,"data":data,"loc":{"start":{"line":108,"column":1},"end":{"line":117,"column":8}}})) != null ? stack1 : "")
+    + ((stack1 = lookupProperty(helpers,"if").call(alias1,((stack1 = (depth0 != null ? lookupProperty(depth0,"config") : depth0)) != null ? lookupProperty(stack1,"has_formats") : stack1),{"name":"if","hash":{},"fn":container.program(27, data, 0),"inverse":container.noop,"data":data,"loc":{"start":{"line":108,"column":4},"end":{"line":117,"column":11}}})) != null ? stack1 : "")
+    + "\n"
+    + ((stack1 = lookupProperty(helpers,"if").call(alias1,((stack1 = (depth0 != null ? lookupProperty(depth0,"config") : depth0)) != null ? lookupProperty(stack1,"has_languages") : stack1),{"name":"if","hash":{},"fn":container.program(30, data, 0),"inverse":container.noop,"data":data,"loc":{"start":{"line":119,"column":1},"end":{"line":128,"column":8}}})) != null ? stack1 : "")
     + "    </div>\n";
 },"2":function(container,depth0,helpers,partials,data) {
-    return "        <div class=\"bmlt-button-container\"><a id=\"day\" class=\"btn btn-primary btn-sm\">"
-    + container.escapeExpression((helpers.getWord||(depth0 && depth0.getWord)||container.hooks.helperMissing).call(depth0 != null ? depth0 : (container.nullContext || {}),"weekday",{"name":"getWord","hash":{},"data":data,"loc":{"start":{"line":3,"column":86},"end":{"line":3,"column":107}}}))
+    var lookupProperty = container.lookupProperty || function(parent, propertyName) {
+        if (Object.prototype.hasOwnProperty.call(parent, propertyName)) {
+          return parent[propertyName];
+        }
+        return undefined
+    };
+
+  return "        <div class=\"bmlt-button-container\"><a id=\"day\" class=\"btn btn-primary btn-sm\">"
+    + container.escapeExpression((lookupProperty(helpers,"getWord")||(depth0 && lookupProperty(depth0,"getWord"))||container.hooks.helperMissing).call(depth0 != null ? depth0 : (container.nullContext || {}),"weekday",{"name":"getWord","hash":{},"data":data,"loc":{"start":{"line":3,"column":86},"end":{"line":3,"column":107}}}))
     + "</a></div>\n";
 },"4":function(container,depth0,helpers,partials,data) {
-    var alias1=container.lambda, alias2=container.escapeExpression;
+    var alias1=container.lambda, alias2=container.escapeExpression, lookupProperty = container.lookupProperty || function(parent, propertyName) {
+        if (Object.prototype.hasOwnProperty.call(parent, propertyName)) {
+          return parent[propertyName];
+        }
+        return undefined
+    };
 
   return "        <div class=\"bmlt-button-container\"><a id=\"filterButton_"
-    + alias2(alias1((depth0 != null ? depth0.field : depth0), depth0))
+    + alias2(alias1((depth0 != null ? lookupProperty(depth0,"field") : depth0), depth0))
     + "\" data-field=\""
-    + alias2(alias1((depth0 != null ? depth0.field : depth0), depth0))
+    + alias2(alias1((depth0 != null ? lookupProperty(depth0,"field") : depth0), depth0))
     + "\" class=\"filterButton btn btn-primary btn-sm\">"
-    + alias2((helpers.getWord||(depth0 && depth0.getWord)||container.hooks.helperMissing).call(depth0 != null ? depth0 : (container.nullContext || {}),(depth0 != null ? depth0.title : depth0),{"name":"getWord","hash":{},"data":data,"loc":{"start":{"line":6,"column":151},"end":{"line":6,"column":173}}}))
+    + alias2((lookupProperty(helpers,"getWord")||(depth0 && lookupProperty(depth0,"getWord"))||container.hooks.helperMissing).call(depth0 != null ? depth0 : (container.nullContext || {}),(depth0 != null ? lookupProperty(depth0,"title") : depth0),{"name":"getWord","hash":{},"data":data,"loc":{"start":{"line":6,"column":151},"end":{"line":6,"column":173}}}))
     + "</a></div>\n";
 },"6":function(container,depth0,helpers,partials,data) {
-    var stack1, alias1=container.escapeExpression, alias2=depth0 != null ? depth0 : (container.nullContext || {});
+    var stack1, alias1=container.escapeExpression, alias2=depth0 != null ? depth0 : (container.nullContext || {}), lookupProperty = container.lookupProperty || function(parent, propertyName) {
+        if (Object.prototype.hasOwnProperty.call(parent, propertyName)) {
+          return parent[propertyName];
+        }
+        return undefined
+    };
 
   return "        <div class=\"bmlt-dropdown-container\">\n            <select class=\"crouton-select filter-dropdown\" style=\"width:"
-    + alias1(container.lambda(((stack1 = (depth0 != null ? depth0.config : depth0)) != null ? stack1.dropdown_width : stack1), depth0))
+    + alias1(container.lambda(((stack1 = (depth0 != null ? lookupProperty(depth0,"config") : depth0)) != null ? lookupProperty(stack1,"dropdown_width") : stack1), depth0))
     + ";\" data-placeholder=\""
-    + alias1((helpers.getWord||(depth0 && depth0.getWord)||container.hooks.helperMissing).call(alias2,"cities",{"name":"getWord","hash":{},"data":data,"loc":{"start":{"line":11,"column":123},"end":{"line":11,"column":143}}}))
+    + alias1((lookupProperty(helpers,"getWord")||(depth0 && lookupProperty(depth0,"getWord"))||container.hooks.helperMissing).call(alias2,"cities",{"name":"getWord","hash":{},"data":data,"loc":{"start":{"line":11,"column":123},"end":{"line":11,"column":143}}}))
     + "\" data-pointer=\"Cities\" id=\"filter-dropdown-cities\">\n                <option></option>\n"
-    + ((stack1 = helpers.each.call(alias2,((stack1 = (depth0 != null ? depth0.uniqueData : depth0)) != null ? stack1.cities : stack1),{"name":"each","hash":{},"fn":container.program(7, data, 0),"inverse":container.noop,"data":data,"loc":{"start":{"line":13,"column":16},"end":{"line":15,"column":25}}})) != null ? stack1 : "")
+    + ((stack1 = lookupProperty(helpers,"each").call(alias2,((stack1 = (depth0 != null ? lookupProperty(depth0,"uniqueData") : depth0)) != null ? lookupProperty(stack1,"cities") : stack1),{"name":"each","hash":{},"fn":container.program(7, data, 0),"inverse":container.noop,"data":data,"loc":{"start":{"line":13,"column":16},"end":{"line":15,"column":25}}})) != null ? stack1 : "")
     + "            </select>\n        </div>\n";
 },"7":function(container,depth0,helpers,partials,data) {
-    var alias1=container.escapeExpression;
+    var alias1=container.escapeExpression, lookupProperty = container.lookupProperty || function(parent, propertyName) {
+        if (Object.prototype.hasOwnProperty.call(parent, propertyName)) {
+          return parent[propertyName];
+        }
+        return undefined
+    };
 
   return "                    <option value=\"a-"
-    + alias1((helpers.formatDataPointer||(depth0 && depth0.formatDataPointer)||container.hooks.helperMissing).call(depth0 != null ? depth0 : (container.nullContext || {}),depth0,{"name":"formatDataPointer","hash":{},"data":data,"loc":{"start":{"line":14,"column":37},"end":{"line":14,"column":63}}}))
+    + alias1((lookupProperty(helpers,"formatDataPointer")||(depth0 && lookupProperty(depth0,"formatDataPointer"))||container.hooks.helperMissing).call(depth0 != null ? depth0 : (container.nullContext || {}),depth0,{"name":"formatDataPointer","hash":{},"data":data,"loc":{"start":{"line":14,"column":37},"end":{"line":14,"column":63}}}))
     + "\">"
     + alias1(container.lambda(depth0, depth0))
     + "</option>\n";
 },"9":function(container,depth0,helpers,partials,data) {
-    var stack1, alias1=container.escapeExpression, alias2=depth0 != null ? depth0 : (container.nullContext || {});
+    var stack1, alias1=container.escapeExpression, alias2=depth0 != null ? depth0 : (container.nullContext || {}), lookupProperty = container.lookupProperty || function(parent, propertyName) {
+        if (Object.prototype.hasOwnProperty.call(parent, propertyName)) {
+          return parent[propertyName];
+        }
+        return undefined
+    };
 
   return "        <div class=\"bmlt-dropdown-container\">\n            <select class=\"crouton-select filter-dropdown\" style=\"width:"
-    + alias1(container.lambda(((stack1 = (depth0 != null ? depth0.config : depth0)) != null ? stack1.dropdown_width : stack1), depth0))
+    + alias1(container.lambda(((stack1 = (depth0 != null ? lookupProperty(depth0,"config") : depth0)) != null ? lookupProperty(stack1,"dropdown_width") : stack1), depth0))
     + ";\" data-placeholder=\""
-    + alias1((helpers.getWord||(depth0 && depth0.getWord)||container.hooks.helperMissing).call(alias2,"groups",{"name":"getWord","hash":{},"data":data,"loc":{"start":{"line":22,"column":123},"end":{"line":22,"column":143}}}))
+    + alias1((lookupProperty(helpers,"getWord")||(depth0 && lookupProperty(depth0,"getWord"))||container.hooks.helperMissing).call(alias2,"groups",{"name":"getWord","hash":{},"data":data,"loc":{"start":{"line":22,"column":123},"end":{"line":22,"column":143}}}))
     + "\" data-pointer=\"Groups\" id=\"filter-dropdown-groups\">\n                <option></option>\n"
-    + ((stack1 = helpers.each.call(alias2,((stack1 = (depth0 != null ? depth0.uniqueData : depth0)) != null ? stack1.groups : stack1),{"name":"each","hash":{},"fn":container.program(7, data, 0),"inverse":container.noop,"data":data,"loc":{"start":{"line":24,"column":16},"end":{"line":26,"column":25}}})) != null ? stack1 : "")
+    + ((stack1 = lookupProperty(helpers,"each").call(alias2,((stack1 = (depth0 != null ? lookupProperty(depth0,"uniqueData") : depth0)) != null ? lookupProperty(stack1,"groups") : stack1),{"name":"each","hash":{},"fn":container.program(7, data, 0),"inverse":container.noop,"data":data,"loc":{"start":{"line":24,"column":16},"end":{"line":26,"column":25}}})) != null ? stack1 : "")
     + "            </select>\n        </div>\n";
 },"11":function(container,depth0,helpers,partials,data) {
-    var stack1, alias1=container.escapeExpression, alias2=depth0 != null ? depth0 : (container.nullContext || {});
+    var stack1, alias1=container.escapeExpression, alias2=depth0 != null ? depth0 : (container.nullContext || {}), lookupProperty = container.lookupProperty || function(parent, propertyName) {
+        if (Object.prototype.hasOwnProperty.call(parent, propertyName)) {
+          return parent[propertyName];
+        }
+        return undefined
+    };
 
-  return "        <div class=\"bmlt-dropdown-container\">\n            <select class=\"crouton-select filter-dropdown\" style=\"width:"
-    + alias1(container.lambda(((stack1 = (depth0 != null ? depth0.config : depth0)) != null ? stack1.dropdown_width : stack1), depth0))
+  return "	<div class=\"bmlt-dropdown-container\">\n		<select class=\"crouton-select filter-dropdown\" style=\"width:"
+    + alias1(container.lambda(((stack1 = (depth0 != null ? lookupProperty(depth0,"config") : depth0)) != null ? lookupProperty(stack1,"dropdown_width") : stack1), depth0))
     + ";\" data-placeholder=\""
-    + alias1((helpers.getWord||(depth0 && depth0.getWord)||container.hooks.helperMissing).call(alias2,"areas",{"name":"getWord","hash":{},"data":data,"loc":{"start":{"line":33,"column":123},"end":{"line":33,"column":142}}}))
-    + "\" data-pointer=\"Areas\" id=\"filter-dropdown-areas\">\n                <option></option>\n"
-    + ((stack1 = helpers.each.call(alias2,((stack1 = (depth0 != null ? depth0.uniqueData : depth0)) != null ? stack1.areas : stack1),{"name":"each","hash":{},"fn":container.program(12, data, 0),"inverse":container.noop,"data":data,"loc":{"start":{"line":35,"column":16},"end":{"line":37,"column":25}}})) != null ? stack1 : "")
-    + "            </select>\n        </div>\n";
+    + alias1((lookupProperty(helpers,"getWord")||(depth0 && lookupProperty(depth0,"getWord"))||container.hooks.helperMissing).call(alias2,"venue_types",{"name":"getWord","hash":{},"data":data,"loc":{"start":{"line":33,"column":113},"end":{"line":33,"column":138}}}))
+    + "\" data-pointer=\"Venues\" id=\"filter-dropdown-venues\">\n			<option></option>\n"
+    + ((stack1 = lookupProperty(helpers,"each").call(alias2,((stack1 = (depth0 != null ? lookupProperty(depth0,"uniqueData") : depth0)) != null ? lookupProperty(stack1,"venue_types") : stack1),{"name":"each","hash":{},"fn":container.program(12, data, 0),"inverse":container.noop,"data":data,"loc":{"start":{"line":35,"column":3},"end":{"line":37,"column":12}}})) != null ? stack1 : "")
+    + "		</select>\n	</div>\n";
 },"12":function(container,depth0,helpers,partials,data) {
-    var alias1=container.lambda, alias2=container.escapeExpression;
+    var alias1=container.escapeExpression, lookupProperty = container.lookupProperty || function(parent, propertyName) {
+        if (Object.prototype.hasOwnProperty.call(parent, propertyName)) {
+          return parent[propertyName];
+        }
+        return undefined
+    };
 
-  return "                    <option value=\"a-"
-    + alias2(alias1((depth0 != null ? depth0.id : depth0), depth0))
+  return "				<option value=\"a-"
+    + alias1((lookupProperty(helpers,"formatDataPointer")||(depth0 && lookupProperty(depth0,"formatDataPointer"))||container.hooks.helperMissing).call(depth0 != null ? depth0 : (container.nullContext || {}),depth0,{"name":"formatDataPointer","hash":{},"data":data,"loc":{"start":{"line":36,"column":21},"end":{"line":36,"column":47}}}))
     + "\">"
-    + alias2(alias1((depth0 != null ? depth0.name : depth0), depth0))
+    + alias1(container.lambda(depth0, depth0))
     + "</option>\n";
 },"14":function(container,depth0,helpers,partials,data) {
-    var stack1, alias1=container.escapeExpression, alias2=depth0 != null ? depth0 : (container.nullContext || {});
+    var stack1, alias1=container.escapeExpression, alias2=depth0 != null ? depth0 : (container.nullContext || {}), lookupProperty = container.lookupProperty || function(parent, propertyName) {
+        if (Object.prototype.hasOwnProperty.call(parent, propertyName)) {
+          return parent[propertyName];
+        }
+        return undefined
+    };
 
   return "        <div class=\"bmlt-dropdown-container\">\n            <select class=\"crouton-select filter-dropdown\" style=\"width:"
-    + alias1(container.lambda(((stack1 = (depth0 != null ? depth0.config : depth0)) != null ? stack1.dropdown_width : stack1), depth0))
+    + alias1(container.lambda(((stack1 = (depth0 != null ? lookupProperty(depth0,"config") : depth0)) != null ? lookupProperty(stack1,"dropdown_width") : stack1), depth0))
     + ";\" data-placeholder=\""
-    + alias1((helpers.getWord||(depth0 && depth0.getWord)||container.hooks.helperMissing).call(alias2,"locations",{"name":"getWord","hash":{},"data":data,"loc":{"start":{"line":44,"column":123},"end":{"line":44,"column":146}}}))
-    + "\" data-pointer=\"Locations\" id=\"filter-dropdown-locations\">\n                <option></option>\n"
-    + ((stack1 = helpers.each.call(alias2,((stack1 = (depth0 != null ? depth0.uniqueData : depth0)) != null ? stack1.locations : stack1),{"name":"each","hash":{},"fn":container.program(7, data, 0),"inverse":container.noop,"data":data,"loc":{"start":{"line":46,"column":16},"end":{"line":48,"column":25}}})) != null ? stack1 : "")
+    + alias1((lookupProperty(helpers,"getWord")||(depth0 && lookupProperty(depth0,"getWord"))||container.hooks.helperMissing).call(alias2,"areas",{"name":"getWord","hash":{},"data":data,"loc":{"start":{"line":44,"column":123},"end":{"line":44,"column":142}}}))
+    + "\" data-pointer=\"Areas\" id=\"filter-dropdown-areas\">\n                <option></option>\n"
+    + ((stack1 = lookupProperty(helpers,"each").call(alias2,((stack1 = (depth0 != null ? lookupProperty(depth0,"uniqueData") : depth0)) != null ? lookupProperty(stack1,"areas") : stack1),{"name":"each","hash":{},"fn":container.program(15, data, 0),"inverse":container.noop,"data":data,"loc":{"start":{"line":46,"column":16},"end":{"line":48,"column":25}}})) != null ? stack1 : "")
     + "            </select>\n        </div>\n";
-},"16":function(container,depth0,helpers,partials,data) {
-    var stack1, alias1=container.escapeExpression, alias2=depth0 != null ? depth0 : (container.nullContext || {});
-
-  return "        <div class=\"bmlt-dropdown-container\">\n            <select class=\"crouton-select filter-dropdown\" style=\"width:"
-    + alias1(container.lambda(((stack1 = (depth0 != null ? depth0.config : depth0)) != null ? stack1.dropdown_width : stack1), depth0))
-    + ";\" data-placeholder=\""
-    + alias1((helpers.getWord||(depth0 && depth0.getWord)||container.hooks.helperMissing).call(alias2,"counties",{"name":"getWord","hash":{},"data":data,"loc":{"start":{"line":55,"column":123},"end":{"line":55,"column":145}}}))
-    + "\" data-pointer=\"Counties\" id=\"filter-dropdown-sub_province\">\n                <option></option>\n"
-    + ((stack1 = helpers.each.call(alias2,((stack1 = (depth0 != null ? depth0.uniqueData : depth0)) != null ? stack1.sub_provinces : stack1),{"name":"each","hash":{},"fn":container.program(7, data, 0),"inverse":container.noop,"data":data,"loc":{"start":{"line":57,"column":16},"end":{"line":59,"column":25}}})) != null ? stack1 : "")
-    + "            </select>\n        </div>\n";
-},"18":function(container,depth0,helpers,partials,data) {
-    var stack1, alias1=container.escapeExpression, alias2=depth0 != null ? depth0 : (container.nullContext || {});
-
-  return "        <div class=\"bmlt-dropdown-container\">\n            <select class=\"crouton-select filter-dropdown\" style=\"width:"
-    + alias1(container.lambda(((stack1 = (depth0 != null ? depth0.config : depth0)) != null ? stack1.dropdown_width : stack1), depth0))
-    + ";\" data-placeholder=\""
-    + alias1((helpers.getWord||(depth0 && depth0.getWord)||container.hooks.helperMissing).call(alias2,"neighborhood",{"name":"getWord","hash":{},"data":data,"loc":{"start":{"line":66,"column":123},"end":{"line":66,"column":149}}}))
-    + "\" data-pointer=\"Neighborhoods\" id=\"filter-dropdown-neighborhoods\">\n                <option></option>\n"
-    + ((stack1 = helpers.each.call(alias2,((stack1 = (depth0 != null ? depth0.uniqueData : depth0)) != null ? stack1.neighborhoods : stack1),{"name":"each","hash":{},"fn":container.program(7, data, 0),"inverse":container.noop,"data":data,"loc":{"start":{"line":68,"column":4},"end":{"line":70,"column":13}}})) != null ? stack1 : "")
-    + "            </select>\n        </div>\n";
-},"20":function(container,depth0,helpers,partials,data) {
-    var stack1, alias1=container.escapeExpression, alias2=depth0 != null ? depth0 : (container.nullContext || {});
-
-  return "        <div class=\"bmlt-dropdown-container\">\n            <select class=\"crouton-select filter-dropdown\" style=\"width:"
-    + alias1(container.lambda(((stack1 = (depth0 != null ? depth0.config : depth0)) != null ? stack1.dropdown_width : stack1), depth0))
-    + ";\" data-placeholder=\""
-    + alias1((helpers.getWord||(depth0 && depth0.getWord)||container.hooks.helperMissing).call(alias2,"states",{"name":"getWord","hash":{},"data":data,"loc":{"start":{"line":77,"column":123},"end":{"line":77,"column":143}}}))
-    + "\" data-pointer=\"States\" id=\"filter-dropdown-states\">\n                <option></option>\n"
-    + ((stack1 = helpers.each.call(alias2,((stack1 = (depth0 != null ? depth0.uniqueData : depth0)) != null ? stack1.states : stack1),{"name":"each","hash":{},"fn":container.program(7, data, 0),"inverse":container.noop,"data":data,"loc":{"start":{"line":79,"column":16},"end":{"line":81,"column":25}}})) != null ? stack1 : "")
-    + "            </select>\n        </div>\n";
-},"22":function(container,depth0,helpers,partials,data) {
-    var stack1, alias1=container.escapeExpression, alias2=depth0 != null ? depth0 : (container.nullContext || {});
-
-  return "        <div class=\"bmlt-dropdown-container\">\n            <select class=\"crouton-select filter-dropdown\" style=\"width:"
-    + alias1(container.lambda(((stack1 = (depth0 != null ? depth0.config : depth0)) != null ? stack1.dropdown_width : stack1), depth0))
-    + ";\" data-placeholder=\""
-    + alias1((helpers.getWord||(depth0 && depth0.getWord)||container.hooks.helperMissing).call(alias2,"postal_codes",{"name":"getWord","hash":{},"data":data,"loc":{"start":{"line":88,"column":123},"end":{"line":88,"column":149}}}))
-    + "\" data-pointer=\"Zips\" id=\"filter-dropdown-zipcodes\">\n                <option></option>\n"
-    + ((stack1 = helpers.each.call(alias2,((stack1 = (depth0 != null ? depth0.uniqueData : depth0)) != null ? stack1.zips : stack1),{"name":"each","hash":{},"fn":container.program(7, data, 0),"inverse":container.noop,"data":data,"loc":{"start":{"line":90,"column":16},"end":{"line":92,"column":25}}})) != null ? stack1 : "")
-    + "            </select>\n        </div>\n";
-},"24":function(container,depth0,helpers,partials,data) {
-    var stack1, alias1=container.escapeExpression, alias2=depth0 != null ? depth0 : (container.nullContext || {});
-
-  return "        <div class=\"bmlt-dropdown-container\">\n            <select class=\"crouton-select filter-dropdown\" style=\"width:"
-    + alias1(container.lambda(((stack1 = (depth0 != null ? depth0.config : depth0)) != null ? stack1.dropdown_width : stack1), depth0))
-    + ";\" data-placeholder=\""
-    + alias1((helpers.getWord||(depth0 && depth0.getWord)||container.hooks.helperMissing).call(alias2,"formats",{"name":"getWord","hash":{},"data":data,"loc":{"start":{"line":99,"column":123},"end":{"line":99,"column":144}}}))
-    + "\" data-pointer=\"Formats\" id=\"filter-dropdown-formats\">\n                <option></option>\n"
-    + ((stack1 = helpers.each.call(alias2,((stack1 = (depth0 != null ? depth0.uniqueData : depth0)) != null ? stack1.formats : stack1),{"name":"each","hash":{},"fn":container.program(25, data, 0),"inverse":container.noop,"data":data,"loc":{"start":{"line":101,"column":16},"end":{"line":103,"column":25}}})) != null ? stack1 : "")
-    + "            </select>\n        </div>\n";
-},"25":function(container,depth0,helpers,partials,data) {
-    var helper, alias1=depth0 != null ? depth0 : (container.nullContext || {}), alias2=container.hooks.helperMissing, alias3=container.escapeExpression;
+},"15":function(container,depth0,helpers,partials,data) {
+    var alias1=container.lambda, alias2=container.escapeExpression, lookupProperty = container.lookupProperty || function(parent, propertyName) {
+        if (Object.prototype.hasOwnProperty.call(parent, propertyName)) {
+          return parent[propertyName];
+        }
+        return undefined
+    };
 
   return "                    <option value=\"a-"
-    + alias3((helpers.formatDataPointer||(depth0 && depth0.formatDataPointer)||alias2).call(alias1,(depth0 != null ? depth0.name_string : depth0),{"name":"formatDataPointer","hash":{},"data":data,"loc":{"start":{"line":102,"column":37},"end":{"line":102,"column":70}}}))
+    + alias2(alias1((depth0 != null ? lookupProperty(depth0,"id") : depth0), depth0))
     + "\">"
-    + alias3(((helper = (helper = helpers.name_string || (depth0 != null ? depth0.name_string : depth0)) != null ? helper : alias2),(typeof helper === "function" ? helper.call(alias1,{"name":"name_string","hash":{},"data":data,"loc":{"start":{"line":102,"column":72},"end":{"line":102,"column":87}}}) : helper)))
+    + alias2(alias1((depth0 != null ? lookupProperty(depth0,"name") : depth0), depth0))
     + "</option>\n";
-},"27":function(container,depth0,helpers,partials,data) {
-    var stack1, alias1=container.escapeExpression, alias2=depth0 != null ? depth0 : (container.nullContext || {});
+},"17":function(container,depth0,helpers,partials,data) {
+    var stack1, alias1=container.escapeExpression, alias2=depth0 != null ? depth0 : (container.nullContext || {}), lookupProperty = container.lookupProperty || function(parent, propertyName) {
+        if (Object.prototype.hasOwnProperty.call(parent, propertyName)) {
+          return parent[propertyName];
+        }
+        return undefined
+    };
 
-  return "		<div class=\"bmlt-dropdown-container\">\n			<select class=\"crouton-select filter-dropdown\" style=\"width:"
-    + alias1(container.lambda(((stack1 = (depth0 != null ? depth0.config : depth0)) != null ? stack1.dropdown_width : stack1), depth0))
+  return "        <div class=\"bmlt-dropdown-container\">\n            <select class=\"crouton-select filter-dropdown\" style=\"width:"
+    + alias1(container.lambda(((stack1 = (depth0 != null ? lookupProperty(depth0,"config") : depth0)) != null ? lookupProperty(stack1,"dropdown_width") : stack1), depth0))
     + ";\" data-placeholder=\""
-    + alias1((helpers.getWord||(depth0 && depth0.getWord)||container.hooks.helperMissing).call(alias2,"languages",{"name":"getWord","hash":{},"data":data,"loc":{"start":{"line":110,"column":114},"end":{"line":110,"column":137}}}))
-    + "\" data-pointer=\"Languages\" id=\"filter-dropdown-languages\">\n				<option></option>\n"
-    + ((stack1 = helpers.each.call(alias2,((stack1 = (depth0 != null ? depth0.uniqueData : depth0)) != null ? stack1.languages : stack1),{"name":"each","hash":{},"fn":container.program(28, data, 0),"inverse":container.noop,"data":data,"loc":{"start":{"line":112,"column":4},"end":{"line":114,"column":13}}})) != null ? stack1 : "")
-    + "			</select>\n		</div>\n";
-},"28":function(container,depth0,helpers,partials,data) {
-    var helper, alias1=depth0 != null ? depth0 : (container.nullContext || {}), alias2=container.hooks.helperMissing, alias3=container.escapeExpression;
+    + alias1((lookupProperty(helpers,"getWord")||(depth0 && lookupProperty(depth0,"getWord"))||container.hooks.helperMissing).call(alias2,"locations",{"name":"getWord","hash":{},"data":data,"loc":{"start":{"line":55,"column":123},"end":{"line":55,"column":146}}}))
+    + "\" data-pointer=\"Locations\" id=\"filter-dropdown-locations\">\n                <option></option>\n"
+    + ((stack1 = lookupProperty(helpers,"each").call(alias2,((stack1 = (depth0 != null ? lookupProperty(depth0,"uniqueData") : depth0)) != null ? lookupProperty(stack1,"locations") : stack1),{"name":"each","hash":{},"fn":container.program(7, data, 0),"inverse":container.noop,"data":data,"loc":{"start":{"line":57,"column":16},"end":{"line":59,"column":25}}})) != null ? stack1 : "")
+    + "            </select>\n        </div>\n";
+},"19":function(container,depth0,helpers,partials,data) {
+    var stack1, alias1=container.escapeExpression, alias2=depth0 != null ? depth0 : (container.nullContext || {}), lookupProperty = container.lookupProperty || function(parent, propertyName) {
+        if (Object.prototype.hasOwnProperty.call(parent, propertyName)) {
+          return parent[propertyName];
+        }
+        return undefined
+    };
 
-  return "					<option value=\"a-"
-    + alias3((helpers.formatDataPointer||(depth0 && depth0.formatDataPointer)||alias2).call(alias1,(depth0 != null ? depth0.name_string : depth0),{"name":"formatDataPointer","hash":{},"data":data,"loc":{"start":{"line":113,"column":22},"end":{"line":113,"column":55}}}))
+  return "        <div class=\"bmlt-dropdown-container\">\n            <select class=\"crouton-select filter-dropdown\" style=\"width:"
+    + alias1(container.lambda(((stack1 = (depth0 != null ? lookupProperty(depth0,"config") : depth0)) != null ? lookupProperty(stack1,"dropdown_width") : stack1), depth0))
+    + ";\" data-placeholder=\""
+    + alias1((lookupProperty(helpers,"getWord")||(depth0 && lookupProperty(depth0,"getWord"))||container.hooks.helperMissing).call(alias2,"counties",{"name":"getWord","hash":{},"data":data,"loc":{"start":{"line":66,"column":123},"end":{"line":66,"column":145}}}))
+    + "\" data-pointer=\"Counties\" id=\"filter-dropdown-sub_province\">\n                <option></option>\n"
+    + ((stack1 = lookupProperty(helpers,"each").call(alias2,((stack1 = (depth0 != null ? lookupProperty(depth0,"uniqueData") : depth0)) != null ? lookupProperty(stack1,"sub_provinces") : stack1),{"name":"each","hash":{},"fn":container.program(7, data, 0),"inverse":container.noop,"data":data,"loc":{"start":{"line":68,"column":16},"end":{"line":70,"column":25}}})) != null ? stack1 : "")
+    + "            </select>\n        </div>\n";
+},"21":function(container,depth0,helpers,partials,data) {
+    var stack1, alias1=container.escapeExpression, alias2=depth0 != null ? depth0 : (container.nullContext || {}), lookupProperty = container.lookupProperty || function(parent, propertyName) {
+        if (Object.prototype.hasOwnProperty.call(parent, propertyName)) {
+          return parent[propertyName];
+        }
+        return undefined
+    };
+
+  return "        <div class=\"bmlt-dropdown-container\">\n            <select class=\"crouton-select filter-dropdown\" style=\"width:"
+    + alias1(container.lambda(((stack1 = (depth0 != null ? lookupProperty(depth0,"config") : depth0)) != null ? lookupProperty(stack1,"dropdown_width") : stack1), depth0))
+    + ";\" data-placeholder=\""
+    + alias1((lookupProperty(helpers,"getWord")||(depth0 && lookupProperty(depth0,"getWord"))||container.hooks.helperMissing).call(alias2,"neighborhood",{"name":"getWord","hash":{},"data":data,"loc":{"start":{"line":77,"column":123},"end":{"line":77,"column":149}}}))
+    + "\" data-pointer=\"Neighborhoods\" id=\"filter-dropdown-neighborhoods\">\n                <option></option>\n"
+    + ((stack1 = lookupProperty(helpers,"each").call(alias2,((stack1 = (depth0 != null ? lookupProperty(depth0,"uniqueData") : depth0)) != null ? lookupProperty(stack1,"neighborhoods") : stack1),{"name":"each","hash":{},"fn":container.program(7, data, 0),"inverse":container.noop,"data":data,"loc":{"start":{"line":79,"column":4},"end":{"line":81,"column":13}}})) != null ? stack1 : "")
+    + "            </select>\n        </div>\n";
+},"23":function(container,depth0,helpers,partials,data) {
+    var stack1, alias1=container.escapeExpression, alias2=depth0 != null ? depth0 : (container.nullContext || {}), lookupProperty = container.lookupProperty || function(parent, propertyName) {
+        if (Object.prototype.hasOwnProperty.call(parent, propertyName)) {
+          return parent[propertyName];
+        }
+        return undefined
+    };
+
+  return "        <div class=\"bmlt-dropdown-container\">\n            <select class=\"crouton-select filter-dropdown\" style=\"width:"
+    + alias1(container.lambda(((stack1 = (depth0 != null ? lookupProperty(depth0,"config") : depth0)) != null ? lookupProperty(stack1,"dropdown_width") : stack1), depth0))
+    + ";\" data-placeholder=\""
+    + alias1((lookupProperty(helpers,"getWord")||(depth0 && lookupProperty(depth0,"getWord"))||container.hooks.helperMissing).call(alias2,"states",{"name":"getWord","hash":{},"data":data,"loc":{"start":{"line":88,"column":123},"end":{"line":88,"column":143}}}))
+    + "\" data-pointer=\"States\" id=\"filter-dropdown-states\">\n                <option></option>\n"
+    + ((stack1 = lookupProperty(helpers,"each").call(alias2,((stack1 = (depth0 != null ? lookupProperty(depth0,"uniqueData") : depth0)) != null ? lookupProperty(stack1,"states") : stack1),{"name":"each","hash":{},"fn":container.program(7, data, 0),"inverse":container.noop,"data":data,"loc":{"start":{"line":90,"column":16},"end":{"line":92,"column":25}}})) != null ? stack1 : "")
+    + "            </select>\n        </div>\n";
+},"25":function(container,depth0,helpers,partials,data) {
+    var stack1, alias1=container.escapeExpression, alias2=depth0 != null ? depth0 : (container.nullContext || {}), lookupProperty = container.lookupProperty || function(parent, propertyName) {
+        if (Object.prototype.hasOwnProperty.call(parent, propertyName)) {
+          return parent[propertyName];
+        }
+        return undefined
+    };
+
+  return "        <div class=\"bmlt-dropdown-container\">\n            <select class=\"crouton-select filter-dropdown\" style=\"width:"
+    + alias1(container.lambda(((stack1 = (depth0 != null ? lookupProperty(depth0,"config") : depth0)) != null ? lookupProperty(stack1,"dropdown_width") : stack1), depth0))
+    + ";\" data-placeholder=\""
+    + alias1((lookupProperty(helpers,"getWord")||(depth0 && lookupProperty(depth0,"getWord"))||container.hooks.helperMissing).call(alias2,"postal_codes",{"name":"getWord","hash":{},"data":data,"loc":{"start":{"line":99,"column":123},"end":{"line":99,"column":149}}}))
+    + "\" data-pointer=\"Zips\" id=\"filter-dropdown-zipcodes\">\n                <option></option>\n"
+    + ((stack1 = lookupProperty(helpers,"each").call(alias2,((stack1 = (depth0 != null ? lookupProperty(depth0,"uniqueData") : depth0)) != null ? lookupProperty(stack1,"zips") : stack1),{"name":"each","hash":{},"fn":container.program(7, data, 0),"inverse":container.noop,"data":data,"loc":{"start":{"line":101,"column":16},"end":{"line":103,"column":25}}})) != null ? stack1 : "")
+    + "            </select>\n        </div>\n";
+},"27":function(container,depth0,helpers,partials,data) {
+    var stack1, alias1=container.escapeExpression, alias2=depth0 != null ? depth0 : (container.nullContext || {}), lookupProperty = container.lookupProperty || function(parent, propertyName) {
+        if (Object.prototype.hasOwnProperty.call(parent, propertyName)) {
+          return parent[propertyName];
+        }
+        return undefined
+    };
+
+  return "        <div class=\"bmlt-dropdown-container\">\n            <select class=\"crouton-select filter-dropdown\" style=\"width:"
+    + alias1(container.lambda(((stack1 = (depth0 != null ? lookupProperty(depth0,"config") : depth0)) != null ? lookupProperty(stack1,"dropdown_width") : stack1), depth0))
+    + ";\" data-placeholder=\""
+    + alias1((lookupProperty(helpers,"getWord")||(depth0 && lookupProperty(depth0,"getWord"))||container.hooks.helperMissing).call(alias2,"formats",{"name":"getWord","hash":{},"data":data,"loc":{"start":{"line":110,"column":123},"end":{"line":110,"column":144}}}))
+    + "\" data-pointer=\"Formats\" id=\"filter-dropdown-formats\">\n                <option></option>\n"
+    + ((stack1 = lookupProperty(helpers,"each").call(alias2,((stack1 = (depth0 != null ? lookupProperty(depth0,"uniqueData") : depth0)) != null ? lookupProperty(stack1,"formats") : stack1),{"name":"each","hash":{},"fn":container.program(28, data, 0),"inverse":container.noop,"data":data,"loc":{"start":{"line":112,"column":16},"end":{"line":114,"column":25}}})) != null ? stack1 : "")
+    + "            </select>\n        </div>\n";
+},"28":function(container,depth0,helpers,partials,data) {
+    var helper, alias1=depth0 != null ? depth0 : (container.nullContext || {}), alias2=container.hooks.helperMissing, alias3=container.escapeExpression, lookupProperty = container.lookupProperty || function(parent, propertyName) {
+        if (Object.prototype.hasOwnProperty.call(parent, propertyName)) {
+          return parent[propertyName];
+        }
+        return undefined
+    };
+
+  return "                    <option value=\"a-"
+    + alias3((lookupProperty(helpers,"formatDataPointer")||(depth0 && lookupProperty(depth0,"formatDataPointer"))||alias2).call(alias1,(depth0 != null ? lookupProperty(depth0,"name_string") : depth0),{"name":"formatDataPointer","hash":{},"data":data,"loc":{"start":{"line":113,"column":37},"end":{"line":113,"column":70}}}))
     + "\">"
-    + alias3(((helper = (helper = helpers.name_string || (depth0 != null ? depth0.name_string : depth0)) != null ? helper : alias2),(typeof helper === "function" ? helper.call(alias1,{"name":"name_string","hash":{},"data":data,"loc":{"start":{"line":113,"column":57},"end":{"line":113,"column":72}}}) : helper)))
+    + alias3(((helper = (helper = lookupProperty(helpers,"name_string") || (depth0 != null ? lookupProperty(depth0,"name_string") : depth0)) != null ? helper : alias2),(typeof helper === "function" ? helper.call(alias1,{"name":"name_string","hash":{},"data":data,"loc":{"start":{"line":113,"column":72},"end":{"line":113,"column":87}}}) : helper)))
     + "</option>\n";
 },"30":function(container,depth0,helpers,partials,data) {
-    var stack1, alias1=depth0 != null ? depth0 : (container.nullContext || {});
+    var stack1, alias1=container.escapeExpression, alias2=depth0 != null ? depth0 : (container.nullContext || {}), lookupProperty = container.lookupProperty || function(parent, propertyName) {
+        if (Object.prototype.hasOwnProperty.call(parent, propertyName)) {
+          return parent[propertyName];
+        }
+        return undefined
+    };
 
-  return ((stack1 = (helpers.ifEquals||(depth0 && depth0.ifEquals)||container.hooks.helperMissing).call(alias1,((stack1 = (depth0 != null ? depth0.config : depth0)) != null ? stack1.view_by : stack1),"weekdays",{"name":"ifEquals","hash":{},"fn":container.program(31, data, 0),"inverse":container.program(33, data, 0),"data":data,"loc":{"start":{"line":122,"column":4},"end":{"line":126,"column":17}}})) != null ? stack1 : "")
-    + "        <ul class=\"nav nav-tabs\">\n"
-    + ((stack1 = helpers.each.call(alias1,((stack1 = (depth0 != null ? depth0.config : depth0)) != null ? stack1.day_sequence : stack1),{"name":"each","hash":{},"fn":container.program(35, data, 0),"inverse":container.noop,"data":data,"loc":{"start":{"line":128,"column":12},"end":{"line":130,"column":21}}})) != null ? stack1 : "")
-    + "        </ul>\n    </div>\n";
+  return "		<div class=\"bmlt-dropdown-container\">\n			<select class=\"crouton-select filter-dropdown\" style=\"width:"
+    + alias1(container.lambda(((stack1 = (depth0 != null ? lookupProperty(depth0,"config") : depth0)) != null ? lookupProperty(stack1,"dropdown_width") : stack1), depth0))
+    + ";\" data-placeholder=\""
+    + alias1((lookupProperty(helpers,"getWord")||(depth0 && lookupProperty(depth0,"getWord"))||container.hooks.helperMissing).call(alias2,"languages",{"name":"getWord","hash":{},"data":data,"loc":{"start":{"line":121,"column":114},"end":{"line":121,"column":137}}}))
+    + "\" data-pointer=\"Languages\" id=\"filter-dropdown-languages\">\n				<option></option>\n"
+    + ((stack1 = lookupProperty(helpers,"each").call(alias2,((stack1 = (depth0 != null ? lookupProperty(depth0,"uniqueData") : depth0)) != null ? lookupProperty(stack1,"languages") : stack1),{"name":"each","hash":{},"fn":container.program(31, data, 0),"inverse":container.noop,"data":data,"loc":{"start":{"line":123,"column":4},"end":{"line":125,"column":13}}})) != null ? stack1 : "")
+    + "			</select>\n		</div>\n";
 },"31":function(container,depth0,helpers,partials,data) {
-    return "        <div class=\"bmlt-page show\" id=\"nav-days\">\n";
+    var helper, alias1=depth0 != null ? depth0 : (container.nullContext || {}), alias2=container.hooks.helperMissing, alias3=container.escapeExpression, lookupProperty = container.lookupProperty || function(parent, propertyName) {
+        if (Object.prototype.hasOwnProperty.call(parent, propertyName)) {
+          return parent[propertyName];
+        }
+        return undefined
+    };
+
+  return "					<option value=\"a-"
+    + alias3((lookupProperty(helpers,"formatDataPointer")||(depth0 && lookupProperty(depth0,"formatDataPointer"))||alias2).call(alias1,(depth0 != null ? lookupProperty(depth0,"name_string") : depth0),{"name":"formatDataPointer","hash":{},"data":data,"loc":{"start":{"line":124,"column":22},"end":{"line":124,"column":55}}}))
+    + "\">"
+    + alias3(((helper = (helper = lookupProperty(helpers,"name_string") || (depth0 != null ? lookupProperty(depth0,"name_string") : depth0)) != null ? helper : alias2),(typeof helper === "function" ? helper.call(alias1,{"name":"name_string","hash":{},"data":data,"loc":{"start":{"line":124,"column":57},"end":{"line":124,"column":72}}}) : helper)))
+    + "</option>\n";
 },"33":function(container,depth0,helpers,partials,data) {
+    var stack1, alias1=depth0 != null ? depth0 : (container.nullContext || {}), lookupProperty = container.lookupProperty || function(parent, propertyName) {
+        if (Object.prototype.hasOwnProperty.call(parent, propertyName)) {
+          return parent[propertyName];
+        }
+        return undefined
+    };
+
+  return ((stack1 = (lookupProperty(helpers,"ifEquals")||(depth0 && lookupProperty(depth0,"ifEquals"))||container.hooks.helperMissing).call(alias1,((stack1 = (depth0 != null ? lookupProperty(depth0,"config") : depth0)) != null ? lookupProperty(stack1,"view_by") : stack1),"weekdays",{"name":"ifEquals","hash":{},"fn":container.program(34, data, 0),"inverse":container.program(36, data, 0),"data":data,"loc":{"start":{"line":133,"column":4},"end":{"line":137,"column":17}}})) != null ? stack1 : "")
+    + "        <ul class=\"nav nav-tabs\">\n"
+    + ((stack1 = lookupProperty(helpers,"each").call(alias1,((stack1 = (depth0 != null ? lookupProperty(depth0,"config") : depth0)) != null ? lookupProperty(stack1,"day_sequence") : stack1),{"name":"each","hash":{},"fn":container.program(38, data, 0),"inverse":container.noop,"data":data,"loc":{"start":{"line":139,"column":12},"end":{"line":141,"column":21}}})) != null ? stack1 : "")
+    + "        </ul>\n    </div>\n";
+},"34":function(container,depth0,helpers,partials,data) {
+    return "        <div class=\"bmlt-page show\" id=\"nav-days\">\n";
+},"36":function(container,depth0,helpers,partials,data) {
     return "        <div class=\"bmlt-page hide\" id=\"nav-days\">\n";
-},"35":function(container,depth0,helpers,partials,data) {
-    var alias1=container.escapeExpression;
+},"38":function(container,depth0,helpers,partials,data) {
+    var alias1=container.escapeExpression, lookupProperty = container.lookupProperty || function(parent, propertyName) {
+        if (Object.prototype.hasOwnProperty.call(parent, propertyName)) {
+          return parent[propertyName];
+        }
+        return undefined
+    };
 
   return "                <li><a href=\"#tab"
     + alias1(container.lambda(depth0, depth0))
     + "\" data-toggle=\"tab\">"
-    + alias1((helpers.getDayOfTheWeek||(depth0 && depth0.getDayOfTheWeek)||container.hooks.helperMissing).call(depth0 != null ? depth0 : (container.nullContext || {}),depth0,{"name":"getDayOfTheWeek","hash":{},"data":data,"loc":{"start":{"line":129,"column":61},"end":{"line":129,"column":85}}}))
+    + alias1((lookupProperty(helpers,"getDayOfTheWeek")||(depth0 && lookupProperty(depth0,"getDayOfTheWeek"))||container.hooks.helperMissing).call(depth0 != null ? depth0 : (container.nullContext || {}),depth0,{"name":"getDayOfTheWeek","hash":{},"data":data,"loc":{"start":{"line":140,"column":61},"end":{"line":140,"column":85}}}))
     + "</a></li>\n";
 },"compiler":[8,">= 4.3.0"],"main":function(container,depth0,helpers,partials,data) {
-    var stack1, alias1=depth0 != null ? depth0 : (container.nullContext || {});
+    var stack1, alias1=depth0 != null ? depth0 : (container.nullContext || {}), lookupProperty = container.lookupProperty || function(parent, propertyName) {
+        if (Object.prototype.hasOwnProperty.call(parent, propertyName)) {
+          return parent[propertyName];
+        }
+        return undefined
+    };
 
-  return ((stack1 = helpers["if"].call(alias1,((stack1 = (depth0 != null ? depth0.config : depth0)) != null ? stack1.header : stack1),{"name":"if","hash":{},"fn":container.program(1, data, 0),"inverse":container.noop,"data":data,"loc":{"start":{"line":1,"column":0},"end":{"line":119,"column":7}}})) != null ? stack1 : "")
+  return ((stack1 = lookupProperty(helpers,"if").call(alias1,((stack1 = (depth0 != null ? lookupProperty(depth0,"config") : depth0)) != null ? lookupProperty(stack1,"header") : stack1),{"name":"if","hash":{},"fn":container.program(1, data, 0),"inverse":container.noop,"data":data,"loc":{"start":{"line":1,"column":0},"end":{"line":130,"column":7}}})) != null ? stack1 : "")
     + "\n"
-    + ((stack1 = helpers["if"].call(alias1,((stack1 = (depth0 != null ? depth0.config : depth0)) != null ? stack1.has_tabs : stack1),{"name":"if","hash":{},"fn":container.program(30, data, 0),"inverse":container.noop,"data":data,"loc":{"start":{"line":121,"column":0},"end":{"line":133,"column":7}}})) != null ? stack1 : "");
+    + ((stack1 = lookupProperty(helpers,"if").call(alias1,((stack1 = (depth0 != null ? lookupProperty(depth0,"config") : depth0)) != null ? lookupProperty(stack1,"has_tabs") : stack1),{"name":"if","hash":{},"fn":container.program(33, data, 0),"inverse":container.noop,"data":data,"loc":{"start":{"line":132,"column":0},"end":{"line":144,"column":7}}})) != null ? stack1 : "");
 },"useData":true});
-this["hbs_Crouton"]["templates"]["master"] = Handlebars.template({"1":function(container,depth0,helpers,partials,data) {
-    var stack1, helper;
+this["hbs_Crouton"]["templates"]["main"] = Handlebars.template({"1":function(container,depth0,helpers,partials,data) {
+    var stack1, helper, lookupProperty = container.lookupProperty || function(parent, propertyName) {
+        if (Object.prototype.hasOwnProperty.call(parent, propertyName)) {
+          return parent[propertyName];
+        }
+        return undefined
+    };
 
   return "		<div id=\"byfield_"
-    + container.escapeExpression(((helper = (helper = helpers.key || (data && data.key)) != null ? helper : container.hooks.helperMissing),(typeof helper === "function" ? helper.call(depth0 != null ? depth0 : (container.nullContext || {}),{"name":"key","hash":{},"data":data,"loc":{"start":{"line":6,"column":19},"end":{"line":6,"column":29}}}) : helper)))
+    + container.escapeExpression(((helper = (helper = lookupProperty(helpers,"key") || (data && lookupProperty(data,"key"))) != null ? helper : container.hooks.helperMissing),(typeof helper === "function" ? helper.call(depth0 != null ? depth0 : (container.nullContext || {}),{"name":"key","hash":{},"data":data,"loc":{"start":{"line":6,"column":19},"end":{"line":6,"column":29}}}) : helper)))
     + "\" class=\"bmlt-page hide\">\n"
-    + ((stack1 = container.invokePartial(partials.byfields,depth0,{"name":"byfields","data":data,"indent":"\t\t\t","helpers":helpers,"partials":partials,"decorators":container.decorators})) != null ? stack1 : "")
+    + ((stack1 = container.invokePartial(lookupProperty(partials,"byfields"),depth0,{"name":"byfields","data":data,"indent":"\t\t\t","helpers":helpers,"partials":partials,"decorators":container.decorators})) != null ? stack1 : "")
     + "		</div>\n";
 },"compiler":[8,">= 4.3.0"],"main":function(container,depth0,helpers,partials,data) {
-    var stack1;
+    var stack1, lookupProperty = container.lookupProperty || function(parent, propertyName) {
+        if (Object.prototype.hasOwnProperty.call(parent, propertyName)) {
+          return parent[propertyName];
+        }
+        return undefined
+    };
 
   return "<div id=\"bmlt-tabs-table\">\n    <div id=\"bmlt-header\" class=\"bmlt-header hide\">\n"
-    + ((stack1 = container.invokePartial(partials.header,depth0,{"name":"header","data":data,"indent":"        ","helpers":helpers,"partials":partials,"decorators":container.decorators})) != null ? stack1 : "")
+    + ((stack1 = container.invokePartial(lookupProperty(partials,"header"),depth0,{"name":"header","data":data,"indent":"        ","helpers":helpers,"partials":partials,"decorators":container.decorators})) != null ? stack1 : "")
     + "    </div>\n"
-    + ((stack1 = helpers.each.call(depth0 != null ? depth0 : (container.nullContext || {}),((stack1 = (depth0 != null ? depth0.meetings : depth0)) != null ? stack1.buttonFilters : stack1),{"name":"each","hash":{},"fn":container.program(1, data, 0),"inverse":container.noop,"data":data,"loc":{"start":{"line":5,"column":1},"end":{"line":9,"column":10}}})) != null ? stack1 : "")
+    + ((stack1 = lookupProperty(helpers,"each").call(depth0 != null ? depth0 : (container.nullContext || {}),((stack1 = (depth0 != null ? lookupProperty(depth0,"meetings") : depth0)) != null ? lookupProperty(stack1,"buttonFilters") : stack1),{"name":"each","hash":{},"fn":container.program(1, data, 0),"inverse":container.noop,"data":data,"loc":{"start":{"line":5,"column":1},"end":{"line":9,"column":10}}})) != null ? stack1 : "")
     + "    <div id=\"byday\" class=\"bmlt-page hide\">\n"
-    + ((stack1 = container.invokePartial(partials.bydays,((stack1 = (depth0 != null ? depth0.meetings : depth0)) != null ? stack1.bydays : stack1),{"name":"bydays","data":data,"indent":"        ","helpers":helpers,"partials":partials,"decorators":container.decorators})) != null ? stack1 : "")
+    + ((stack1 = container.invokePartial(lookupProperty(partials,"bydays"),((stack1 = (depth0 != null ? lookupProperty(depth0,"meetings") : depth0)) != null ? lookupProperty(stack1,"bydays") : stack1),{"name":"bydays","data":data,"indent":"        ","helpers":helpers,"partials":partials,"decorators":container.decorators})) != null ? stack1 : "")
     + "    </div>\n    <div id=\"tabs-content\" class=\"bmlt-page\">\n"
-    + ((stack1 = container.invokePartial(partials.weekdays,((stack1 = (depth0 != null ? depth0.meetings : depth0)) != null ? stack1.weekdays : stack1),{"name":"weekdays","data":data,"indent":"        ","helpers":helpers,"partials":partials,"decorators":container.decorators})) != null ? stack1 : "")
+    + ((stack1 = container.invokePartial(lookupProperty(partials,"weekdays"),((stack1 = (depth0 != null ? lookupProperty(depth0,"meetings") : depth0)) != null ? lookupProperty(stack1,"weekdays") : stack1),{"name":"weekdays","data":data,"indent":"        ","helpers":helpers,"partials":partials,"decorators":container.decorators})) != null ? stack1 : "")
     + "    </div>\n</div>\n";
 },"usePartial":true,"useData":true});
 this["hbs_Crouton"]["templates"]["meetings"] = Handlebars.template({"1":function(container,depth0,helpers,partials,data) {
-    var stack1, alias1=container.lambda, alias2=container.escapeExpression, alias3=depth0 != null ? depth0 : (container.nullContext || {}), alias4=container.hooks.helperMissing;
+    var stack1, alias1=container.lambda, alias2=container.escapeExpression, alias3=depth0 != null ? depth0 : (container.nullContext || {}), alias4=container.hooks.helperMissing, lookupProperty = container.lookupProperty || function(parent, propertyName) {
+        if (Object.prototype.hasOwnProperty.call(parent, propertyName)) {
+          return parent[propertyName];
+        }
+        return undefined
+    };
 
   return "	<tr class=\"bmlt-data-row\"\n		id=\"meeting-data-row-"
-    + alias2(alias1((depth0 != null ? depth0.id_bigint : depth0), depth0))
+    + alias2(alias1((depth0 != null ? lookupProperty(depth0,"id_bigint") : depth0), depth0))
     + "\"\n		data-cities=\""
-    + alias2((helpers.formatDataPointer||(depth0 && depth0.formatDataPointer)||alias4).call(alias3,(depth0 != null ? depth0.location_municipality : depth0),{"name":"formatDataPointer","hash":{},"data":data,"loc":{"start":{"line":4,"column":15},"end":{"line":4,"column":63}}}))
+    + alias2((lookupProperty(helpers,"formatDataPointer")||(depth0 && lookupProperty(depth0,"formatDataPointer"))||alias4).call(alias3,(depth0 != null ? lookupProperty(depth0,"location_municipality") : depth0),{"name":"formatDataPointer","hash":{},"data":data,"loc":{"start":{"line":4,"column":15},"end":{"line":4,"column":63}}}))
     + "\"\n		data-groups=\""
-    + alias2((helpers.formatDataPointer||(depth0 && depth0.formatDataPointer)||alias4).call(alias3,(depth0 != null ? depth0.meeting_name : depth0),{"name":"formatDataPointer","hash":{},"data":data,"loc":{"start":{"line":5,"column":15},"end":{"line":5,"column":54}}}))
+    + alias2((lookupProperty(helpers,"formatDataPointer")||(depth0 && lookupProperty(depth0,"formatDataPointer"))||alias4).call(alias3,(depth0 != null ? lookupProperty(depth0,"meeting_name") : depth0),{"name":"formatDataPointer","hash":{},"data":data,"loc":{"start":{"line":5,"column":15},"end":{"line":5,"column":54}}}))
     + "\"\n		data-locations=\""
-    + alias2((helpers.formatDataPointer||(depth0 && depth0.formatDataPointer)||alias4).call(alias3,(depth0 != null ? depth0.location_text : depth0),{"name":"formatDataPointer","hash":{},"data":data,"loc":{"start":{"line":6,"column":18},"end":{"line":6,"column":58}}}))
+    + alias2((lookupProperty(helpers,"formatDataPointer")||(depth0 && lookupProperty(depth0,"formatDataPointer"))||alias4).call(alias3,(depth0 != null ? lookupProperty(depth0,"location_text") : depth0),{"name":"formatDataPointer","hash":{},"data":data,"loc":{"start":{"line":6,"column":18},"end":{"line":6,"column":58}}}))
     + "\"\n		data-zips=\""
-    + alias2((helpers.formatDataPointer||(depth0 && depth0.formatDataPointer)||alias4).call(alias3,(depth0 != null ? depth0.location_postal_code_1 : depth0),{"name":"formatDataPointer","hash":{},"data":data,"loc":{"start":{"line":7,"column":13},"end":{"line":7,"column":62}}}))
+    + alias2((lookupProperty(helpers,"formatDataPointer")||(depth0 && lookupProperty(depth0,"formatDataPointer"))||alias4).call(alias3,(depth0 != null ? lookupProperty(depth0,"location_postal_code_1") : depth0),{"name":"formatDataPointer","hash":{},"data":data,"loc":{"start":{"line":7,"column":13},"end":{"line":7,"column":62}}}))
     + "\"\n		data-formats=\""
-    + alias2((helpers.formatDataPointerFormats||(depth0 && depth0.formatDataPointerFormats)||alias4).call(alias3,(depth0 != null ? depth0.formats_expanded : depth0),{"name":"formatDataPointerFormats","hash":{},"data":data,"loc":{"start":{"line":8,"column":16},"end":{"line":8,"column":66}}}))
+    + alias2((lookupProperty(helpers,"formatDataPointerFormats")||(depth0 && lookupProperty(depth0,"formatDataPointerFormats"))||alias4).call(alias3,(depth0 != null ? lookupProperty(depth0,"formats_expanded") : depth0),{"name":"formatDataPointerFormats","hash":{},"data":data,"loc":{"start":{"line":8,"column":16},"end":{"line":8,"column":66}}}))
     + "\"\n		data-areas=\""
-    + alias2((helpers.formatDataPointer||(depth0 && depth0.formatDataPointer)||alias4).call(alias3,(depth0 != null ? depth0.service_body_bigint : depth0),{"name":"formatDataPointer","hash":{},"data":data,"loc":{"start":{"line":9,"column":14},"end":{"line":9,"column":60}}}))
+    + alias2((lookupProperty(helpers,"formatDataPointer")||(depth0 && lookupProperty(depth0,"formatDataPointer"))||alias4).call(alias3,(depth0 != null ? lookupProperty(depth0,"service_body_bigint") : depth0),{"name":"formatDataPointer","hash":{},"data":data,"loc":{"start":{"line":9,"column":14},"end":{"line":9,"column":60}}}))
     + "\"\n		data-counties=\""
-    + alias2((helpers.formatDataPointer||(depth0 && depth0.formatDataPointer)||alias4).call(alias3,(depth0 != null ? depth0.location_sub_province : depth0),{"name":"formatDataPointer","hash":{},"data":data,"loc":{"start":{"line":10,"column":17},"end":{"line":10,"column":65}}}))
+    + alias2((lookupProperty(helpers,"formatDataPointer")||(depth0 && lookupProperty(depth0,"formatDataPointer"))||alias4).call(alias3,(depth0 != null ? lookupProperty(depth0,"location_sub_province") : depth0),{"name":"formatDataPointer","hash":{},"data":data,"loc":{"start":{"line":10,"column":17},"end":{"line":10,"column":65}}}))
     + "\"\n		data-neighborhoods=\""
-    + alias2((helpers.formatDataPointer||(depth0 && depth0.formatDataPointer)||alias4).call(alias3,(depth0 != null ? depth0.location_neighborhood : depth0),{"name":"formatDataPointer","hash":{},"data":data,"loc":{"start":{"line":11,"column":22},"end":{"line":11,"column":70}}}))
+    + alias2((lookupProperty(helpers,"formatDataPointer")||(depth0 && lookupProperty(depth0,"formatDataPointer"))||alias4).call(alias3,(depth0 != null ? lookupProperty(depth0,"location_neighborhood") : depth0),{"name":"formatDataPointer","hash":{},"data":data,"loc":{"start":{"line":11,"column":22},"end":{"line":11,"column":70}}}))
     + "\"\n		data-states=\""
-    + alias2((helpers.formatDataPointer||(depth0 && depth0.formatDataPointer)||alias4).call(alias3,(depth0 != null ? depth0.location_province : depth0),{"name":"formatDataPointer","hash":{},"data":data,"loc":{"start":{"line":12,"column":15},"end":{"line":12,"column":59}}}))
+    + alias2((lookupProperty(helpers,"formatDataPointer")||(depth0 && lookupProperty(depth0,"formatDataPointer"))||alias4).call(alias3,(depth0 != null ? lookupProperty(depth0,"location_province") : depth0),{"name":"formatDataPointer","hash":{},"data":data,"loc":{"start":{"line":12,"column":15},"end":{"line":12,"column":59}}}))
+    + "\"\n		data-venues=\""
+    + alias2((lookupProperty(helpers,"formatDataFromArray")||(depth0 && lookupProperty(depth0,"formatDataFromArray"))||alias4).call(alias3,(depth0 != null ? lookupProperty(depth0,"venue_type") : depth0),{"name":"formatDataFromArray","hash":{},"data":data,"loc":{"start":{"line":13,"column":15},"end":{"line":13,"column":54}}}))
     + "\"\n		data-languages=\""
-    + alias2((helpers.formatDataPointerFormats||(depth0 && depth0.formatDataPointerFormats)||alias4).call(alias3,(depth0 != null ? depth0.formats_expanded : depth0),{"name":"formatDataPointerFormats","hash":{},"data":data,"loc":{"start":{"line":13,"column":18},"end":{"line":13,"column":68}}}))
+    + alias2((lookupProperty(helpers,"formatDataPointerFormats")||(depth0 && lookupProperty(depth0,"formatDataPointerFormats"))||alias4).call(alias3,(depth0 != null ? lookupProperty(depth0,"formats_expanded") : depth0),{"name":"formatDataPointerFormats","hash":{},"data":data,"loc":{"start":{"line":14,"column":18},"end":{"line":14,"column":68}}}))
     + "\">\n		<td class=\"bmlt-column1\">\n			<div class=\"bmlt-day\">"
-    + alias2(alias1((depth0 != null ? depth0.formatted_day : depth0), depth0))
+    + alias2(alias1((depth0 != null ? lookupProperty(depth0,"formatted_day") : depth0), depth0))
     + "</div>\n			<div class=\"bmlt-time-2\">"
-    + alias2(alias1((depth0 != null ? depth0.start_time_formatted : depth0), depth0))
+    + alias2(alias1((depth0 != null ? lookupProperty(depth0,"start_time_formatted") : depth0), depth0))
     + " - "
-    + alias2(alias1((depth0 != null ? depth0.end_time_formatted : depth0), depth0))
+    + alias2(alias1((depth0 != null ? lookupProperty(depth0,"end_time_formatted") : depth0), depth0))
     + "</div>\n"
-    + ((stack1 = helpers["if"].call(alias3,(depth0 != null ? depth0.formats : depth0),{"name":"if","hash":{},"fn":container.program(2, data, 0),"inverse":container.noop,"data":data,"loc":{"start":{"line":17,"column":3},"end":{"line":44,"column":10}}})) != null ? stack1 : "")
+    + ((stack1 = lookupProperty(helpers,"if").call(alias3,(depth0 != null ? lookupProperty(depth0,"formats") : depth0),{"name":"if","hash":{},"fn":container.program(2, data, 0),"inverse":container.noop,"data":data,"loc":{"start":{"line":18,"column":3},"end":{"line":45,"column":10}}})) != null ? stack1 : "")
     + "			<div class=\"bmlt-comments\">"
-    + alias2((helpers.formatLink||(depth0 && depth0.formatLink)||alias4).call(alias3,(depth0 != null ? depth0.formatted_comments : depth0),{"name":"formatLink","hash":{},"data":data,"loc":{"start":{"line":45,"column":30},"end":{"line":45,"column":68}}}))
+    + alias2((lookupProperty(helpers,"formatLink")||(depth0 && lookupProperty(depth0,"formatLink"))||alias4).call(alias3,(depth0 != null ? lookupProperty(depth0,"formatted_comments") : depth0),{"name":"formatLink","hash":{},"data":data,"loc":{"start":{"line":46,"column":30},"end":{"line":46,"column":68}}}))
+    + "</div>\n			<div class=\"bmlt-observer\">"
+    + ((stack1 = container.invokePartial(lookupProperty(partials,"observerTemplate"),depth0,{"name":"observerTemplate","data":data,"helpers":helpers,"partials":partials,"decorators":container.decorators})) != null ? stack1 : "")
     + "</div>\n		</td>\n		<td class=\"bmlt-column2\">\n			<div class=\"meeting-data-template\">"
-    + ((stack1 = container.invokePartial(partials.meetingDataTemplate,depth0,{"name":"meetingDataTemplate","data":data,"helpers":helpers,"partials":partials,"decorators":container.decorators})) != null ? stack1 : "")
+    + ((stack1 = container.invokePartial(lookupProperty(partials,"meetingDataTemplate"),depth0,{"name":"meetingDataTemplate","data":data,"helpers":helpers,"partials":partials,"decorators":container.decorators})) != null ? stack1 : "")
     + "</div>\n		</td>\n		<td class=\"bmlt-column3\">\n"
-    + ((stack1 = container.invokePartial(partials.metaDataTemplate,depth0,{"name":"metaDataTemplate","data":data,"indent":"\t\t\t","helpers":helpers,"partials":partials,"decorators":container.decorators})) != null ? stack1 : "")
+    + ((stack1 = container.invokePartial(lookupProperty(partials,"metaDataTemplate"),depth0,{"name":"metaDataTemplate","data":data,"indent":"\t\t\t","helpers":helpers,"partials":partials,"decorators":container.decorators})) != null ? stack1 : "")
+    + ((stack1 = (lookupProperty(helpers,"canShare")||(depth0 && lookupProperty(depth0,"canShare"))||alias4).call(alias3,depth0,{"name":"canShare","hash":{},"fn":container.program(5, data, 0),"inverse":container.noop,"data":data,"loc":{"start":{"line":54,"column":3},"end":{"line":56,"column":16}}})) != null ? stack1 : "")
     + "		</td>\n	</tr>\n";
 },"2":function(container,depth0,helpers,partials,data) {
-    var stack1;
+    var stack1, lookupProperty = container.lookupProperty || function(parent, propertyName) {
+        if (Object.prototype.hasOwnProperty.call(parent, propertyName)) {
+          return parent[propertyName];
+        }
+        return undefined
+    };
 
   return "				<a id=\"bmlt-formats\"\n				   class=\"btn btn-primary btn-xs\"\n				   title=\"\"\n				   data-html=\"true\"\n				   tabindex=\"0\"\n				   data-trigger=\"focus\"\n				   role=\"button\"\n				   data-toggle=\"popover\"\n				   data-original-title=\"\"\n				   data-content=\"\n                        <table class='bmlt_a_format table-bordered'>\n"
-    + ((stack1 = helpers.each.call(depth0 != null ? depth0 : (container.nullContext || {}),(depth0 != null ? depth0.formats_expanded : depth0),{"name":"each","hash":{},"fn":container.program(3, data, 0),"inverse":container.noop,"data":data,"loc":{"start":{"line":29,"column":24},"end":{"line":35,"column":33}}})) != null ? stack1 : "")
+    + ((stack1 = lookupProperty(helpers,"each").call(depth0 != null ? depth0 : (container.nullContext || {}),(depth0 != null ? lookupProperty(depth0,"formats_expanded") : depth0),{"name":"each","hash":{},"fn":container.program(3, data, 0),"inverse":container.noop,"data":data,"loc":{"start":{"line":30,"column":24},"end":{"line":36,"column":33}}})) != null ? stack1 : "")
     + "                    </table>\">\n                    <span class=\"glyphicon glyphicon-search\"\n						  aria-hidden=\"true\"\n						  data-toggle=\"popover\"\n						  data-trigger=\"focus\"\n						  data-html=\"true\"\n						  role=\"button\"></span>"
-    + container.escapeExpression(container.lambda((depth0 != null ? depth0.formats : depth0), depth0))
+    + container.escapeExpression(container.lambda((depth0 != null ? lookupProperty(depth0,"formats") : depth0), depth0))
     + "\n				</a>\n";
 },"3":function(container,depth0,helpers,partials,data) {
-    var helper, alias1=depth0 != null ? depth0 : (container.nullContext || {}), alias2=container.hooks.helperMissing, alias3="function", alias4=container.escapeExpression;
+    var helper, alias1=depth0 != null ? depth0 : (container.nullContext || {}), alias2=container.hooks.helperMissing, alias3="function", alias4=container.escapeExpression, lookupProperty = container.lookupProperty || function(parent, propertyName) {
+        if (Object.prototype.hasOwnProperty.call(parent, propertyName)) {
+          return parent[propertyName];
+        }
+        return undefined
+    };
 
   return "                        <tr>\n                            <td class='formats_key'>"
-    + alias4(((helper = (helper = helpers.key || (depth0 != null ? depth0.key : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"key","hash":{},"data":data,"loc":{"start":{"line":31,"column":52},"end":{"line":31,"column":59}}}) : helper)))
+    + alias4(((helper = (helper = lookupProperty(helpers,"key") || (depth0 != null ? lookupProperty(depth0,"key") : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"key","hash":{},"data":data,"loc":{"start":{"line":32,"column":52},"end":{"line":32,"column":59}}}) : helper)))
     + "</td>\n                            <td class='formats_name'>"
-    + alias4(((helper = (helper = helpers.name || (depth0 != null ? depth0.name : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"name","hash":{},"data":data,"loc":{"start":{"line":32,"column":53},"end":{"line":32,"column":61}}}) : helper)))
+    + alias4(((helper = (helper = lookupProperty(helpers,"name") || (depth0 != null ? lookupProperty(depth0,"name") : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"name","hash":{},"data":data,"loc":{"start":{"line":33,"column":53},"end":{"line":33,"column":61}}}) : helper)))
     + "</td>\n                            <td class='formats_description'>"
-    + alias4(((helper = (helper = helpers.description || (depth0 != null ? depth0.description : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"description","hash":{},"data":data,"loc":{"start":{"line":33,"column":60},"end":{"line":33,"column":75}}}) : helper)))
+    + alias4(((helper = (helper = lookupProperty(helpers,"description") || (depth0 != null ? lookupProperty(depth0,"description") : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"description","hash":{},"data":data,"loc":{"start":{"line":34,"column":60},"end":{"line":34,"column":75}}}) : helper)))
     + "</td>\n                        </tr>\n";
-},"compiler":[8,">= 4.3.0"],"main":function(container,depth0,helpers,partials,data) {
-    var stack1;
+},"5":function(container,depth0,helpers,partials,data) {
+    var stack1, alias1=container.lambda, alias2=container.escapeExpression, alias3=depth0 != null ? depth0 : (container.nullContext || {}), alias4=container.hooks.helperMissing, lookupProperty = container.lookupProperty || function(parent, propertyName) {
+        if (Object.prototype.hasOwnProperty.call(parent, propertyName)) {
+          return parent[propertyName];
+        }
+        return undefined
+    };
 
-  return ((stack1 = helpers.each.call(depth0 != null ? depth0 : (container.nullContext || {}),depth0,{"name":"each","hash":{},"fn":container.program(1, data, 0),"inverse":container.noop,"data":data,"loc":{"start":{"line":1,"column":0},"end":{"line":54,"column":9}}})) != null ? stack1 : "");
+  return "				<a href=\"javascript:void(0);\" id=\"share-button\" class=\"btn btn-primary btn-xs\"  onclick=\"navigator.share({ text: '"
+    + alias2(alias1((depth0 != null ? lookupProperty(depth0,"formatted_day") : depth0), depth0))
+    + " "
+    + alias2(alias1((depth0 != null ? lookupProperty(depth0,"start_time_formatted") : depth0), depth0))
+    + " - "
+    + alias2(alias1((depth0 != null ? lookupProperty(depth0,"end_time_formatted") : depth0), depth0))
+    + " "
+    + alias2(alias1((depth0 != null ? lookupProperty(depth0,"meeting_name") : depth0), depth0))
+    + " "
+    + alias2(alias1((depth0 != null ? lookupProperty(depth0,"location_text") : depth0), depth0))
+    + " "
+    + alias2(alias1((depth0 != null ? lookupProperty(depth0,"formatted_address") : depth0), depth0))
+    + " "
+    + alias2(alias1((depth0 != null ? lookupProperty(depth0,"formatted_location_info") : depth0), depth0))
+    + ((stack1 = lookupProperty(helpers,"if").call(alias3,(depth0 != null ? lookupProperty(depth0,"virtual_meeting_additional_info") : depth0),{"name":"if","hash":{},"fn":container.program(6, data, 0),"inverse":container.noop,"data":data,"loc":{"start":{"line":55,"column":305},"end":{"line":55,"column":397}}})) != null ? stack1 : "")
+    + "', url: '"
+    + ((stack1 = (lookupProperty(helpers,"isVirtualOrHybrid")||(depth0 && lookupProperty(depth0,"isVirtualOrHybrid"))||alias4).call(alias3,depth0,{"name":"isVirtualOrHybrid","hash":{},"fn":container.program(8, data, 0),"inverse":container.noop,"data":data,"loc":{"start":{"line":55,"column":406},"end":{"line":55,"column":593}}})) != null ? stack1 : "")
+    + ((stack1 = (lookupProperty(helpers,"isInPersonOrHybrid")||(depth0 && lookupProperty(depth0,"isInPersonOrHybrid"))||alias4).call(alias3,depth0,{"name":"isInPersonOrHybrid","hash":{},"fn":container.program(13, data, 0),"inverse":container.noop,"data":data,"loc":{"start":{"line":55,"column":593},"end":{"line":55,"column":776}}})) != null ? stack1 : "")
+    + "'})\"><span class=\"glyphicon glyphicon-share\"></span>  "
+    + alias2(alias1((depth0 != null ? lookupProperty(depth0,"share_word") : depth0), depth0))
+    + "</a>\n";
+},"6":function(container,depth0,helpers,partials,data) {
+    var lookupProperty = container.lookupProperty || function(parent, propertyName) {
+        if (Object.prototype.hasOwnProperty.call(parent, propertyName)) {
+          return parent[propertyName];
+        }
+        return undefined
+    };
+
+  return " "
+    + container.escapeExpression(container.lambda((depth0 != null ? lookupProperty(depth0,"virtual_meeting_additional_info") : depth0), depth0));
+},"8":function(container,depth0,helpers,partials,data) {
+    var stack1, alias1=depth0 != null ? depth0 : (container.nullContext || {}), lookupProperty = container.lookupProperty || function(parent, propertyName) {
+        if (Object.prototype.hasOwnProperty.call(parent, propertyName)) {
+          return parent[propertyName];
+        }
+        return undefined
+    };
+
+  return ((stack1 = lookupProperty(helpers,"if").call(alias1,(depth0 != null ? lookupProperty(depth0,"virtual_meeting_link") : depth0),{"name":"if","hash":{},"fn":container.program(9, data, 0),"inverse":container.noop,"data":data,"loc":{"start":{"line":55,"column":433},"end":{"line":55,"column":502}}})) != null ? stack1 : "")
+    + ((stack1 = lookupProperty(helpers,"if").call(alias1,(depth0 != null ? lookupProperty(depth0,"phone_meeting_number") : depth0),{"name":"if","hash":{},"fn":container.program(11, data, 0),"inverse":container.noop,"data":data,"loc":{"start":{"line":55,"column":502},"end":{"line":55,"column":571}}})) != null ? stack1 : "");
+},"9":function(container,depth0,helpers,partials,data) {
+    var lookupProperty = container.lookupProperty || function(parent, propertyName) {
+        if (Object.prototype.hasOwnProperty.call(parent, propertyName)) {
+          return parent[propertyName];
+        }
+        return undefined
+    };
+
+  return container.escapeExpression(container.lambda((depth0 != null ? lookupProperty(depth0,"virtual_meeting_link") : depth0), depth0));
+},"11":function(container,depth0,helpers,partials,data) {
+    var lookupProperty = container.lookupProperty || function(parent, propertyName) {
+        if (Object.prototype.hasOwnProperty.call(parent, propertyName)) {
+          return parent[propertyName];
+        }
+        return undefined
+    };
+
+  return container.escapeExpression(container.lambda((depth0 != null ? lookupProperty(depth0,"phone_meeting_number") : depth0), depth0));
+},"13":function(container,depth0,helpers,partials,data) {
+    var alias1=container.lambda, alias2=container.escapeExpression, lookupProperty = container.lookupProperty || function(parent, propertyName) {
+        if (Object.prototype.hasOwnProperty.call(parent, propertyName)) {
+          return parent[propertyName];
+        }
+        return undefined
+    };
+
+  return " https://www.google.com/maps/search/?api=1&amp;query="
+    + alias2(alias1((depth0 != null ? lookupProperty(depth0,"latitude") : depth0), depth0))
+    + ","
+    + alias2(alias1((depth0 != null ? lookupProperty(depth0,"longitude") : depth0), depth0))
+    + "&amp;q="
+    + alias2(alias1((depth0 != null ? lookupProperty(depth0,"latitude") : depth0), depth0))
+    + ","
+    + alias2(alias1((depth0 != null ? lookupProperty(depth0,"longitude") : depth0), depth0));
+},"compiler":[8,">= 4.3.0"],"main":function(container,depth0,helpers,partials,data) {
+    var stack1, lookupProperty = container.lookupProperty || function(parent, propertyName) {
+        if (Object.prototype.hasOwnProperty.call(parent, propertyName)) {
+          return parent[propertyName];
+        }
+        return undefined
+    };
+
+  return ((stack1 = lookupProperty(helpers,"each").call(depth0 != null ? depth0 : (container.nullContext || {}),depth0,{"name":"each","hash":{},"fn":container.program(1, data, 0),"inverse":container.noop,"data":data,"loc":{"start":{"line":1,"column":0},"end":{"line":59,"column":9}}})) != null ? stack1 : "");
 },"usePartial":true,"useData":true});
 this["hbs_Crouton"]["templates"]["weekdays"] = Handlebars.template({"1":function(container,depth0,helpers,partials,data) {
-    var stack1, helper;
+    var stack1, helper, lookupProperty = container.lookupProperty || function(parent, propertyName) {
+        if (Object.prototype.hasOwnProperty.call(parent, propertyName)) {
+          return parent[propertyName];
+        }
+        return undefined
+    };
 
   return "        <div id='tab"
-    + container.escapeExpression(((helper = (helper = helpers.day || (depth0 != null ? depth0.day : depth0)) != null ? helper : container.hooks.helperMissing),(typeof helper === "function" ? helper.call(depth0 != null ? depth0 : (container.nullContext || {}),{"name":"day","hash":{},"data":data,"loc":{"start":{"line":3,"column":20},"end":{"line":3,"column":29}}}) : helper)))
+    + container.escapeExpression(((helper = (helper = lookupProperty(helpers,"day") || (depth0 != null ? lookupProperty(depth0,"day") : depth0)) != null ? helper : container.hooks.helperMissing),(typeof helper === "function" ? helper.call(depth0 != null ? depth0 : (container.nullContext || {}),{"name":"day","hash":{},"data":data,"loc":{"start":{"line":3,"column":20},"end":{"line":3,"column":29}}}) : helper)))
     + "' class='tab-pane'>\n            <div id=\"bmlt-table-div\">\n                <table class='bmlt-table table table-striped table-hover table-bordered tablesaw tablesaw-stack'>\n                    <tbody>\n"
-    + ((stack1 = container.invokePartial(partials.meetings,(depth0 != null ? depth0.meetings : depth0),{"name":"meetings","data":data,"indent":"                    ","helpers":helpers,"partials":partials,"decorators":container.decorators})) != null ? stack1 : "")
+    + ((stack1 = container.invokePartial(lookupProperty(partials,"meetings"),(depth0 != null ? lookupProperty(depth0,"meetings") : depth0),{"name":"meetings","data":data,"indent":"                    ","helpers":helpers,"partials":partials,"decorators":container.decorators})) != null ? stack1 : "")
     + "                    </tbody>\n                </table>\n            </div>\n        </div>\n";
 },"compiler":[8,">= 4.3.0"],"main":function(container,depth0,helpers,partials,data) {
-    var stack1;
+    var stack1, lookupProperty = container.lookupProperty || function(parent, propertyName) {
+        if (Object.prototype.hasOwnProperty.call(parent, propertyName)) {
+          return parent[propertyName];
+        }
+        return undefined
+    };
 
   return "<div class=\"tab-content\">\n"
-    + ((stack1 = helpers.each.call(depth0 != null ? depth0 : (container.nullContext || {}),depth0,{"name":"each","hash":{},"fn":container.program(1, data, 0),"inverse":container.noop,"data":data,"loc":{"start":{"line":2,"column":4},"end":{"line":12,"column":13}}})) != null ? stack1 : "")
+    + ((stack1 = lookupProperty(helpers,"each").call(depth0 != null ? depth0 : (container.nullContext || {}),depth0,{"name":"each","hash":{},"fn":container.program(1, data, 0),"inverse":container.noop,"data":data,"loc":{"start":{"line":2,"column":4},"end":{"line":12,"column":13}}})) != null ? stack1 : "")
     + "</div>\n";
 },"usePartial":true,"useData":true});
+var croutonDefaultTemplates = {
+
+	meeting_data_template: [
+		"{{#isTemporarilyClosed this}}",
+		"    <div class='temporarilyClosed'><span class='glyphicon glyphicon-flag'></span> {{temporarilyClosed this}}</div>",
+		"{{/isTemporarilyClosed}}",
+		"<div class='meeting-name'>{{this.meeting_name}}</div>",
+		"<div class='location-text'>{{this.location_text}}</div>",
+		"<div class='meeting-address'>{{this.formatted_address}}</div>",
+		"<div class='location-information'>{{this.formatted_location_info}}</div>",
+		"{{#if this.virtual_meeting_additional_info}}",
+		"    <div class='meeting-additional-info'>{{this.virtual_meeting_additional_info}}</div>",
+		"{{/if}}"
+	].join('\n'),
+
+	metadata_template: [
+		"{{#isVirtualOrHybrid this}}",
+		"    {{#isHybrid this}}",
+		"        <div class='meetsVirtually'><span class='glyphicon glyphicon-cloud-upload'></span> {{meetsHybrid this}}</div>",
+		"    {{else}}",
+		"        <div class='meetsVirtually'><span class='glyphicon glyphicon-cloud'></span> {{meetsVirtually this}}</div>",
+		"    {{/isHybrid}}",
+		"    {{#if this.virtual_meeting_link}}",
+		"        <div><span class='glyphicon glyphicon-globe'></span> {{webLinkify this.virtual_meeting_link}}</div>",
+		"        {{#if this.show_qrcode}}",
+		"            <div class='qrcode'>{{qrCode this.virtual_meeting_link}}</div>",
+		"        {{/if}}",
+		"    {{/if}}",
+		"    {{#if this.phone_meeting_number}}",
+		"        <div><span class='glyphicon glyphicon-earphone'></span> {{phoneLinkify this.phone_meeting_number}}</div>",
+		"        {{#if this.show_qrcode}}",
+		"            <div class='qrcode'>{{qrCode this.phone_meeting_number}}</div>",
+		"        {{/if}}",
+		"    {{/if}}",
+		"{{/isVirtualOrHybrid}}",
+		"{{#isNotTemporarilyClosed this}}",
+		"    {{#unless (hasFormats 'VM' this)}}",
+		"        <div>",
+		"            <a id='map-button' class='btn btn-primary btn-xs'",
+		"                href='https://www.google.com/maps/search/?api=1&query={{this.latitude}},{{this.longitude}}&q={{this.latitude}},{{this.longitude}}'",
+		"                target='_blank' rel='noopener noreferrer'>",
+		"                <span class='glyphicon glyphicon-map-marker'></span> {{this.map_word}}</a>",
+		"        </div>",
+		"        <div class='geo hide'>{{this.latitude}},{{this.longitude}}</div>",
+		"    {{/unless}}",
+		"{{/isNotTemporarilyClosed}}"
+	].join('\n'),
+
+	observer_template: [
+		"<div class='observerLine'>{{this.contact_name_1}} {{this.contact_phone_1}} {{this.contact_email_1}}</div>",
+		"<div class='observerLine'>{{this.contact_name_2}} {{this.contact_phone_2}} {{this.contact_email_2}}</div>"
+	].join('\n')
+
+}
+
 var crouton_Handlebars = Handlebars.noConflict();
+
 function Crouton(config) {
 	var self = this;
 	self.mutex = false;
@@ -13490,6 +13966,7 @@ function Crouton(config) {
 	self.map_clusters = [];
 	self.oms = null;
 	self.markerClusterer = null;
+	self.masterFormatCodes = [];
 	self.max_filters = 10;  // TODO: needs to be refactored so that dropdowns are treated dynamically
 	self.config = {
 		on_complete: null,            // Javascript function to callback when data querying is completed.
@@ -13519,6 +13996,7 @@ function Crouton(config) {
 		has_sub_province: false,      // Shows the sub province dropdown (counties)
 		has_neighborhoods: false,     // Shows the neighborhood dropdown
 		has_languages: false,		  // Shows the language dropdown
+		has_venues: true,		      // Shows the venue types dropdown
 		show_distance: false,         // Determines distance on page load
 		distance_search: 0,			  // Makes a distance based search with results either number of / or distance from coordinates
 		recurse_service_bodies: false,// Recurses service bodies when making service bodies request
@@ -13534,8 +14012,9 @@ function Crouton(config) {
 		view_by: "weekday",           // TODO: replace with using the first choice in button_filters as the default view_by.
 		show_qrcode: false,  		  // Determines whether or not to show the QR code for virtual / phone meetings if they exist.
 		theme: "jack",                // Allows for setting pre-packaged themes.  Choices are listed here:  https://github.com/bmlt-enabled/crouton/blob/master/croutonjs/dist/templates/themes
-		meeting_data_template: "{{#isTemporarilyClosed this}}<div class='temporarilyClosed'><span class='glyphicon glyphicon-flag'></span> {{temporarilyClosed this}}</div>{{/isTemporarilyClosed}}<div class='meeting-name'>{{this.meeting_name}}</div><div class='location-text'>{{this.location_text}}</div><div class='meeting-address'>{{this.formatted_address}}</div><div class='location-information'>{{this.formatted_location_info}}</div>",
-		metadata_template: "{{#isVirtual this}}{{#isHybrid this}}<div class='meetsVirtually'><span class='glyphicon glyphicon-cloud-upload'></span> {{meetsHybrid this}}</div>{{else}}<div class='meetsVirtually'><span class='glyphicon glyphicon-cloud'></span> {{meetsVirtually this}}</div>{{/isHybrid}}{{#if this.virtual_meeting_link}}<div><span class='glyphicon glyphicon-globe'></span> {{webLinkify this.virtual_meeting_link}}</div>{{#if this.show_qrcode}}<div class='qrcode'>{{qrCode this.virtual_meeting_link}}</div>{{/if}}{{/if}}{{#if this.phone_meeting_number}}<div><span class='glyphicon glyphicon-earphone'></span> {{phoneLinkify this.phone_meeting_number}}</div>{{#if this.show_qrcode}}<div class='qrcode'>{{qrCode this.phone_meeting_number}}</div>{{/if}}{{/if}}{{/isVirtual}}{{#isNotTemporarilyClosed this}}<div><a id='map-button' class='btn btn-primary btn-xs' href='https://www.google.com/maps/search/?api=1&query={{this.latitude}},{{this.longitude}}&q={{this.latitude}},{{this.longitude}}' target='_blank' rel='noopener noreferrer'><span class='glyphicon glyphicon-map-marker'></span> {{this.map_word}}</a></div><div class='geo hide'>{{this.latitude}},{{this.longitude}}</div>{{/isNotTemporarilyClosed}}"
+		meeting_data_template: croutonDefaultTemplates.meeting_data_template,
+		metadata_template: croutonDefaultTemplates.metadata_template,
+		observer_template: croutonDefaultTemplates.observer_template
 	};
 
 	self.setConfig(config);
@@ -13558,7 +14037,7 @@ function Crouton(config) {
 	self.searchByCoordinates = function(latitude, longitude) {
 		var width = self.config['map_search']['width'] || -50;
 
-		self.config['custom_query'] = "&lat_val=" + latitude + "&long_val=" + longitude
+		self.config['custom_query'] = self.config['custom_query'] + "&lat_val=" + latitude + "&long_val=" + longitude
 			+ (self.config['distance_units'] === "km" ? '&geo_width_km=' : '&geo_width=') + width;
 		self.meetingSearch(function() {
 			self.reset();
@@ -13635,12 +14114,15 @@ function Crouton(config) {
 
 	self.getMeetings = function(url, callback) {
 		jQuery.getJSON(this.config['root_server'] + url + '&callback=?', function (data) {
-			if (data === null || JSON.stringify(data) === "{}") {
-				console.error("Could not find any meetings for the criteria specified.");
+			if (data === null || JSON.stringify(data['meetings']) === "{}") {
+				var fullUrl = self.config['root_server'] + url
+				console.log("Could not find any meetings for the criteria specified with the query <a href=\"" + fullUrl + "\" target=_blank>" + fullUrl + "</a>");
+				jQuery('#' + self.config['placeholder_id']).html("No meetings found.");
 				return;
 			}
-			data.exclude(self.config['exclude_zip_codes'], "location_postal_code_1");
-			self.meetingData = data;
+			data['meetings'].exclude(self.config['exclude_zip_codes'], "location_postal_code_1");
+			self.meetingData = data['meetings'];
+			self.formatsData = data['formats'];
 
 			if (self.config['extra_meetings'].length > 0) {
 				var extra_meetings_query = "";
@@ -13665,6 +14147,7 @@ function Crouton(config) {
 			'location_postal_code_1',
 			'duration_time',
 			'start_time',
+			'time_zone',
 			'weekday_tinyint',
 			'service_body_bigint',
 			'longitude',
@@ -13685,14 +14168,18 @@ function Crouton(config) {
 			'id_bigint',
 		];
 
-		var extra_fields_regex = /this\.([A-Za-z_]*)}}/gi;
+		var extra_fields_regex = /this\.([A-Za-z0-9_]*)}}/gi;
 		while (arr = extra_fields_regex.exec(self.config['meeting_data_template'])) {
 			data_field_keys.push(arr[1]);
 		}
 		while (arr = extra_fields_regex.exec(self.config['metadata_template'])) {
 			data_field_keys.push(arr[1]);
 		}
-		var url = '/client_interface/jsonp/?switcher=GetSearchResults&data_field_key=' + data_field_keys.join(',');
+		while (arr = extra_fields_regex.exec(self.config['observer_template'])) {
+			data_field_keys.push(arr[1]);
+		}
+		var url = '/client_interface/jsonp/?switcher=GetSearchResults&get_used_formats&lang_enum=' + self.config['short_language'] +
+			'&data_field_key=' + data_field_keys.join(',')
 
 		if (self.config['int_include_unpublished'] === 1) {
 			url += "&advanced_published=0"
@@ -13823,7 +14310,7 @@ function Crouton(config) {
 	self.filteredPage = function (dataType, dataValue) {
 		jQuery(".meeting-header").removeClass("hide");
 		jQuery(".bmlt-data-row").removeClass("hide");
-		if (dataType !== "formats" && dataType !== "languages") {
+		if (dataType !== "formats" && dataType !== "languages" && dataType !== "venues") {
 			jQuery(".bmlt-data-row").not("[data-" + dataType + "='" + dataValue + "']").addClass("hide");
 		} else {
 			jQuery(".bmlt-data-row").not("[data-" + dataType + "~='" + dataValue + "']").addClass("hide");
@@ -13858,32 +14345,22 @@ function Crouton(config) {
 		crouton_Handlebars.registerPartial('weekdays', hbs_Crouton.templates['weekdays']);
 		crouton_Handlebars.registerPartial('header', hbs_Crouton.templates['header']);
 		crouton_Handlebars.registerPartial('byfields', hbs_Crouton.templates['byfield']);
-		var template = hbs_Crouton.templates['master'];
+		var template = hbs_Crouton.templates['main'];
 		jQuery(selector).html(template(context));
 		callback();
 	};
 
-	self.getFormats = function (callback) {
-		var getAllIds = arrayColumn(self.meetingData, 'format_shared_id_list');
-		var joinIds = getAllIds.join(',');
-		var idsArray = joinIds.split(',');
-		var uniqueIds = arrayUnique(idsArray);
-		jQuery.getJSON(self.config['root_server'] + '/client_interface/jsonp/?switcher=GetFormats&lang_enum=' + self.config['short_language'] + '&callback=?', function (data) {
-			var formats = [];
-			for (var i = 0; i < data.length; i++) {
-				var format = data[i];
-				if (inArray(format['id'], uniqueIds)) {
-					formats.push(format);
-				}
-			}
+	self.getServiceBodies = function (service_bodies_id, callback) {
+		jQuery.getJSON(this.config['root_server'] + '/client_interface/jsonp/?switcher=GetServiceBodies'
+			+ getServiceBodiesQueryString(service_bodies_id) + '&callback=?', callback);
+	};
 
-			callback(formats.sortByKey('name_string'));
+	self.getMasterFormats = function (callback) {
+		jQuery.getJSON(this.config['root_server'] + '/client_interface/jsonp/?switcher=GetFormats&lang_enum=en&callback=?', function(masterFormats) {
+			self.masterFormatCodes = masterFormats;
+			callback();
 		});
-	};
-
-	self.getServiceBodies = function (callback) {
-		jQuery.getJSON(this.config['root_server'] + '/client_interface/jsonp/?switcher=GetServiceBodies&callback=?', callback);
-	};
+	}
 
 	self.showLocation = function(position) {
 		var latitude = position.coords.latitude;
@@ -13944,18 +14421,27 @@ function Crouton(config) {
 
 		crouton_Handlebars.registerPartial("meetingDataTemplate", self.config['meeting_data_template']);
 		crouton_Handlebars.registerPartial("metaDataTemplate", self.config['metadata_template']);
+		crouton_Handlebars.registerPartial("observerTemplate", self.config['observer_template']);
 
 		for (var m = 0; m < meetingData.length; m++) {
 			meetingData[m]['formatted_comments'] = meetingData[m]['comments'];
 			var duration = meetingData[m]['duration_time'].split(":");
-			meetingData[m]['start_time_raw'] = this.getNextInstanceOfDay(meetingData[m]['weekday_tinyint'] - 1, meetingData[m]['start_time']);
+			// convert from bmlt day to iso day
+			meetingData[m]['start_time_raw'] = this.getAdjustedDateTime(
+				parseInt(meetingData[m]['weekday_tinyint']) === 1 ? 7 : parseInt(meetingData[m]['weekday_tinyint']) - 1,
+				meetingData[m]['start_time'],
+				meetingData[m]['time_zone']
+			);
 			meetingData[m]['start_time_formatted'] = meetingData[m]['start_time_raw'].format(self.config['time_format']);
-			meetingData[m]['end_time_formatted'] = this.getNextInstanceOfDay(meetingData[m]['weekday_tinyint'] - 1, meetingData[m]['start_time'])
+			meetingData[m]['end_time_formatted'] = meetingData[m]['start_time_raw']
+				.clone()
 				.add(duration[0], 'hours')
 				.add(duration[1], 'minutes')
 				.format(self.config['time_format']);
-			meetingData[m]['day_of_the_week'] = meetingData[m]['start_time_raw'].get('day') + 1;
-			meetingData[m]['formatted_day'] = self.localization.getDayOfTheWeekWord(meetingData[m]['start_time_raw'].get('day') + 1);
+
+			// back to bmlt day
+			meetingData[m]['day_of_the_week'] = meetingData[m]['start_time_raw'].isoWeekday() === 7 ? 1 : meetingData[m]['start_time_raw'].isoWeekday() + 1;
+			meetingData[m]['formatted_day'] = self.localization.getDayOfTheWeekWord(meetingData[m]['day_of_the_week']);
 
 			var formats = meetingData[m]['formats'].split(",");
 			var formats_expanded = [];
@@ -13964,6 +14450,7 @@ function Crouton(config) {
 					if (formats[f] === self.formatsData[g]['key_string']) {
 						formats_expanded.push(
 							{
+								"id": self.formatsData[g]['id'],
 								"key": formats[f],
 								"name": self.formatsData[g]['name_string'],
 								"description": self.formatsData[g]['description_string']
@@ -13973,6 +14460,7 @@ function Crouton(config) {
 				}
 			}
 
+			meetingData[m]['venue_type'] = getVenueType(meetingData[m]);
 			meetingData[m]['formats_expanded'] = formats_expanded;
 			var addressParts = [
 				meetingData[m]['location_street'],
@@ -13987,15 +14475,23 @@ function Crouton(config) {
 					? meetingData[m]['location_info'].replace('/(http|https):\/\/([A-Za-z0-9\._\-\/\?=&;%,]+)/i', '<a style="text-decoration: underline;" href="$1://$2" target="_blank">$1://$2</a>')
 					: "";
 			meetingData[m]['map_word'] = self.localization.getWord('map').toUpperCase();
+			meetingData[m]['share_word'] = self.localization.getWord('share').toUpperCase();
 			meetingData[m]['show_qrcode'] = self.config['show_qrcode'];
 			for (var k in meetingData[m]) {
 				if (meetingData[m].hasOwnProperty(k) && typeof meetingData[m][k] === 'string') {
 					if (meetingData[m][k].indexOf('#@-@#') !== -1) {
 						var split = meetingData[m][k].split('#@-@#');
-						meetingData[m][k] = split[1];
+						meetingData[m][k] = split[split.length - 1];
 					}
 				}
 			}
+
+			var serviceBodyInfo = self.getServiceBodyDetails(meetingData[m]['service_body_bigint'])
+			meetingData[m]['serviceBodyUrl'] = serviceBodyInfo["url"];
+			meetingData[m]['serviceBodyPhone'] = serviceBodyInfo["helpline"];
+			meetingData[m]['serviceBodyName'] = serviceBodyInfo["name"];
+			meetingData[m]['serviceBodyDescription'] = serviceBodyInfo["description"];
+
 			meetings.push(meetingData[m])
 		}
 
@@ -14019,7 +14515,9 @@ function Crouton(config) {
 Crouton.prototype.setConfig = function(config) {
 	var self = this;
 	for (var propertyName in config) {
-		if (propertyName.indexOf("int_") === -1) {
+		if (propertyName.indexOf("_template") > 0 && config[propertyName] === "") {
+			continue;
+		} else if (propertyName.indexOf("int_") === -1) {
 			if (config[propertyName] === "1" || config[propertyName] === 1) {
 				self.config[propertyName] = true;
 			} else if (config[propertyName] === "0" || config[propertyName] === 0) {
@@ -14088,6 +14586,45 @@ Crouton.prototype.groupCount = function(callback) {
 	});
 };
 
+Crouton.prototype.serviceBodyNames = function(callback) {
+	var self = this;
+	self.lock(function() {
+		var ids = getUniqueValuesOfKey(self.meetingData, 'service_body_bigint');
+		self.getServiceBodies(ids, function (service_bodies) {
+			var n = service_bodies.length;
+			var names = [];
+			for (var i = 0; i < n; i++) {
+				names.push(service_bodies[i]['name']);
+			}
+			names.sort();
+			if (n===1) {
+				callback(names[0]);
+			}
+			else if (n===2) {
+				callback(names[0] + ' and ' + names[1]);
+			}
+			else {
+				var str = '';
+				for (var j = 0; j < n-1; j++) {
+					str += names[j];
+					str += ', ';
+				}
+				callback(str + ' and ' + names[n-1]);
+			}
+		});
+	});
+};
+
+Crouton.prototype.getServiceBodyDetails = function(serviceBodyId) {
+	var self = this;
+	for (var s = 0; s < self.active_service_bodies.length; s++) {
+		var service_body = self.active_service_bodies[s];
+		if (self.active_service_bodies[s]['id'] === serviceBodyId) {
+			return self.active_service_bodies[s];
+		}
+	}
+}
+
 Crouton.prototype.render = function(callback) {
 	var self = this;
 	self.lock(function() {
@@ -14110,29 +14647,32 @@ Crouton.prototype.render = function(callback) {
 			'neighborhoods': getUniqueValuesOfKey(self.meetingData, 'location_neighborhood').sort(),
 			'states': getUniqueValuesOfKey(self.meetingData, 'location_province').sort(),
 			'zips': getUniqueValuesOfKey(self.meetingData, 'location_postal_code_1').sort(),
-			'unique_service_bodies_ids': getUniqueValuesOfKey(self.meetingData, 'service_body_bigint').sort()
+			'unique_service_bodies_ids': getUniqueValuesOfKey(self.meetingData, 'service_body_bigint').sort(),
+			'venue_types': getValuesFromObject(crouton.localization.getWord("venue_type_choices")).sort()
 		};
 		if (callback !== undefined) callback();
-		self.getServiceBodies(function (service_bodies) {
-			var active_service_bodies = [];
-			for (var i = 0; i < service_bodies.length; i++) {
-				for (var j = 0; j < self.uniqueData['unique_service_bodies_ids'].length; j++) {
-					if (service_bodies[i]["id"] === self.uniqueData['unique_service_bodies_ids'][j]) {
-						active_service_bodies.push(service_bodies[i]);
+		self.getMasterFormats(function() {
+			self.getServiceBodies(self.uniqueData['unique_service_bodies_ids'], function (service_bodies) {
+				self.active_service_bodies = [];
+				for (var i = 0; i < service_bodies.length; i++) {
+					for (var j = 0; j < self.uniqueData['unique_service_bodies_ids'].length; j++) {
+						if (service_bodies[i]["id"] === self.uniqueData['unique_service_bodies_ids'][j]) {
+							self.active_service_bodies.push(service_bodies[i]);
+						}
 					}
 				}
-			}
 
-			self.uniqueData['areas'] = active_service_bodies.sortByKey('name');
-			self.getFormats(function (data) {
-				self.formatsData = data;
-				self.uniqueData['formats'] = data;
+				self.uniqueData['areas'] = self.active_service_bodies.sortByKey('name');
+				if (!jQuery.isEmptyObject(self.formatsData)) {
+					self.formatsData = self.formatsData.sortByKey('name_string');
+				}
+				self.uniqueData['formats'] = self.formatsData;
 				self.uniqueData['languages'] = [];
 
-				for (var l = 0; l < data.length; l++) {
-					var format = data[l];
+				for (var l = 0; l < self.formatsData.length; l++) {
+					var format = self.formatsData[l];
 					if (format['format_type_enum'] === "LANG") {
-						self.uniqueData['languages'].push(data[l]);
+						self.uniqueData['languages'].push(format);
 					}
 				}
 
@@ -14140,7 +14680,15 @@ Crouton.prototype.render = function(callback) {
 				var enrichedMeetingData = self.enrichMeetings(self.meetingData);
 
 				enrichedMeetingData.sort(function (a, b) {
-					return a['start_time_raw'] - b['start_time_raw'];
+					if (a['start_time_raw'] < b['start_time_raw']) {
+						return -1;
+					}
+
+					if (a['start_time_raw'] > b['start_time_raw']) {
+						return 1;
+					}
+
+					return 0;
 				});
 
 				var day_counter = 0;
@@ -14155,6 +14703,7 @@ Crouton.prototype.render = function(callback) {
 					});
 
 					byDayData.push({
+						"hide": self.config["hide_byday_headers"],
 						"day": self.localization.getDayOfTheWeekWord(day),
 						"meetings": daysOfTheWeekMeetings
 					});
@@ -14241,6 +14790,7 @@ Crouton.prototype.render = function(callback) {
 					jQuery("#day").on('click', function () {
 						self.showView(self.config['view_by'] === 'byday' ? 'byday' : 'day');
 					});
+
 					jQuery(".filterButton").on('click', function (e) {
 						self.filteredView(e.target.attributes['data-field'].value);
 					});
@@ -14287,7 +14837,7 @@ Crouton.prototype.render = function(callback) {
 						self.config['on_complete']();
 					}
 				});
-			})
+			});
 		});
 	});
 };
@@ -14540,6 +15090,43 @@ Crouton.prototype.initMap = function(callback) {
 	if (callback !== undefined && isFunction(callback)) callback();
 };
 
+function getTrueResult(options, ctx) {
+	return options.fn !== undefined ? options.fn(ctx) : true;
+}
+
+function getFalseResult(options, ctx) {
+	return options.inverse !== undefined ? options.inverse(ctx) : false;
+}
+
+function getMasterFormatId(code, data) {
+	for (var f = 0; f < crouton.masterFormatCodes.length; f++) {
+		var format = crouton.masterFormatCodes[f];
+		if (format['key_string'] === code && format['root_server_uri'] === data['root_server_uri']) {
+			return format['id'];
+		}
+	}
+}
+
+const venueType = {
+	IN_PERSON: "IN_PERSON",
+	VIRTUAL: "VIRTUAL",
+}
+
+function getVenueType(data) {
+	if (inArray(getMasterFormatId('HY', data), getFormats(data))) {
+		return [crouton.localization.getVenueType(venueType.VIRTUAL), crouton.localization.getVenueType(venueType.IN_PERSON)];
+	} else if (inArray(getMasterFormatId('VM', data), getFormats(data))) {
+		return [crouton.localization.getVenueType(venueType.VIRTUAL)];
+	} else {
+		return [crouton.localization.getVenueType(venueType.IN_PERSON)];
+	}
+}
+
+// TODO: Change this logic when https://github.com/bmlt-enabled/bmlt-root-server/issues/353 is released and rolled out everywhere.
+function getFormats(data) {
+	return data['formats'] !== "" ? data['format_shared_id_list'].split(",") : [];
+}
+
 crouton_Handlebars.registerHelper('getDayOfTheWeek', function(day_id) {
 	return hbs_Crouton.localization.getDayOfTheWeekWord(day_id);
 });
@@ -14549,59 +15136,104 @@ crouton_Handlebars.registerHelper('getWord', function(word) {
 });
 
 crouton_Handlebars.registerHelper('formatDataPointer', function(str) {
-	return convertToPunyCode(str)
+	return convertToPunyCode(str);
 });
 
+crouton_Handlebars.registerHelper('canShare', function(data, options) {
+	return navigator.share ? getTrueResult(options, this) : getFalseResult(options, this);
+});
+
+/**
+ * @deprecated Since version 3.12.2, will be removed in a future version.
+ */
 crouton_Handlebars.registerHelper('isVirtual', function(data, options) {
-	var fnTrue = options.fn;
-	var fnFalse = options.inverse;
-
-	return ((inArray('HY', data['formats'].split(",")) && !inArray('TC', data['formats'].split(",")))
-		|| inArray('VM', data['formats'].split(",")))
-	&& (data['virtual_meeting_link'] || data['phone_meeting_number']) ? fnTrue(this): fnFalse(this);
+	return ((inArray(getMasterFormatId('HY', data), getFormats(data)) && !inArray(getMasterFormatId('TC', data), getFormats(data)))
+		|| inArray(getMasterFormatId('VM', data), getFormats(data)))
+	&& (data['virtual_meeting_link'] || data['phone_meeting_number'] || data['virtual_meeting_additional_info']) ? getTrueResult(options, this) : getFalseResult(options, this);
 });
 
-crouton_Handlebars.registerHelper('isHybrid', function(data, options) {
-	var fnTrue = options.fn;
-	var fnFalse = options.inverse;
+/**
+ * Assumes consistent set of venue type formats (enforced for newly edited meetings in root server 2.16.0 or greater)
+ */
+crouton_Handlebars.registerHelper('isVirtualOnly', function(data, options) {
+	return inArray(getMasterFormatId('VM', data), getFormats(data)) ? getTrueResult(options, this) : getFalseResult(options, this);
+});
 
-	return inArray('HY', data['formats'].split(","))
-	&& (data['virtual_meeting_link'] || data['phone_meeting_number']) ? fnTrue(this): fnFalse(this);
+/**
+ * @deprecated Since version 3.12.2 will be removed in a future version.
+ */
+crouton_Handlebars.registerHelper('isHybrid', function(data, options) {
+	return inArray(getMasterFormatId('HY', data), getFormats(data)) ? getTrueResult(options, this) : getFalseResult(options, this);
+});
+
+/**
+ * Assumes consistent set of venue type formats (enforced for newly edited meetings in root server 2.16.0 or greater)
+ */
+crouton_Handlebars.registerHelper('isHybridOnly', function(data, options) {
+	return inArray(getMasterFormatId('HY', data), getFormats(data)) ? getTrueResult(options, this) : getFalseResult(options, this);
 });
 
 crouton_Handlebars.registerHelper('isTemporarilyClosed', function(data, options) {
-	var fnTrue = options.fn;
-	var fnFalse = options.inverse;
-
-	return inArray('TC', data['formats'].split(",")) ? fnTrue(this): fnFalse(this)
+	return inArray(getMasterFormatId('TC', data), getFormats(data)) ? getTrueResult(options, this) : getFalseResult(options, this);
 });
 
 crouton_Handlebars.registerHelper('isNotTemporarilyClosed', function(data, options) {
-	var fnTrue = options.fn;
-	var fnFalse = options.inverse;
+	return !inArray(getMasterFormatId('TC', data), getFormats(data)) ? getTrueResult(options, this) : getFalseResult(options, this);
+});
 
-	return !inArray('TC', data['formats'].split(",")) ? fnTrue(this): fnFalse(this)
+/**
+ * Assumes consistent set of venue type formats (enforced for newly edited meetings in root server 2.16.0 or greater)
+ */
+crouton_Handlebars.registerHelper('isInPersonOrHybrid', function(data, options) {
+	return !inArray(getMasterFormatId('VM', data), getFormats(data)) ? getTrueResult(options, this) : getFalseResult(options, this);
+});
+
+/**
+ * Assumes consistent set of venue type formats (enforced for newly edited meetings in root server 2.16.0 or greater)
+ */
+crouton_Handlebars.registerHelper('isInPersonOnly', function(data, options) {
+	return !inArray(getMasterFormatId('VM', data), getFormats(data))
+	&& !inArray(getMasterFormatId('HY', data), getFormats(data)) ? getTrueResult(options, this) : getFalseResult(options, this);
+});
+
+/**
+ * Assumes consistent set of venue type formats (enforced for newly edited meetings in root server 2.16.0 or greater)
+ */
+crouton_Handlebars.registerHelper('isVirtualOrHybrid', function(data, options) {
+	return inArray(getMasterFormatId('VM', data), getFormats(data))
+	|| inArray(getMasterFormatId('HY', data), getFormats(data)) ? getTrueResult(options, this) : getFalseResult(options, this);
+});
+
+crouton_Handlebars.registerHelper('hasFormats', function(formats, data, options) {
+	var allFound = false;
+	var formatsResponse = data['formats'].split(",")
+	var formatsParam = formats.split(",");
+	for (var i = 0; i < formatsParam.length; i++) {
+		allFound = inArray(formatsParam[i], formatsResponse);
+	}
+
+	return allFound ? getTrueResult(options, this) : getFalseResult(options, this);
 });
 
 crouton_Handlebars.registerHelper('temporarilyClosed', function(data, options) {
-	if (data['formats_expanded'].getArrayItemByObjectKeyValue('key', 'TC') !== undefined) {
-		return data['formats_expanded'].getArrayItemByObjectKeyValue('key', 'TC')['description'];
+	if (data['formats_expanded'].getArrayItemByObjectKeyValue('id', getMasterFormatId('TC', data)) !== undefined) {
+		return data['formats_expanded'].getArrayItemByObjectKeyValue('id', getMasterFormatId('TC', data))['description'];
 	} else {
 		return "FACILITY IS TEMPORARILY CLOSED";
 	}
 });
 
 crouton_Handlebars.registerHelper('meetsVirtually', function(data, options) {
-	if (data['formats_expanded'].getArrayItemByObjectKeyValue('key', 'VM') !== undefined) {
-		return data['formats_expanded'].getArrayItemByObjectKeyValue('key', 'VM')['description'];
+	if (data['formats_expanded'].getArrayItemByObjectKeyValue('id', getMasterFormatId('VM', data)) !== undefined) {
+		return data['formats_expanded'].getArrayItemByObjectKeyValue('id', getMasterFormatId('VM', data))['description'];
 	} else {
 		return "MEETS VIRTUALLY";
 	}
 });
 
 crouton_Handlebars.registerHelper('meetsHybrid', function(data, options) {
-	if (data['formats_expanded'].getArrayItemByObjectKeyValue('key', 'HY') !== undefined) {
-		return data['formats_expanded'].getArrayItemByObjectKeyValue('key', 'HY')['description'];
+	if (data['formats_expanded'].getArrayItemByObjectKeyValue('id', getMasterFormatId('HY', data)) !== undefined) {
+		return data['formats_expanded'].getArrayItemByObjectKeyValue('id', getMasterFormatId('HY', data))['description'];
 	} else {
 		return "MEETS VIRTUALLY AND IN PERSON";
 	}
@@ -14609,6 +15241,15 @@ crouton_Handlebars.registerHelper('meetsHybrid', function(data, options) {
 
 crouton_Handlebars.registerHelper('qrCode', function(link, options) {
 	return new crouton_Handlebars.SafeString("<img alt='qrcode' src='https://chart.googleapis.com/chart?chs=100x100&cht=qr&chl=" + link + "&choe=UTF-8&chld=L|0'>");
+});
+
+crouton_Handlebars.registerHelper('formatDataFromArray', function(arr) {
+	var finalValues = [];
+	for (var i = 0; i < arr.length; i++) {
+		finalValues.push(convertToPunyCode(arr[i]));
+	}
+
+	return finalValues.join(" ");
 });
 
 crouton_Handlebars.registerHelper('formatDataPointerFormats', function(formatsExpanded) {
@@ -14647,6 +15288,14 @@ crouton_Handlebars.registerHelper('ifEquals', function(arg1, arg2, options) {
 	return (arg1 === arg2) ? options.fn(this) : options.inverse(this);
 });
 
+crouton_Handlebars.registerHelper('greaterThan', function (arg1, arg2, options) {
+	return (arg1 > arg2) ? options.fn(this) : options.inverse(this);
+});
+
+crouton_Handlebars.registerHelper('lessThan', function (arg1, arg2, options) {
+	return (arg1 < arg2) ? options.fn(this) : options.inverse(this);
+});
+
 crouton_Handlebars.registerHelper('times', function(n, block) {
 	var accum = '';
 	for(var i = 1; i <= n; ++i)
@@ -14655,7 +15304,7 @@ crouton_Handlebars.registerHelper('times', function(n, block) {
 });
 
 function convertToPunyCode(str) {
-	return punycode.toASCII(str.toLowerCase()).replace(/\W|_/g, "-")
+	return str !== undefined ? punycode.toASCII(str.toLowerCase()).replace(/\W|_/g, "-") : "";
 }
 
 function arrayColumn(input, columnKey) {
@@ -14674,22 +15323,49 @@ function getUniqueValuesOfKey(array, key){
 	}, []);
 }
 
-Crouton.prototype.getNextInstanceOfDay = function(day_id, time_stamp) {
-	if (this.config['base_tz'] != null) {
-		moment.tz.setDefault(this.config['base_tz']);
+function getValuesFromObject(o) {
+	var arr = [];
+	for (key in o) {
+		if (o.hasOwnProperty(key)) {
+			arr.push(o[key]);
+		}
 	}
 
-	var today = moment().isoWeekday();
-	var time = moment(time_stamp, "HH:mm");
-	var date_stamp = today <= day_id ? moment().isoWeekday(day_id) : moment().add(1, 'weeks').isoWeekday(day_id);
+	return arr;
+}
 
-	if (this.config['auto_tz_adjust']) {
-		var guessed_time_zone_date_stamp = date_stamp.set({hour: time.get('hour'), minute: time.get('minute')}).tz(moment.tz.guess());
-		return moment() > guessed_time_zone_date_stamp
-			&& today !== guessed_time_zone_date_stamp.isoWeekday() ? guessed_time_zone_date_stamp.add(1, 'weeks') : guessed_time_zone_date_stamp;
+Crouton.prototype.getAdjustedDateTime = function(meeting_day, meeting_time, meeting_time_zone) {
+	var timeZoneAware = this.config['auto_tz_adjust'] === true || this.config['auto_tz_adjust'] === "true";
+	var meeting_date_time_obj;
+	if (timeZoneAware) {
+		if (!meeting_time_zone) {
+			meeting_time_zone = "UTC";
+		}
+    	// Get an object that represents the meeting in its time zone
+    	meeting_date_time_obj = moment.tz(meeting_time_zone).set({
+    		hour: meeting_time.split(":")[0],
+    		minute: meeting_time.split(":")[1],
+    		second: 0
+    	}).isoWeekday(meeting_day);
+
+    	// Convert meeting to target (local) time zone
+    	meeting_date_time_obj = meeting_date_time_obj.clone().tz(moment.tz.guess());
 	} else {
-		return date_stamp.set({hour: time.get('hour'), minute: time.get('minute')});
+    	meeting_date_time_obj = moment().set({
+    		hour: meeting_time.split(":")[0],
+    		minute: meeting_time.split(":")[1],
+    		second: 0
+    	}).isoWeekday(meeting_day);
 	}
+
+	var now = timeZoneAware ? moment.tz(moment.tz.guess()) : moment();
+	if (now > meeting_date_time_obj) {
+		meeting_date_time_obj.add(1, 'weeks');
+	} else if (now.isoWeekday() == meeting_date_time_obj.isoWeekday() && meeting_date_time_obj.diff(now, 'days') == 0) {
+		meeting_date_time_obj.add(1, 'weeks');
+	}
+
+	return meeting_date_time_obj;
 };
 
 function arrayUnique(a, b, c) {
@@ -14705,6 +15381,14 @@ function inArray(needle, haystack) {
 
 function isFunction(functionToCheck) {
 	return functionToCheck && {}.toString.call(functionToCheck) === '[object Function]';
+}
+
+function getServiceBodiesQueryString(service_bodies_id) {
+	var service_bodies_query = "";
+	for (var x = 0; x < service_bodies_id.length; x++) {
+		service_bodies_query += "&services[]=" + service_bodies_id[x];
+	}
+	return service_bodies_query;
 }
 
 Array.prototype.filterByObjectKeyValue = function(key, value) {

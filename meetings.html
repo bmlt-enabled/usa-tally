@@ -14,9 +14,9 @@
     <div style="display: block">
         <button id="paper_schedule">Paper Schedule</button>
     </div>
-    <div style="display: inline-block">            
+    <div style="display: inline-block">
         <div class="lds-css ng-scope"><div class="lds-ellipsis"><div><div></div></div><div><div></div></div><div><div></div></div><div><div></div></div><div><div></div></div></div></div>
-    </div>  
+    </div>
 </div>
 <div id="bmlt-tabs"></div>
 </body>
@@ -41,7 +41,40 @@
         "filter_tabs": true,
         "on_complete": function() {
             jQuery(".lds-css").hide();
-        }
+        },
+        "metadata_template": [
+            "{{#isVirtualOrHybrid this}}",
+            "    {{#isHybrid this}}",
+            "        <div class='meetsVirtually'><span class='glyphicon glyphicon-cloud-upload'></span> {{meetsHybrid this}}</div>",
+            "    {{else}}",
+            "        <div class='meetsVirtually'><span class='glyphicon glyphicon-cloud'></span> {{meetsVirtually this}}</div>",
+            "    {{/isHybrid}}",
+            "    {{#if this.virtual_meeting_link}}",
+            "        <div><span class='glyphicon glyphicon-globe'></span> {{webLinkify this.virtual_meeting_link}}</div>",
+            "        {{#if this.show_qrcode}}",
+            "            <div class='qrcode'>{{qrCode this.virtual_meeting_link}}</div>",
+            "        {{/if}}",
+            "    {{/if}}",
+            "    {{#if this.phone_meeting_number}}",
+            "        <div><span class='glyphicon glyphicon-earphone'></span> {{phoneLinkify this.phone_meeting_number}}</div>",
+            "        {{#if this.show_qrcode}}",
+            "            <div class='qrcode'>{{qrCode this.phone_meeting_number}}</div>",
+            "        {{/if}}",
+            "    {{/if}}",
+            "{{/isVirtualOrHybrid}}",
+            "{{#isNotTemporarilyClosed this}}",
+            "    {{#unless (hasFormats 'VM' this)}}",
+            "        <div>",
+            "            <a id='map-button' class='btn btn-primary btn-xs'",
+            "                href='https://www.google.com/maps/search/?api=1&query={{this.latitude}},{{this.longitude}}&q={{this.latitude}},{{this.longitude}}'",
+            "                target='_blank' rel='noopener noreferrer'>",
+            "                <span class='glyphicon glyphicon-map-marker'></span> {{this.map_word}}</a>",
+            "        </div>",
+            "        <div class='geo hide'>{{this.latitude}},{{this.longitude}}</div>",
+            "    {{/unless}}",
+            "{{/isNotTemporarilyClosed}}",
+            "<hr>{{this.serviceBodyName}}<br>{{webLinkify this.serviceBodyUrl}}<br>{{phoneLinkify this.serviceBodyPhone}}"
+        ].join('\n')
     });
     document.getElementById("province-title").innerText = getUrlParameter('province_name');
     crouton.render();
@@ -52,7 +85,7 @@
         document.getElementById("group-count").innerHTML = "Groups: " + res;
     });
     jQuery("#paper_schedule").click(function() {
-        location.href='https://demo.bmlt.app/?current-meeting-list=5&querystring_custom_1=' + getUrlParameter('province_name').toUpperCase() + '&custom_query=%26meeting_key%3Dlocation_province%26meeting_key_value%3D' + getUrlParameter('province');
+        window.open('https://demo.bmlt.app/?current-meeting-list=5&querystring_custom_1=' + getUrlParameter('province_name').toUpperCase() + '&custom_query=%26meeting_key%3Dlocation_province%26meeting_key_value%3D' + getUrlParameter('province'), '_blank');
     });
 </script>
 </html>
