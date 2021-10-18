@@ -6,7 +6,9 @@
     <link rel="stylesheet" type="text/css" href="croutonjs/crouton.min.css" />
     <link href="map.css" rel="stylesheet" type="text/css" />
     <style>
-
+        .bmlt-column4 > #share-button {
+            display: none;
+        }
     </style>
 </head>
 <body>
@@ -34,9 +36,6 @@
         var results = regex.exec(location.search);
         return results === null ? '' : decodeURIComponent(results[1].replace(/\+/g, ' '));
     }
-
-    // Hides the sharing button so that we can put it where we want it.
-    navigator.share = false;
 
     var crouton = new Crouton({
         "root_server": "https://tomato.bmltenabled.org/main_server/",
