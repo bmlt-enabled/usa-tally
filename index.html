@@ -39,16 +39,11 @@
 
     function getServiceBodiesFromTomato(page, payload, callback) {
         if (payload == null) {
-            payload = []
+            callback([])
         }
 
-        $.getJSON(useTomatoStub ? "tally/tomatoStub.json" : "https://tomato.bmltenabled.org/rest/v1/servicebodies/?page=" + page, function (data) {
-            payload = payload.concat(data['results']);
-            if (data['next'] !== null) {
-                getServiceBodiesFromTomato(++page, payload, callback)
-            } else {
-                callback(payload);
-            }
+        $.getJSON(useTomatoStub ? "tally/tomatoStub.json" : "https://tomato.bmltenabled.org/main_server/client_interface/json/?switcher=GetServiceBodies", function (data) {
+            callback(data['results']);
         });
     }
 
